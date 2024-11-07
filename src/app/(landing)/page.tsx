@@ -1,3 +1,7 @@
 export default function Home() {
-  return <div>Marianco</div>
+  return (
+    <>
+      <section className="container">Hero</section>
+    </>
+  )
 }
