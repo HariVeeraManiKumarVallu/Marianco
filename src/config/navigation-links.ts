@@ -7,10 +7,10 @@ export const NAV_LINKS = [
     title: 'About',
     href: '/about',
   },
-  {
-    title: 'Donations',
-    href: '/donations',
-  },
+  // {
+  //   title: 'Donations',
+  //   href: '/donations',
+  // },
   { title: 'Membership', href: '/membership' },
   {
     title: 'Sponsors & Partners',
@@ -21,7 +21,7 @@ export const NAV_LINKS = [
     href: '/events',
   },
   {
-    title: 'Contact',
+    title: 'Contact Us',
     href: '/contact',
   },
 ] as const
