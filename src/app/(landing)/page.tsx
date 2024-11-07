@@ -2,7 +2,7 @@ import { buttonVariants } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function Home() {
+const Home = () => {
   return (
     <section>
       <div className="container p-20 flex items-center justify-between">
@@ -31,3 +31,5 @@ export default function Home() {
     </section>
   )
 }
+
+export default Home
