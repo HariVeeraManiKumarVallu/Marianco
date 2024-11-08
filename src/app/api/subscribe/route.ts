@@ -6,12 +6,6 @@ export async function POST(req: Request) {
   try {
     const { email } = await NewsletterSignupSchema.parseAsync(await req.json())
 
-    // if (!email || !email.length) {
-    //   return NextResponse.json({ error: 'Email is required' }, { status: 400 })
-    // }
-
-    console.log({ email })
-
     const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY
     const MAILCHIMP_LIST_ID = process.env.MAILCHIMP_LIST_ID
     const MAILCHIMP_API_SERVER = process.env.MAILCHIMP_API_SERVER

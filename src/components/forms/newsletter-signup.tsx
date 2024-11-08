@@ -32,7 +32,6 @@ export default function NewsletterSignup() {
     email,
   }: z.infer<typeof NewsletterSignupSchema>) => {
     try {
-      const MAILCHIMP_URL = process.env.NEXT_PUBLIC_MAILCHIMP_URL
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -46,6 +45,8 @@ export default function NewsletterSignup() {
           title: 'Success!',
           description: 'Thank you for subscribing to our newsletter.',
         })
+
+        return form.resetField('email')
       } else {
         throw new Error(data.message || 'Something went wrong')
       }
@@ -81,10 +82,8 @@ export default function NewsletterSignup() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        {/* <FormLabel>Username</FormLabel> */}
                         <FormControl>
                           <Input
-                            // type="email"
                             placeholder="Enter your email"
                             {...field}
                             required
