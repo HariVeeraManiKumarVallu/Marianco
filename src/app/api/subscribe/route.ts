@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
     const data = {
       email_address: email,
-      status: 'subscribed',
+      status: 'pending',
     }
 
     const response = await fetch(
