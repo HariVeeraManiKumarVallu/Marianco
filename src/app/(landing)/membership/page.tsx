@@ -1,4 +1,4 @@
-const Membership = () => {
+export default function Membership() {
   return (
     <>
       <h1>Become a Member and Champion for Children</h1>
@@ -68,4 +68,3 @@ const Membership = () => {
     </>
   )
 }
-export default Membership

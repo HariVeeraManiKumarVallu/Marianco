@@ -1,4 +1,4 @@
-const Events = () => {
+export default function Events() {
   return (
     <>
       <h1>Join Us in Creating a Brighter Future for Children</h1>
@@ -59,4 +59,3 @@ const Events = () => {
     </>
   )
 }
-export default Events

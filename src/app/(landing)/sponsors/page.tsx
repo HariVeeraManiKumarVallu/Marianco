@@ -1,4 +1,4 @@
-const Sponsors = () => {
+export default function Sponsors() {
   return (
     <>
       <h1>Partner with Us for a safer World for Children</h1>
@@ -54,4 +54,3 @@ const Sponsors = () => {
     </>
   )
 }
-export default Sponsors

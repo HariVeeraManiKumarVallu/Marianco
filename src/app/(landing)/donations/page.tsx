@@ -1,4 +1,4 @@
-const Donations = () => {
+export default function Donations() {
   return (
     <>
       <section className="container">
@@ -80,4 +80,3 @@ const Donations = () => {
     </>
   )
 }
-export default Donations

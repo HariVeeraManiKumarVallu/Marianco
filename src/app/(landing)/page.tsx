@@ -1,8 +1,9 @@
+import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { buttonVariants } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const Home = () => {
+export default function Home() {
   return (
     <section>
       <div className="container p-20 flex items-center justify-between">
@@ -28,8 +29,7 @@ const Home = () => {
           <Image src="/hero.jpg" width={400} height={500} alt="" />
         </div>
       </div>
+      <NewsletterSignup />
     </section>
   )
 }
-
-export default Home

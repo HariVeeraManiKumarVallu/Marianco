@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { buttonVariants } from './ui/button'
 
-const Navbar = () => {
+export default function Navbar() {
   return (
     <div>
       <nav className="container flex items-center justify-between py-2">
@@ -30,4 +30,3 @@ const Navbar = () => {
     </div>
   )
 }
-export default Navbar
