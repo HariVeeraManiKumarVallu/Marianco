@@ -18,12 +18,54 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useState } from 'react'
+import getStripe from '@/lib/load-stripe'
+import { useEffect, useState } from 'react'
+
+const stripePromise = getStripe()
 
 export default function DonationOptionsCards() {
   const [selectedAmount, setSelectedAmount] = useState('')
   const [customAmount, setCustomAmount] = useState('')
   const [monthlyAmount, setMonthlyAmount] = useState('')
+
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search)
+    if (query.get('success')) {
+      console.log('Order placed! You will receive an email confirmation.')
+    }
+
+    if (query.get('canceled')) {
+      console.log(
+        'Order canceled -- continue to shop around and checkout when you’re ready.'
+      )
+    }
+  }, [])
+
+  async function handleCheckout() {
+    try {
+      const stripe = await stripePromise
+      const response = await fetch('/api/checkout_sessions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ cartItemData, totalPrice }),
+      })
+
+      if (!stripe) throw new Error('Stripe failed to initialize.')
+
+      const { sessionId } = await response.json()
+      const stripeError = await stripe.redirectToCheckout({ sessionId })
+
+      if (stripeError) {
+        console.error(stripeError)
+      }
+    } catch (error) {
+      setIsLoading(false)
+
+      console.error(error)
+    }
+  }
 
   return (
     <article className="w-full py-12 md:py-24 lg:py-32 bg-background">
