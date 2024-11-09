@@ -7,12 +7,11 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
-import { NewsletterSignupSchema } from '@/lib/validators/forms'
+import { newsletterSignupSchema } from '@/lib/validators/form-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -21,8 +20,8 @@ import { z } from 'zod'
 export default function NewsletterSignup() {
   const { toast } = useToast()
 
-  const form = useForm<z.infer<typeof NewsletterSignupSchema>>({
-    resolver: zodResolver(NewsletterSignupSchema),
+  const form = useForm<z.infer<typeof newsletterSignupSchema>>({
+    resolver: zodResolver(newsletterSignupSchema),
     defaultValues: {
       email: '',
     },
@@ -30,7 +29,7 @@ export default function NewsletterSignup() {
 
   const handleSubmit = async ({
     email,
-  }: z.infer<typeof NewsletterSignupSchema>) => {
+  }: z.infer<typeof newsletterSignupSchema>) => {
     try {
       const response = await fetch('/api/subscribe', {
         method: 'POST',
@@ -86,7 +85,6 @@ export default function NewsletterSignup() {
                           <Input
                             placeholder="Enter your email"
                             {...field}
-                            required
                             className="flex-1"
                           />
                         </FormControl>

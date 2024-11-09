@@ -1,10 +1,10 @@
-import { NewsletterSignupSchema } from '@/lib/validators/forms'
+import { newsletterSignupSchema } from '@/lib/validators/form-schema'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 export async function POST(req: Request) {
   try {
-    const { email } = await NewsletterSignupSchema.parseAsync(await req.json())
+    const { email } = await newsletterSignupSchema.parseAsync(await req.json())
 
     const MAILCHIMP_API_KEY = process.env.MAILCHIMP_API_KEY
     const MAILCHIMP_LIST_ID = process.env.MAILCHIMP_LIST_ID
