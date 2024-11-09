@@ -70,7 +70,6 @@ export default function DonationOptionsCards() {
       return
     }
 
-    console.log(validatedValue.data)
     try {
       const stripe = await stripePromise
       const response = await fetch('/api/checkout_sessions', {
@@ -85,6 +84,7 @@ export default function DonationOptionsCards() {
 
       const { sessionId } = await response.json()
       const stripeError = await stripe.redirectToCheckout({ sessionId })
+      console.log({ sessionId, stripeError })
 
       if (stripeError) {
         console.error(stripeError)
