@@ -2,7 +2,7 @@ import stripe from '@/lib/stripe'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   try {
     const reqHeaders = await headers()
     // Create Checkout Sessions from body params.
@@ -11,7 +11,6 @@ export async function POST(req: Request, res: Response) {
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
-          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
           price_data: {
             currency: 'usd',
             product_data: {
@@ -27,7 +26,6 @@ export async function POST(req: Request, res: Response) {
       cancel_url: `${reqHeaders.get('origin')}/donations/?canceled=true`,
     })
 
-    // return NextResponse.redirect(session.url!)
     return NextResponse.json({ sessionId: session.id })
   } catch (error) {
     if (error instanceof Error)
@@ -37,8 +35,3 @@ export async function POST(req: Request, res: Response) {
       )
   }
 }
-
-//   return NextResponse.json(
-//     { message: 'Successfully subscribed' },
-//     { status: 200 }
-//   )
