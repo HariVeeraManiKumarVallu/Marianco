@@ -40,7 +40,7 @@ export const donationsConfig = {
     }),
     title: 'Fund a Project',
     description:
-      'Support a specific project, whether it&apos; is a rescue mission,an educational campaign, or a safe home for victims of              trafficking.',
+      "Support a specific project, whether it's is a rescue mission,an educational campaign, or a safe home for victims of              trafficking.",
     projects: [
       { label: 'Education', value: 'education' },
       { label: 'Healthcare', value: 'healthcare' },
