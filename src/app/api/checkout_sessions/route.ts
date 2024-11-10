@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     function createLineItem() {
       const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
         price_data: {
-          currency: 'usd',
+          currency: 'USD',
           product_data: {
             name: type,
             description: donationsConfig[type].description,
@@ -41,8 +41,10 @@ export async function POST(req: Request) {
       line_items: [createLineItem()],
       mode: paymentMode,
 
-      success_url: `${reqHeaders.get('origin')}/donations/?success=true`,
-      cancel_url: `${reqHeaders.get('origin')}/donations/?canceled=true`,
+      success_url: `${reqHeaders.get(
+        'origin'
+      )}/donations/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${reqHeaders.get('origin')}/donations?canceled=true`,
     })
 
     return NextResponse.json({ sessionId: session.id })

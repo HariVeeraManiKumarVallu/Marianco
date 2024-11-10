@@ -18,38 +18,6 @@ export default function Donations() {
       <section>
         <div className="container">
           <DonationOptionsCards />
-
-          {/* <h2>Donation Tiers & Options:</h2>
-<ul>
-          
-          <li>
-            <h4>One-Time Donation:</h4>
-            <p>
-              {' '}
-              Choose any amount to contribute and make an immediate impact.
-            </p>
-            <h4>Monthly Giving:</h4>
-            <p>
-              {' '}
-              Become a sustaining donor, contributing each month to ensure our
-              programs remain strong and consistent.
-            </p>
-            <h4>Sponsor a Child:</h4>
-            <p>
-              {' '}
-              Contribute to the complete care and rehabilitation of a child
-              rescued from exploitation. Receive regular updates about their
-              progress.
-            </p>
-            <h4>Fund a Project:</h4>
-            <p>
-              {' '}
-              Support a specific project, whether it&apos; is a rescue mission,
-              an educational campaign, or a safe home for victims of
-              trafficking.
-            </p>
-          </li>
-        </ul> */}
           <h2>Donation Perks:</h2>
           <ul>
             <li>
