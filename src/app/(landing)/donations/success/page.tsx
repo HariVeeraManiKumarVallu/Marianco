@@ -1,4 +1,5 @@
 import { buttonVariants } from '@/components/ui/button'
+import stripe from '@/lib/stripe'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 
@@ -8,18 +9,19 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const { session_id } = await searchParams
-  const res = await fetch(
-    `http://localhost:3000/api/donations/success?session_id=${session_id}`,
-    {
-      method: 'GET',
-    }
-  )
-  const customer: { name: string; email: string } | undefined = await res.json()
-  console.log(customer)
-  if (!customer) {
+  const session = await stripe.checkout.sessions.retrieve(session_id as string)
+  const customer = {
+    name: session.customer_details?.name,
+    email: session.customer_details?.email,
+  }
+
+  if (!customer.email || !customer.name) {
     return (
       <>
         <h1>Something went wrong</h1>
+        <Link href={'/'} className={buttonVariants({ className: 'w-full' })}>
+          Back to Home
+        </Link>
       </>
     )
   }
