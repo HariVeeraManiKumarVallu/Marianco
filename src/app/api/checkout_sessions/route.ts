@@ -1,5 +1,5 @@
 import { donationsConfig, DonationType } from '@/config/donations-options'
-import stripe from '@/lib/stripe'
+import stripe from '@/services/stripe'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'

@@ -1,6 +1,6 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { buttonVariants } from '@/components/ui/button'
-import Image from 'next/image'
+import WorldMapHero from '@/components/world-map-hero'
 import Link from 'next/link'
 
 export default function Home() {
@@ -25,9 +25,10 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div>
-          <Image src="/hero.jpg" width={400} height={500} alt="" />
+        <div className="w-full">
+          <WorldMapHero />
         </div>
+        {/* <Image src="/hero.jpg" width={400} height={500} alt="" /> */}
       </div>
       <NewsletterSignup />
     </section>

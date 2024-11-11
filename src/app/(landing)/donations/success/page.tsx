@@ -1,6 +1,5 @@
 import { buttonVariants } from '@/components/ui/button'
-import stripe from '@/lib/stripe'
-import { cn } from '@/lib/utils'
+import stripe from '@/services/stripe'
 import Link from 'next/link'
 
 export default async function Page({

@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { donationsConfig, DonationType } from '@/config/donations-options'
-import getStripe from '@/lib/load-stripe'
+import getStripe from '@/services/load-stripe'
 import { useEffect, useState } from 'react'
 import { Label } from './ui/label'
 
