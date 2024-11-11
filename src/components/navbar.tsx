@@ -6,17 +6,18 @@ import { buttonVariants } from './ui/button'
 
 export default function Navbar() {
   return (
-    <div>
-      <nav className="container flex items-center justify-between py-2">
+    <div className="border-b-2 ">
+      <nav className="container flex items-center justify-between">
         <Link href={'/'}>
           <Image
             src="/marianco logo-p-500.jpg"
             width={178}
             height={100}
             alt="logo"
+            className="py-2"
           />
         </Link>
-        <ul className="flex gap-4 items-center">
+        <ul className="flex items-center gap-4">
           {NAV_LINKS.map(link => (
             <li key={link.href}>
               <Link href={link.href}>{link.title}</Link>

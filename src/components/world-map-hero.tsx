@@ -79,6 +79,7 @@ export default function WorldMapHero() {
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{ scale: 120, center: [0, 45] }}
+
         // width={dimensions.width}
         // height={dimensions.height}
       >
@@ -93,6 +94,7 @@ export default function WorldMapHero() {
                   fill="#2C3E50"
                   stroke="#EAEAEC"
                   strokeWidth={0.5}
+                  className="relative"
                 />
               ))
           }
