@@ -2,7 +2,7 @@ import { NAV_LINKS } from '@/config/navigation-links'
 import { HandHeart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { buttonVariants } from './ui/button'
+import { Button } from './ui/button'
 
 export default function Navbar() {
   return (
@@ -24,15 +24,21 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <Link
-              href={'/donations'}
-              className={buttonVariants({
-                size: 'lg',
-                className: 'bg-orange-500 rounded-full text-lg',
-              })}
+            <Button
+              className="bg-orange-500 rounded-full text-lg"
+              size={'lg'}
+              asChild
             >
-              <HandHeart /> Donate
-            </Link>
+              <Link href={'/donations'}>
+                <HandHeart
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                  }}
+                />
+                <span className="text-lg">Donate</span>
+              </Link>
+            </Button>
           </li>
         </ul>
       </nav>

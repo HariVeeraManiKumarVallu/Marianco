@@ -46,24 +46,20 @@ export default function HeroSection() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-10 flex justify-center gap-4"
         >
-          <Link
-            href={'/membership'}
-            className={buttonVariants({
-              size: 'lg',
-              className: ' text-lg py-6 bg-white text-black rounded-full',
-            })}
+          <Button
+            className="text-lg py-6 bg-white text-black rounded-full"
+            size={'lg'}
+            asChild
           >
-            Join the Movement
-          </Link>
-          <Link
-            href={'/donations'}
-            className={buttonVariants({
-              size: 'lg',
-              className: ' text-lg py-6 bg-orange-500 rounded-full',
-            })}
+            <Link href={'/membership'}>Join the Movement</Link>
+          </Button>
+          <Button
+            className="text-lg py-6 bg-orange-500 rounded-full"
+            size={'lg'}
+            asChild
           >
-            Make a Donation
-          </Link>
+            <Link href={'/donations'}>Make a Donation</Link>
+          </Button>
         </motion.div>
         {/* </div> */}
       </div>
