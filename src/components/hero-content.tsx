@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { buttonVariants } from './ui/button'
 
-export default function Hero() {
+export default function HeroContent() {
   return (
-    <article className="flex-grow min-w-96 xl:min-w-[500px]">
-      <div className="lg:max-w-lg space-y-8 text-center lg:text-start lg:py-12 pb-8">
-        <h1 className="text-5xl xl:text-6xl text-pretty font-bold ">
-          <span className="text-orange-500 ">Protect, </span>
+    <article>
+      <div className="space-y-8 text-center lg:text-start lg:py-12 pb-8">
+        <h1 className="text-5xl xl:text-6xl text-pretty font-bold text-transparent bg-clip-text bg-gradient-to-tr from-green-500 to-blue-500">
+          <span>Protect, </span>
           Educate, <span>Empower</span>
         </h1>
         <p className="max-w-prose">

@@ -39,7 +39,7 @@ const locations: Location[] = [
   { name: 'Seoul', coordinates: [126.978, 37.5665], crimeRate: 2.3 },
 ]
 
-export default function WorldMapHero() {
+export default function AnimatedWorldMap() {
   const [currentLocationIndex, setCurrentLocationIndex] = useState<number>(0)
   const [isMounted, setIsMounted] = useState(false)
   const [geoData, setGeoData] = useState<GeometryCollection | null>(null)
