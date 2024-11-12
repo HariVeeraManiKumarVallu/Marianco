@@ -24,19 +24,10 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <Button
-              className="bg-orange-500 rounded-full text-lg"
-              size={'lg'}
-              asChild
-            >
+            <Button asChild>
               <Link href={'/donations'}>
-                <HandHeart
-                  style={{
-                    width: '24px',
-                    height: '24px',
-                  }}
-                />
-                <span className="text-lg">Donate</span>
+                <HandHeart />
+                Donate
               </Link>
             </Button>
           </li>
