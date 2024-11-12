@@ -4,7 +4,7 @@ export default function StatsSection() {
   return (
     <section>
       <div className="container  ">
-        <div className="bg-black/90  py-12 rounded-lg">
+        <div className="bg-slate-800  py-12 rounded-lg">
           <h2 className="mb-12 text-center text-white">
             A World in Peril
             <br />
@@ -38,7 +38,7 @@ export default function StatsSection() {
             ].map(({ title, description }) => (
               <li key={title} className="space-y-2 ">
                 <h3 className="text-red-500">{title}</h3>
-                <p className="text-zinc-400 text-sm">{description}</p>
+                <p className="text-zinc-300 text-sm">{description}</p>
               </li>
             ))}
             {/* <div className="space-y-2">
