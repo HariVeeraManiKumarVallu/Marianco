@@ -2,14 +2,16 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import AboutSection from './about-section'
 import HeroSection from './hero-section'
-import WhatWeDo from './what-we-do'
+import StatsSection from './stats-section'
+import WhatWeDoSection from './what-we-do'
 
 export default function Home() {
   return (
     <>
       <HeroSection />
       <AboutSection />
-      <WhatWeDo />
+      <WhatWeDoSection />
+      <StatsSection />
       <NewsletterSignup />
     </>
   )

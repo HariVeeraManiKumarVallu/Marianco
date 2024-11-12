@@ -21,7 +21,7 @@ export default function AboutSection() {
           believe that every child deserves to grow up in a world where they are
           protected, valued, and empowered to reach their full potential.
         </p>
-        <ul className="grid grid-cols-3 gap-6">
+        <ul className="grid lg:grid-cols-3 gap-6">
           {[
             {
               title: 'Combatting Child Trafficking',
@@ -45,7 +45,10 @@ export default function AboutSection() {
               altText: '',
             },
           ].map(item => (
-            <li key={item.title}>
+            <li
+              key={item.title}
+              className="grid grid-cols-3 lg:grid-cols-1 gap-4"
+            >
               <div className="relative h-[100px] w-full rounded-lg overflow-hidden mb-4">
                 <Image
                   src={item.img}
@@ -54,7 +57,7 @@ export default function AboutSection() {
                   className="object-cover"
                 />
               </div>
-              <div>
+              <div className="col-span-2">
                 <h4 className="">{item.title}</h4>
                 <p className="text-sm">{item.description}</p>
               </div>
