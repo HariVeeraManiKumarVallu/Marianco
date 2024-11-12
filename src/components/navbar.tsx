@@ -6,7 +6,7 @@ import { buttonVariants } from './ui/button'
 
 export default function Navbar() {
   return (
-    <div className="border-b-2 ">
+    <div className="border-b border-gray-400 fixed w-full top-0 z-50 bg-black/75 backdrop-blur supports-[backdrop-filter]:bg-black/30 text-white">
       <nav className="container flex items-center justify-between">
         <Link href={'/'}>
           <Image
@@ -17,16 +17,24 @@ export default function Navbar() {
             className="py-2"
           />
         </Link>
-        <ul className="flex items-center gap-4">
+        <ul className="flex items-center gap-10">
           {NAV_LINKS.map(link => (
             <li key={link.href}>
               <Link href={link.href}>{link.title}</Link>
             </li>
           ))}
+          <li>
+            <Link
+              href={'/donations'}
+              className={buttonVariants({
+                size: 'lg',
+                className: 'bg-orange-500',
+              })}
+            >
+              <HandHeart /> Donate
+            </Link>
+          </li>
         </ul>
-        <Link href={'/donations'} className={buttonVariants()}>
-          <HandHeart /> Donate
-        </Link>
       </nav>
     </div>
   )
