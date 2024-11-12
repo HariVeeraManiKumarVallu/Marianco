@@ -28,7 +28,7 @@ export default function Navbar() {
               href={'/donations'}
               className={buttonVariants({
                 size: 'lg',
-                className: 'bg-orange-500',
+                className: 'bg-orange-500 rounded-full text-lg',
               })}
             >
               <HandHeart /> Donate
