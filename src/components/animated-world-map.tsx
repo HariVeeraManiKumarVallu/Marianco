@@ -75,7 +75,7 @@ export default function AnimatedWorldMap() {
   }
 
   return (
-    <div className="relative w-full bg-background text-foreground overflow-hidden ">
+    <div className="relative w-full overflow-hidden ">
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{ scale: 120, center: [0, 45] }}
@@ -91,6 +91,8 @@ export default function AnimatedWorldMap() {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
+                  // fill="#EAEAEC"
+                  // stroke="#2C3E50"
                   fill="#2C3E50"
                   stroke="#EAEAEC"
                   strokeWidth={0.5}
@@ -148,9 +150,11 @@ export default function AnimatedWorldMap() {
               //   duration: 0.7,
               // }}
             >
-              <Card className="w-32 text-center h-auto">
-                <CardHeader className="p-2 ">
-                  <CardTitle>{currentLocation.name}</CardTitle>
+              <Card className="text-center bg-slate-900/90 text-white">
+                <CardHeader className="p-0">
+                  <CardTitle className="text-base">
+                    {currentLocation.name}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="p-2">
                   {/* <motion.div
