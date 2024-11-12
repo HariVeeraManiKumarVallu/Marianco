@@ -6,7 +6,7 @@ import { Button } from './ui/button'
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-dvh flex flex-col">
+    <section className="relative min-h-dvh flex flex-col ">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3')] bg-cover bg-center">
         <div className="absolute inset-0 bg-black/60" />
       </div>
