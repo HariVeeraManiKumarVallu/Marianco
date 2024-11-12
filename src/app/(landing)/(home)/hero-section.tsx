@@ -1,8 +1,8 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Button } from './ui/button'
 
 export default function HeroSection() {
   return (
@@ -16,7 +16,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-6xl font-extrabold tracking-tight text-white  md:text-[5rem]"
+          className="text-primary-foreground"
         >
           <span className="text-orange-600">Protect, </span>
           Educate, <span className="">Empower</span>
@@ -26,7 +26,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-6 max-w-lg mx-auto text-xl lg:text-2xl/9 text-gray-200 sm:max-w-3xl "
+          className="mt-6 max-w-lg text-xl lg:text-2xl/9 text-primary-foreground sm:max-w-3xl "
         >
           Partner with us in our mission to{' '}
           <span className="text-orange-500">eradicate child exploitation</span>{' '}
