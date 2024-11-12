@@ -1,67 +1,67 @@
 import { motion } from 'framer-motion'
-import { BicepsFlexed, GraduationCap, Shield } from 'lucide-react'
+import Image from 'next/image'
 
 export default function AboutSection() {
   return (
     <section>
-      <div className="container space-y-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2>About Us</h2>
-          <p>
-            Marianco is a global nonprofit organization dedicated to protecting
-            children from the horrors of trafficking, exploitation and abuse.
-            Founded by Francisco PAdilla, a former street orphan from Cartagena,
-            Colombia, Marianco is committed to safeguarding the rights of
-            children and ensuring they have a future full of hope and
-            opportunities. We believe that every child deserves to grow up in a
-            world where they are protected, valued, and empowered to reach their
-            full potential.
-          </p>
-        </motion.div>
-
-        <ul className="grid gap-8 md:grid-cols-3">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="container space-y-8"
+      >
+        <h2>About Us</h2>
+        <p className="pb-2 border-b-2">
+          Marianco is a global nonprofit organization dedicated to protecting
+          children from the horrors of trafficking, exploitation and abuse.
+          Founded by Francisco Padilla, a former street orphan from Cartagena,
+          Colombia, Marianco is committed to safeguarding the rights of children
+          and ensuring they have a future full of hope and opportunities. We
+          believe that every child deserves to grow up in a world where they are
+          protected, valued, and empowered to reach their full potential.
+        </p>
+        <ul className="grid grid-cols-3 gap-6">
           {[
             {
-              icon: Shield,
-              title: 'Protection',
+              title: 'Combatting Child Trafficking',
               description:
-                'We work to prevent child trafficking through education and community awareness programs.',
+                'Dedicated to ending the horrific practice of child trafficking. Join us in the fight to protect vulnerable children and restore their freedom and dignity.',
+              img: '/a.jpg',
+              altText: '',
             },
             {
-              icon: GraduationCap,
-              title: 'Education',
+              title: 'Fighting Against Child Pornography',
               description:
-                'Organizing educational workshops, scholarships, and mentoring programs to help individuals grow.',
+                'Unwavering in our commitment to eradicating child pornography. Stand with us to protect children and eliminate this  crime.',
+              img: '/b.jpg',
+              altText: '',
             },
             {
-              icon: BicepsFlexed,
-              title: 'Empowerment',
+              title: 'Eradicating Child Prostitution',
               description:
-                'Fostering economic independence by providing skills training and community support.',
+                'Marianco is dedicated to ending child prostitution. Stand with us to protect children and give them the future they deserve.',
+              img: '/c.gif',
+              altText: '',
             },
-          ].map((item, index) => (
-            <motion.li
-              key={item.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="text-center p-6 rounded-lg bg-card"
-            >
-              <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <item.icon className="w-6 h-6 text-secondary" />
+          ].map(item => (
+            <li key={item.title}>
+              <div className="relative h-[100px] w-full rounded-lg overflow-hidden mb-4">
+                <Image
+                  src={item.img}
+                  alt={item.altText}
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="">{item.description}</p>
-            </motion.li>
+              <div>
+                <h4 className="">{item.title}</h4>
+                <p className="text-sm">{item.description}</p>
+              </div>
+            </li>
           ))}
         </ul>
-      </div>
+      </motion.div>
     </section>
   )
 }
