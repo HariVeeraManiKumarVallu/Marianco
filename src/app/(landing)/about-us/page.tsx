@@ -1,10 +1,8 @@
 'use client'
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { motion } from 'framer-motion'
-import { BicepsFlexed, Crown, HandHeart, Scale } from 'lucide-react'
+import { BicepsFlexed, Crown, Scale } from 'lucide-react'
 import Image from 'next/image'
 
 export default function About() {
@@ -19,10 +17,9 @@ export default function About() {
             altText: 'altText',
           }}
         />
-        {/* <h1 className="container mt-48">About Us</h1> */}
         <section>
           <div className="container">
-            <h2 className="text-center">Our Story</h2>
+            <h2>Our Story</h2>
             <div className="flex flex-col md:flex-row gap-8 mt-8 mx-auto max-w-prose md:max-w-none">
               <div className="relative rounded-lg overflow-hidden flex-1 min-h-64 min-w-64 max-w-[550px]">
                 <Image
@@ -60,58 +57,6 @@ export default function About() {
             </div>
           </div>
         </section>
-        {/* <section className="container">
-        <h2>Our Mission</h2>
-        <h3>Mission</h3>
-        <p>
-          Marianco is committed to creating a world where every child can live
-          free from sexual exploitation, human trafficking, and abuse. We
-          believe in empowering children, supporting their emotional recovery,
-          and providing them with the tools they need to build their future.
-        </p>
-        <h3>Vision</h3>
-        <p>
-          A future where no child has to fear for their safety, and every
-          community takes a proactive role in safeguarding its children. We
-          envision a world where awareness, action, and compassion eradicate
-          child exploitation.
-        </p>
-        <h3>Core Values</h3>
-        <ul>
-          <li>
-            <h4>Protection:</h4>
-            <p>
-              {' '}
-              Every child deserves to feel safe, and we work tirelessly to
-              provide environments where they can be free from harm.
-            </p>
-          </li>
-          <li>
-            <h4>Dignity:</h4>
-            <p>
-              {' '}
-              We treat every individual, especially children, with the respect
-              and dignity they deserve.
-            </p>
-          </li>
-          <li>
-            <h4>Empowerment:</h4>
-            <p>
-              {' '}
-              We empower children and communities with the resources, support,
-              and knowledge needed to combat exploitation.
-            </p>
-          </li>
-          <li>
-            <h4>Justice:</h4>
-            <p>
-              {' '}
-              We fight for legal accountability and systemic change to protect
-              the rights of children worldwide.
-            </p>
-          </li>
-        </ul>
-      </section> */}
 
         {/* Our Mission */}
         <section className="py-20 bg-secondary">
@@ -189,7 +134,7 @@ export default function About() {
         {/* Our Team */}
         <section>
           <div className="container">
-            {/* <h3>Our Team</h3>
+            {/* 
           <p>
           Behind Marianco is a team of passionate advocates, lawyers, social
           workers, psychologists, and volunteers who dedicate their time to

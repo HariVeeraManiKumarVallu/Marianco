@@ -1,3 +1,5 @@
+'use client'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 type TitleSectionProps = {
@@ -24,12 +26,17 @@ export default function TitleSection({
       />
       <div className="absolute inset-0 bg-black/50" />
 
-      <div className="relative container h-full">
-        <div className="h-full flex flex-col justify-center items-start text-primary-foreground">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="relative container h-full"
+      >
+        <div className="h-full flex flex-col justify-center items-start text-primary-foreground space-y-2">
           <h1 className="">{title}</h1>
           <p className="max-w-prose">{description}</p>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }
