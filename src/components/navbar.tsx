@@ -14,11 +14,11 @@ import { Button } from './ui/button'
 export default function Navbar() {
   return (
     <header>
-      <nav className="border-b border-gray-400 fixed w-full top-0 z-50 bg-black/75 backdrop-blur supports-[backdrop-filter]:bg-black/30 text-white">
+      <nav className="border-b fixed w-full top-0 z-50 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className="container flex items-center justify-between">
           <Link href={'/'}>
             <Image
-              src="/marianco logo-p-500.jpg"
+              src="/logo.png"
               width={178}
               height={100}
               alt="logo"
