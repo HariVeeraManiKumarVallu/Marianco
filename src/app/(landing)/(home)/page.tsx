@@ -2,10 +2,11 @@
 import AnimatedWorldMap from '@/components/animated-world-map'
 import DonationOptions from '@/components/donation-options'
 import NewsletterSignup from '@/components/forms/newsletter-signup'
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { motion } from 'framer-motion'
-import { ArrowRight, BicepsFlexed, GraduationCap, Shield } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -139,19 +140,19 @@ export default function Home() {
             <ul className="grid gap-8 md:grid-cols-3 mt-6 justify-center">
               {[
                 {
-                  icon: Shield,
+                  icon: Icons.protection,
                   title: 'Protection',
                   description:
                     'We work to prevent child trafficking through education and community awareness programs.',
                 },
                 {
-                  icon: GraduationCap,
+                  icon: Icons.education,
                   title: 'Education',
                   description:
                     'Organizing educational workshops, scholarships, and mentoring programs to help individuals grow.',
                 },
                 {
-                  icon: BicepsFlexed,
+                  icon: Icons.empowerment,
                   title: 'Empowerment',
                   description:
                     'Fostering economic independence by providing skills training and community support.',
@@ -168,7 +169,7 @@ export default function Home() {
                   <Card className="h-full">
                     <CardHeader>
                       <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <item.icon className="w-6 h-6 text-secondary" />
+                        <item.icon className="size-6 text-secondary" />
                       </div>
                       <CardTitle>{item.title}</CardTitle>
                     </CardHeader>

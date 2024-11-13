@@ -4,8 +4,8 @@ export const NAV_LINKS = [
   //   href: '/',
   // },
   {
-    title: 'About',
-    href: '/about',
+    title: 'About Us',
+    href: '/about-us',
   },
   // {
   //   title: 'Donations',
