@@ -2,8 +2,8 @@ import DonationOptionsCards from '@/components/donation-options'
 
 export default function Donations() {
   return (
-    <>
-      <section>
+    <div className="space-y-20">
+      <section className="mt-48">
         <div className="container">
           <h1>Be a Hero for Vulnerable Children</h1>
 
@@ -17,7 +17,12 @@ export default function Donations() {
       </section>
       <section>
         <div className="container">
+          <h2 className="text-center mb-12">Support Our Cause</h2>
           <DonationOptionsCards />
+        </div>
+      </section>
+      <section>
+        <div className="container">
           <h2>Donation Perks:</h2>
           <ul>
             <li>
@@ -52,6 +57,6 @@ export default function Donations() {
           </p>
         </div>
       </section>
-    </>
+    </div>
   )
 }

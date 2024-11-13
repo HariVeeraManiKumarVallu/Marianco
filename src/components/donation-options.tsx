@@ -97,185 +97,177 @@ export default function DonationOptionsCards() {
   }
 
   return (
-    <article className="w-full py-12 md:py-24 lg:py-32 bg-background">
-      <div className="container px-4 md:px-6">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-          Support Our Cause
-        </h2>
-
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {/* One-time Donation */}
-          <Card className="flex flex-col">
-            <CardHeader>
-              <CardTitle className="text-xl">
-                {donationsConfig.oneTime.title}
-              </CardTitle>
-              <CardDescription className="h-12">
-                {donationsConfig.oneTime.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="mt-auto">
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                {donationsConfig.oneTime.predefinedAmounts.map(amount => (
-                  <Button
-                    key={amount}
-                    variant={oneTimeAmount === amount ? 'default' : 'outline'}
-                    onClick={() => {
-                      setOneTimeAmount(amount)
-                      if (customAmountInput) setCustomAmountInput('')
-                    }}
-                    className="w-full"
-                  >
-                    ${amount}
-                  </Button>
-                ))}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="custom-amount">Custom Amount</Label>
-                <Input
-                  id="custom-amount"
-                  type="number"
-                  placeholder="Enter amount"
-                  value={customAmountInput}
-                  onChange={e => {
-                    setCustomAmountInput(e.target.value)
-                    if (oneTimeAmount) setOneTimeAmount('')
+    <article className="w-full ">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        {/* One-time Donation */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle className="text-xl">
+              {donationsConfig.oneTime.title}
+            </CardTitle>
+            <CardDescription className="h-12">
+              {donationsConfig.oneTime.description}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="mt-auto">
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              {donationsConfig.oneTime.predefinedAmounts.map(amount => (
+                <Button
+                  key={amount}
+                  variant={oneTimeAmount === amount ? 'default' : 'outline'}
+                  onClick={() => {
+                    setOneTimeAmount(amount)
+                    if (customAmountInput) setCustomAmountInput('')
                   }}
-                />
-              </div>
-              {errors.oneTime && (
-                <p className="text-sm text-red-500">{errors.oneTime}</p>
-              )}
-            </CardContent>
-            <CardFooter>
-              <Button
-                className="w-full"
-                onClick={() =>
-                  handleCheckout('oneTime', oneTimeAmount || customAmountInput)
-                }
-              >
-                {donationsConfig.oneTime.buttonText}
-              </Button>
-            </CardFooter>
-          </Card>
+                  className="w-full"
+                >
+                  ${amount}
+                </Button>
+              ))}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="custom-amount">Custom Amount</Label>
+              <Input
+                id="custom-amount"
+                type="number"
+                placeholder="Enter amount"
+                value={customAmountInput}
+                onChange={e => {
+                  setCustomAmountInput(e.target.value)
+                  if (oneTimeAmount) setOneTimeAmount('')
+                }}
+              />
+            </div>
+            {errors.oneTime && (
+              <p className="text-sm text-red-500">{errors.oneTime}</p>
+            )}
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full"
+              onClick={() =>
+                handleCheckout('oneTime', oneTimeAmount || customAmountInput)
+              }
+            >
+              {donationsConfig.oneTime.buttonText}
+            </Button>
+          </CardFooter>
+        </Card>
 
-          {/* Monthly Giving */}
-          <Card className="flex flex-col">
-            <CardHeader>
-              <CardTitle className="text-xl">
-                {donationsConfig.monthly.title}
-              </CardTitle>
-              <CardDescription className="h-12">
-                {donationsConfig.monthly.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="mt-auto">
-              <div className="space-y-2">
-                <Label htmlFor="monthly-amount">Monthly Amount</Label>
-                <Input
-                  id="monthly-amount"
-                  type="number"
-                  placeholder="Enter monthly amount"
-                  value={monthlyAmount}
-                  onChange={e => setMonthlyAmount(e.target.value)}
-                />
-              </div>
-              {errors.monthly && (
-                <p className="text-sm text-red-500">{errors.monthly}</p>
-              )}
-            </CardContent>
-            <CardFooter>
-              <Button
-                className="w-full"
-                onClick={() => handleCheckout('monthly', monthlyAmount)}
-              >
-                {donationsConfig.monthly.buttonText}
-              </Button>
-            </CardFooter>
-          </Card>
+        {/* Monthly Giving */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle className="text-xl">
+              {donationsConfig.monthly.title}
+            </CardTitle>
+            <CardDescription className="h-12">
+              {donationsConfig.monthly.description}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="mt-auto">
+            <div className="space-y-2">
+              <Label htmlFor="monthly-amount">Monthly Amount</Label>
+              <Input
+                id="monthly-amount"
+                type="number"
+                placeholder="Enter monthly amount"
+                value={monthlyAmount}
+                onChange={e => setMonthlyAmount(e.target.value)}
+              />
+            </div>
+            {errors.monthly && (
+              <p className="text-sm text-red-500">{errors.monthly}</p>
+            )}
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full"
+              onClick={() => handleCheckout('monthly', monthlyAmount)}
+            >
+              {donationsConfig.monthly.buttonText}
+            </Button>
+          </CardFooter>
+        </Card>
 
-          {/* Sponsor a Person */}
-          <Card className="flex flex-col">
-            <CardHeader>
-              <CardTitle className="text-xl ">
-                {donationsConfig.sponsorship.title}
-              </CardTitle>
-              <CardDescription className="h-12">
-                {donationsConfig.sponsorship.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="mt-auto">
-              <div className="space-y-2">
-                <Label htmlFor="sponsorship-level">Sponsorship Level</Label>
-                <Select onValueChange={value => setSelectedSponsorship(value)}>
-                  <SelectTrigger id="sponsorship-level">
-                    <SelectValue placeholder="Select a sponsorship level" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {donationsConfig.sponsorship.sponsorshipTiers.map(tier => (
-                      <SelectItem key={tier.value} value={tier.value}>
-                        {tier.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              {errors.sponsorship && (
-                <p className="text-sm text-red-500">{errors.sponsorship}</p>
-              )}
-            </CardContent>
-            <CardFooter>
-              <Button
-                className="w-full"
-                onClick={() =>
-                  handleCheckout('sponsorship', selectedSponsorship)
-                }
-              >
-                {donationsConfig.sponsorship.buttonText}
-              </Button>
-            </CardFooter>
-          </Card>
+        {/* Sponsor a Person */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle className="text-xl ">
+              {donationsConfig.sponsorship.title}
+            </CardTitle>
+            <CardDescription className="h-12">
+              {donationsConfig.sponsorship.description}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="mt-auto">
+            <div className="space-y-2">
+              <Label htmlFor="sponsorship-level">Sponsorship Level</Label>
+              <Select onValueChange={value => setSelectedSponsorship(value)}>
+                <SelectTrigger id="sponsorship-level">
+                  <SelectValue placeholder="Select a sponsorship level" />
+                </SelectTrigger>
+                <SelectContent>
+                  {donationsConfig.sponsorship.sponsorshipTiers.map(tier => (
+                    <SelectItem key={tier.value} value={tier.value}>
+                      {tier.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {errors.sponsorship && (
+              <p className="text-sm text-red-500">{errors.sponsorship}</p>
+            )}
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full"
+              onClick={() => handleCheckout('sponsorship', selectedSponsorship)}
+            >
+              {donationsConfig.sponsorship.buttonText}
+            </Button>
+          </CardFooter>
+        </Card>
 
-          {/* Fund a Project */}
-          <Card className="flex flex-col">
-            <CardHeader>
-              <CardTitle className="text-xl ">
-                {donationsConfig.project.title}
-              </CardTitle>
-              <CardDescription className="h-12">
-                {donationsConfig.project.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="mt-auto">
-              <div className="space-y-2">
-                <Label htmlFor="project-select">Select Project</Label>
-                <Select onValueChange={value => setSelectedProject(value)}>
-                  <SelectTrigger id="project-select">
-                    <SelectValue placeholder="Select a project" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {donationsConfig.project.projects.map(project => (
-                      <SelectItem key={project.value} value={project.value}>
-                        {project.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.project && (
-                  <p className="text-sm text-red-500">{errors.project}</p>
-                )}
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button
-                className="w-full"
-                onClick={() => handleCheckout('project', selectedProject)}
-              >
-                {donationsConfig.project.buttonText}
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
+        {/* Fund a Project */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle className="text-xl ">
+              {donationsConfig.project.title}
+            </CardTitle>
+            <CardDescription className="h-12">
+              {donationsConfig.project.description}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="mt-auto">
+            <div className="space-y-2">
+              <Label htmlFor="project-select">Select Project</Label>
+              <Select onValueChange={value => setSelectedProject(value)}>
+                <SelectTrigger id="project-select">
+                  <SelectValue placeholder="Select a project" />
+                </SelectTrigger>
+                <SelectContent>
+                  {donationsConfig.project.projects.map(project => (
+                    <SelectItem key={project.value} value={project.value}>
+                      {project.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {errors.project && (
+                <p className="text-sm text-red-500">{errors.project}</p>
+              )}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full"
+              onClick={() => handleCheckout('project', selectedProject)}
+            >
+              {donationsConfig.project.buttonText}
+            </Button>
+          </CardFooter>
+        </Card>
       </div>
     </article>
   )

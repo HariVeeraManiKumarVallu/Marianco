@@ -89,8 +89,4 @@ body {
   /* p {
     @apply leading-7 [&:not(:first-child)]:mt-6;
   } */
-
-  section {
-    @apply [&:not(:first-child)]:my-20;
-  }
 }
