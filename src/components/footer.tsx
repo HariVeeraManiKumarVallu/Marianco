@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { Icons } from './icons'
 
 export default function Footer() {
   return (
@@ -14,6 +15,32 @@ export default function Footer() {
                 height={100}
                 alt="Marianco logo"
               />
+            </div>
+            <div>
+              <a
+                href="https://web.facebook.com/mariancoorg/about/"
+                target="_blank"
+              >
+                {<Icons.facebook className="size-4" />}
+              </a>
+              <a
+                href="https://www.instagram.com/mariancorg?igsh=MXBxMnkzaWtxbXBlYw=="
+                target="_blank"
+              >
+                {<Icons.instagram className="size-4" />}
+              </a>
+              <a href="https://x.com/mariancoorg" target="_blank">
+                {<Icons.twitter className="size-4" />}
+              </a>
+              <a
+                href="https://www.linkedin.com/company/mariancos/"
+                target="_blank"
+              >
+                {<Icons.linkedin className="size-4" />}
+              </a>
+              <a href="" target="_blank">
+                {<Icons.tiktok className="size-4" />}
+              </a>
             </div>
             {/* <small className="text-sm font-medium leading-none text-muted-foreground">
               Fighting to end child trafficking and protect vulnerable children
