@@ -20,6 +20,8 @@ export const NAV_LINKS = [
     title: 'Events',
     href: '/events',
   },
+  { title: 'Articles', href: '/articles' },
+  { title: 'Projects', href: '/projects' },
   {
     title: 'Contact Us',
     href: '/contact',
