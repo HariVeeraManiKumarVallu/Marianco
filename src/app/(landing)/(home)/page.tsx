@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="space-y-20">
       {/* Hero Section */}
-      <section className="relative min-h-dvh flex flex-col ">
+      <section className="relative min-h-screen flex flex-col ">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3')] bg-cover bg-center">
           <div className="absolute inset-0 bg-black/60" />
         </div>
