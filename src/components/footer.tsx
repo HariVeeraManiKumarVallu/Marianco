@@ -1,14 +1,14 @@
+import { SOCIAL_LINKS } from '@/config/social-links'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Icons } from './icons'
 
 export default function Footer() {
   return (
     <footer className="border-t mt-36 bg-muted/95 backdrop-blur supports-[backdrop-filter]:bg-muted/60">
       <div className="container py-12">
         <div className="grid gap-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
-          <div className="space-y-2 text-pretty col-span-full lg:col-span-1">
-            <div>
+          <div className="space-y-4 text-pretty col-span-full xl:col-span-1">
+            <div className="relative">
               <Image
                 src="/logo.png"
                 width={178}
@@ -16,100 +16,100 @@ export default function Footer() {
                 alt="Marianco logo"
               />
             </div>
-            <div>
-              <a
-                href="https://web.facebook.com/mariancoorg/about/"
-                target="_blank"
-              >
-                {<Icons.facebook className="size-4" />}
-              </a>
-              <a
-                href="https://www.instagram.com/mariancorg?igsh=MXBxMnkzaWtxbXBlYw=="
-                target="_blank"
-              >
-                {<Icons.instagram className="size-4" />}
-              </a>
-              <a href="https://x.com/mariancoorg" target="_blank">
-                {<Icons.twitter className="size-4" />}
-              </a>
-              <a
-                href="https://www.linkedin.com/company/mariancos/"
-                target="_blank"
-              >
-                {<Icons.linkedin className="size-4" />}
-              </a>
-              <a href="" target="_blank">
-                {<Icons.tiktok className="size-4" />}
-              </a>
-            </div>
-            {/* <small className="text-sm font-medium leading-none text-muted-foreground">
+            <p className="text-sm font-medium leading-none text-muted-foreground ">
               Fighting to end child trafficking and protect vulnerable children
               worldwide.
-            </small> */}
+            </p>
+            <div className="flex gap-4">
+              {SOCIAL_LINKS.map(social => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                  aria-label={social.label}
+                >
+                  <social.icon className="size-5 fill-muted-foreground hover:fill-foreground transition-colors" />
+                </a>
+              ))}
+            </div>
           </div>
 
           <div>
             <h3 className="mb-4 text-sm font-semibold">Quick Links</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link href="/about" className="hover:text-foreground">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/impact" className="hover:text-foreground">
-                  Our Impact
-                </Link>
-              </li>
-              <li>
-                <Link href="/programs" className="hover:text-foreground">
-                  Programs
-                </Link>
-              </li>
-              <li>
-                <Link href="/donate" className="hover:text-foreground">
-                  Donate
-                </Link>
-              </li>
+              {[
+                {
+                  href: '/about',
+                  label: 'About Us',
+                },
+                {
+                  href: '/projects',
+                  label: 'Projects',
+                },
+                {
+                  href: '/events',
+                  label: 'Events',
+                },
+                {
+                  href: '/donate',
+                  label: 'Donate',
+                },
+              ].map(link => (
+                <li key={link.href}>
+                  <Link href={link.href} className="hover:text-foreground">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h3 className="mb-4 text-sm font-semibold">Get Involved</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link href="/volunteer" className="hover:text-foreground">
-                  Volunteer
-                </Link>
-              </li>
-              <li>
-                <Link href="/membership" className="hover:text-foreground">
-                  Become a Member
-                </Link>
-              </li>
-              <li>
-                <Link href="/partnerships" className="hover:text-foreground">
-                  Partnerships
-                </Link>
-              </li>
+              {[
+                {
+                  href: '/volunteer',
+                  label: 'Volunteer',
+                },
+                {
+                  href: '/membership',
+                  label: 'Become a Member',
+                },
+                {
+                  href: '/sponsors-and-partners',
+                  label: 'Partnerships',
+                },
+              ].map(link => (
+                <li key={link.href}>
+                  <Link href={link.href} className="hover:text-foreground">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>
-            <h3 className="mb-4 text-sm font-semibold">Get Involved</h3>
+            <h3 className="mb-4 text-sm font-semibold">Other Links</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link
-                  href="/terms-and-conditions"
-                  className="hover:text-foreground"
-                >
-                  Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy-policy" className="hover:text-foreground">
-                  Privacy Policy
-                </Link>
-              </li>
+              {[
+                {
+                  href: '/terms-and-conditions',
+                  label: 'Terms & Conditions',
+                },
+                {
+                  href: '/privacy-policy',
+                  label: 'Privacy Policy',
+                },
+              ].map(link => (
+                <li key={link.href}>
+                  <Link href={link.href} className="hover:text-foreground">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>

@@ -1,16 +1,8 @@
 export const NAV_LINKS = [
-  // {
-  //   title: 'Home',
-  //   href: '/',
-  // },
   {
     title: 'About Us',
     href: '/about-us',
   },
-  // {
-  //   title: 'Donations',
-  //   href: '/donations',
-  // },
   { title: 'Membership', href: '/membership' },
   {
     title: 'Sponsors & Partners',
