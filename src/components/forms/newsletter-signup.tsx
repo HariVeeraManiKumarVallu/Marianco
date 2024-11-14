@@ -59,7 +59,10 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900/50">
+    <section
+      className="bg-gray-50 dark:bg-gray-900/50 scroll-m-16"
+      id="newsletter"
+    >
       <div className="container py-16">
         <div className="relative">
           <div className="absolute inset-0 bg-red-500/10 rounded-lg" />

@@ -1,9 +1,9 @@
 export const NAV_LINKS = [
   {
-    title: 'About Us',
+    title: 'Who We Are',
     href: '/about-us',
   },
-  { title: 'Membership', href: '/membership' },
+  { title: 'Join Us', href: '/join-us' },
   {
     title: 'Sponsors & Partners',
     href: '/sponsors',

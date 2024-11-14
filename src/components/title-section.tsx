@@ -9,12 +9,14 @@ type TitleSectionProps = {
     url: string
     altText: string
   }
+  children?: React.ReactNode
 }
 
 export default function TitleSection({
   title,
   description,
   image,
+  children,
 }: TitleSectionProps) {
   return (
     <section className="h-[500px] relative">
@@ -35,6 +37,7 @@ export default function TitleSection({
         <div className="h-full flex flex-col justify-center items-start text-primary-foreground space-y-2">
           <h1 className="">{title}</h1>
           <p className="max-w-prose">{description}</p>
+          {children}
         </div>
       </motion.div>
     </section>
