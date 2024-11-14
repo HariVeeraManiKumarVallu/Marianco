@@ -17,7 +17,7 @@ export default function Page() {
     {
       icon: Mail,
       title: 'Email',
-      details: 'contact@hopefoundation.org',
+      details: 'team@marianco.org',
       description: 'Send us an email anytime!',
     },
     {

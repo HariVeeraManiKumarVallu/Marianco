@@ -13,7 +13,7 @@ const featuredArticles = [
     id: 1,
     title:
       'Breaking the Cycle: A Comprehensive Approach to Fighting Child Trafficking',
-    excerpt:
+    description:
       'An in-depth look at how integrated approaches combining prevention, intervention, and rehabilitation are making a real difference in the fight against child trafficking.',
     date: '2024-01-20',
     image:
@@ -23,7 +23,7 @@ const featuredArticles = [
   {
     id: 2,
     title: "Technology's Role in Preventing Child Trafficking",
-    excerpt:
+    description:
       'How modern technology is being leveraged to protect vulnerable children.',
     date: '2024-01-18',
     image:
@@ -33,7 +33,7 @@ const featuredArticles = [
   {
     id: 3,
     title: 'Community-Led Solutions in Child Protection',
-    excerpt:
+    description:
       'Exploring successful community initiatives that are making a difference.',
     date: '2024-01-15',
     image:
@@ -46,7 +46,8 @@ const recentArticles = [
   {
     id: 4,
     title: 'Education as Prevention: Building Awareness',
-    excerpt: 'How educational programs are helping prevent child trafficking.',
+    description:
+      'How educational programs are helping prevent child trafficking.',
     date: '2024-01-12',
     image:
       'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3',
@@ -55,7 +56,7 @@ const recentArticles = [
   {
     id: 5,
     title: 'Global Partnerships in Child Protection',
-    excerpt:
+    description:
       'The importance of international cooperation in fighting trafficking.',
     date: '2024-01-10',
     image:
@@ -65,7 +66,7 @@ const recentArticles = [
   {
     id: 6,
     title: 'Rehabilitation Success Stories',
-    excerpt:
+    description:
       'Real stories of recovery and hope from our rehabilitation programs.',
     date: '2024-01-08',
     image:
@@ -75,7 +76,7 @@ const recentArticles = [
   {
     id: 7,
     title: 'Policy Changes Making a Difference',
-    excerpt:
+    description:
       'Recent policy developments that are strengthening child protection.',
     date: '2024-01-05',
     image:
@@ -134,7 +135,7 @@ export default function Page() {
                       {featuredArticles[0].title}
                     </h2>
                     <p className="text-white/80 mb-4">
-                      {featuredArticles[0].excerpt}
+                      {featuredArticles[0].description}
                     </p>
                     <div className="flex items-center text-sm">
                       <Calendar className="w-4 h-4 mr-2" />
@@ -173,7 +174,9 @@ export default function Page() {
                         <h2 className="text-xl font-bold mb-2">
                           {article.title}
                         </h2>
-                        <p className="text-white/80 mb-4">{article.excerpt}</p>
+                        <p className="text-white/80 mb-4">
+                          {article.description}
+                        </p>
                         <div className="flex items-center text-sm">
                           <Calendar className="w-4 h-4 mr-2" />
                           {/* {format(new Date(article.date), 'MMMM d, yyyy')} */}
@@ -218,7 +221,7 @@ export default function Page() {
                       {article.title}
                     </h3>
                     <p className="text-gray-600 text-sm mb-4">
-                      {article.excerpt}
+                      {article.description}
                     </p>
                     <div className="flex items-center text-sm text-gray-500">
                       <Calendar className="w-4 h-4 mr-2" />

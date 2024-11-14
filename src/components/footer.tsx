@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="border-t mt-36 bg-muted/95 backdrop-blur supports-[backdrop-filter]:bg-muted/60">
       <div className="container py-12">
-        <div className="grid gap-8 grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
+        <div className="grid gap-8 grid-cols-[repeat(auto-fit,minmax(140px,1fr))]">
           <div className="space-y-4 text-pretty col-span-full xl:col-span-1">
             <div className="relative">
               <Image
@@ -115,7 +115,7 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-sm font-semibold">Contact</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>contact@hopefoundation.org</li>
+              <li>team@marianco.org</li>
               <li>+1 (555) 123-4567</li>
               <li>
                 123 Hope Street
@@ -127,9 +127,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>
-            © {new Date().getFullYear()} Hope Foundation. All rights reserved.
-          </p>
+          <p>© {new Date().getFullYear()} Marianco. All rights reserved.</p>
         </div>
       </div>
     </footer>
