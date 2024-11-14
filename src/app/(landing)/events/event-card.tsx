@@ -36,8 +36,8 @@ export default function EventCard({
            "
           >
             <Image
-              src={event.attributes.imageUrl}
-              alt={event.attributes.title}
+              src={event.imageUrl}
+              alt={event.title}
               objectFit="cover"
               // className="object-cover"
               fill
@@ -45,7 +45,7 @@ export default function EventCard({
           </div>
         </CardHeader>
         <CardContent className="lg:py-12 lg:max-w-[450px] text-pretty">
-          <CardTitle className="mb-4">{event.attributes.title}</CardTitle>
+          <CardTitle className="mb-4">{event.title}</CardTitle>
           {/* <p>{event.attributes.description}</p> */}
           <p className="mb-8">
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi,
@@ -63,11 +63,11 @@ export default function EventCard({
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Icons.clock className="size-4" />
-              {event.attributes.time}
+              {event.time}
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Icons.mapPin className="size-4" />
-              {event.attributes.location}
+              {event.location}
             </div>
           </div>
 
