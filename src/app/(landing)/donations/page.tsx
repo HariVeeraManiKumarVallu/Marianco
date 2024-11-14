@@ -1,9 +1,18 @@
 import DonationOptionsCards from '@/components/donation-options'
+import TitleSection from '@/components/title-section'
 
 export default function Donations() {
   return (
     <div className="space-y-20">
-      <section className="mt-48">
+      <TitleSection
+        title="Be a Hero for Vulnerable Children"
+        description="Your generosity makes it possible for us to rescue and protect children who are at risk or have been affected by exploitation. Every dollar you give helps us provide safe homes, education, psychological support, and the means for children to start anew."
+        image={{
+          url: '/titleImg.png',
+          altText: 'a',
+        }}
+      />
+      {/* <section className="mt-48">
         <div className="container">
           <h1>Be a Hero for Vulnerable Children</h1>
 
@@ -14,7 +23,7 @@ export default function Donations() {
             psychological support, and the means for children to start anew.
           </p>
         </div>
-      </section>
+      </section> */}
       <section>
         <div className="container">
           <h2 className="text-center mb-12">Support Our Cause</h2>

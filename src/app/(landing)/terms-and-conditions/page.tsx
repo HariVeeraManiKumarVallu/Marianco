@@ -1,16 +1,6 @@
-import TitleSection from '@/components/title-section'
-
 export default function Page() {
   return (
     <div className="space-y-12 container">
-      {/* <TitleSection
-        title="Terms &amp; Conditions"
-        description=""
-        image={{
-          url: '/images/hero.jpg',
-          altText: 'Marianco',
-        }}
-      /> */}
       <header className="space-y-4 mt-32">
         <h1>Terms &amp; Conditions</h1>
         <p>
