@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 type TitleSectionProps = {
-  title: string
+  title: string | React.ReactNode
   description: string
   image: {
     url: string
@@ -19,7 +19,7 @@ export default function TitleSection({
   children,
 }: TitleSectionProps) {
   return (
-    <section className="h-[500px] relative">
+    <section className="h-[600px] relative">
       <Image
         src={image.url}
         alt={image.altText}
