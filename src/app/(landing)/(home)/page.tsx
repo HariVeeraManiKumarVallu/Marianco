@@ -51,12 +51,20 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-10 flex flex-col md:flex-row justify-center gap-4"
           >
-            <Button size="lg" variant={'secondary'} asChild>
+            <Button
+              size="lg"
+              variant={'secondary'}
+              className="bg-brand-5"
+              asChild
+            >
               <Link href={'/membership'}>Join the Movement</Link>
             </Button>
-            <Button size={'lg'} asChild>
+            <Button size={'lg'} className="bg-brand-4" asChild>
               <Link href={'/donations'}>Make a Donation</Link>
             </Button>
+            <Button size={'lg'} className="bg-brand-3" asChild>
+              <Link href={'/donations'}>Make a Donation</Link>
+            </Button>{' '}
           </motion.div>
         </div>
       </section>

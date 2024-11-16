@@ -17,12 +17,13 @@ export default {
         },
       },
       colors: {
-        'brand-color-1': '#fdfefd',
-        'brand-color-2': '#daf7fa',
-        'brand-color-3': '#afd7e3',
-        'brand-color-4': '#70aec5',
-        'brand-color-5': '#4b85b8',
-        'brand-color-6': '#7cb58a',
+        'brand-1': '#fdfefd',
+        'brand-2': '#daf7fa',
+        'brand-3': '#afd7e3',
+        'brand-4': '#70aec5',
+        'brand-5': '#4b85b8',
+        'brand-6': '#7cb58a',
+
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
