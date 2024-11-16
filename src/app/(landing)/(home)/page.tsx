@@ -54,6 +54,14 @@ export default function Home() {
             <Button
               size="lg"
               variant={'secondary'}
+              className="bg-brand-6"
+              asChild
+            >
+              <Link href={'/membership'}>Join the Movement</Link>
+            </Button>{' '}
+            <Button
+              size="lg"
+              variant={'secondary'}
               className="bg-brand-5"
               asChild
             >
@@ -63,6 +71,12 @@ export default function Home() {
               <Link href={'/donations'}>Make a Donation</Link>
             </Button>
             <Button size={'lg'} className="bg-brand-3" asChild>
+              <Link href={'/donations'}>Make a Donation</Link>
+            </Button>{' '}
+            <Button size={'lg'} className="bg-brand-2" asChild>
+              <Link href={'/donations'}>Make a Donation</Link>
+            </Button>{' '}
+            <Button size={'lg'} className="bg-brand-1" asChild>
               <Link href={'/donations'}>Make a Donation</Link>
             </Button>{' '}
           </motion.div>
