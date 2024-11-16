@@ -9,3 +9,5 @@ export const newsletterSignupSchema = z.object({
     .min(2)
     .max(100),
 })
+
+export type NewsletterSignupData = z.infer<typeof newsletterSignupSchema>

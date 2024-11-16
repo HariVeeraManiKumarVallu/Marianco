@@ -12,30 +12,15 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
+import { ContactFormData, contactFormSchema } from '@/lib/schemas/form-schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-
-const formSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
-  subject: z
-    .string()
-    .trim()
-    .min(1, 'Subject is required')
-    .max(255, 'Subject must be at most 255 characters'),
-  message: z.string().trim().min(1, 'Message is required'),
-})
-
-type FormValues = z.infer<typeof formSchema>
 
 export function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
     defaultValues: {
       name: '',
       email: '',
@@ -44,10 +29,9 @@ export function ContactForm() {
     },
   })
 
-  async function onSubmit(data: FormValues) {
-    setIsSubmitting(true)
+  async function onSubmit(data: ContactFormData) {
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/api/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,8 +55,6 @@ export function ContactForm() {
         description: 'Failed to send message. Please try again later.',
         variant: 'destructive',
       })
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
@@ -139,8 +121,12 @@ export function ContactForm() {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? 'Sending...' : 'Send Message'}
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? 'Sending...' : 'Send Message'}
         </Button>
       </form>
     </Form>

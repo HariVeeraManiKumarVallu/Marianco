@@ -11,25 +11,25 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
-import { newsletterSignupSchema } from '@/lib/validators/form-schema'
+import {
+  NewsletterSignupData,
+  newsletterSignupSchema,
+} from '@/lib/schemas/form-schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 
 export default function NewsletterSignup() {
   const { toast } = useToast()
 
-  const form = useForm<z.infer<typeof newsletterSignupSchema>>({
+  const form = useForm<NewsletterSignupData>({
     resolver: zodResolver(newsletterSignupSchema),
     defaultValues: {
       email: '',
     },
   })
 
-  const handleSubmit = async ({
-    email,
-  }: z.infer<typeof newsletterSignupSchema>) => {
+  const handleSubmit = async ({ email }: NewsletterSignupData) => {
     try {
       const response = await fetch('/api/subscribe', {
         method: 'POST',

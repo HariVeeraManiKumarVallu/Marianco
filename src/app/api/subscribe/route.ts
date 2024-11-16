@@ -1,4 +1,4 @@
-import { newsletterSignupSchema } from '@/lib/validators/form-schema'
+import { newsletterSignupSchema } from '@/lib/schemas/form-schemas'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 

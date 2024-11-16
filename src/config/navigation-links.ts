@@ -3,7 +3,7 @@ export const NAV_LINKS = [
     title: 'Who We Are',
     href: '/about-us',
   },
-  { title: 'Join Us', href: '/join-us' },
+  { title: 'Get Involved', href: '/get-involved' },
   {
     title: 'Sponsors & Partners',
     href: '/sponsors',
