@@ -5,6 +5,7 @@ import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ROUTES } from '@/config/routes'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
@@ -24,9 +25,9 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-primary-foreground"
+            className="text-brand-1"
           >
-            <span className="text-orange-600">Protect, </span>
+            <span className="text-primary">Protect, </span>
             Educate, <span className="">Empower</span>
           </motion.h1>
 
@@ -34,14 +35,12 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 max-w-lg text-xl lg:text-2xl/9 text-primary-foreground sm:max-w-3xl "
+            className="mt-6 max-w-lg text-xl lg:text-2xl/9 text-brand-1 sm:max-w-3xl "
           >
             Partner with us in our mission to{' '}
-            <span className="text-orange-500">
-              eradicate child exploitation
-            </span>{' '}
+            <span className="text-primary">eradicate child exploitation</span>{' '}
             and create a world where every child can grow up{' '}
-            <span className="">safe, empowered, and loved.</span> Together, we
+            <span className="">safe, empowered, and loved. </span>Together, we
             can give children the future they deserve.
           </motion.p>
 
@@ -51,34 +50,12 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-10 flex flex-col md:flex-row justify-center gap-4"
           >
-            <Button
-              size="lg"
-              variant={'secondary'}
-              className="bg-brand-6"
-              asChild
-            >
-              <Link href={'/membership'}>Join the Movement</Link>
-            </Button>{' '}
-            <Button
-              size="lg"
-              variant={'secondary'}
-              className="bg-brand-5"
-              asChild
-            >
-              <Link href={'/membership'}>Join the Movement</Link>
+            <Button size="lg" variant={'secondary'} asChild>
+              <Link href={ROUTES.GET_INVOLVED}>Join the Movement</Link>
             </Button>
-            <Button size={'lg'} className="bg-brand-4" asChild>
-              <Link href={'/donations'}>Make a Donation</Link>
+            <Button size={'lg'} asChild>
+              <Link href={ROUTES.DONATE}>Make a Donation</Link>
             </Button>
-            <Button size={'lg'} className="bg-brand-3" asChild>
-              <Link href={'/donations'}>Make a Donation</Link>
-            </Button>{' '}
-            <Button size={'lg'} className="bg-brand-2" asChild>
-              <Link href={'/donations'}>Make a Donation</Link>
-            </Button>{' '}
-            <Button size={'lg'} className="bg-brand-1" asChild>
-              <Link href={'/donations'}>Make a Donation</Link>
-            </Button>{' '}
           </motion.div>
         </div>
       </section>
@@ -204,7 +181,7 @@ export default function Home() {
             </ul>
 
             <Button asChild variant={'link'}>
-              <Link href="/events" className="mt-6">
+              <Link href={ROUTES.ABOUT} className="mt-6">
                 Learn more about our work <ArrowRight />
               </Link>
             </Button>
