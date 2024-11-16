@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className="flex-1 flex flex-col">{children}</main>
       <Footer />
     </>
   )

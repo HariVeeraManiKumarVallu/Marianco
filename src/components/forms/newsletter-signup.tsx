@@ -59,14 +59,11 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <section
-      className="bg-gray-50 dark:bg-gray-900/50 scroll-m-16"
-      id="newsletter"
-    >
+    <article className="scroll-m-16" id="newsletter">
       <div className="container py-16">
         <div className="relative">
           <div className="absolute inset-0 bg-red-500/10 rounded-lg" />
-          <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+          <div className="relative bg-white  rounded-lg shadow-lg p-8">
             <div className="max-w-2xl mx-auto text-center">
               <Mail className="w-12 h-12 text-red-500 mx-auto mb-4" />
               <h2 className="text-3xl font-bold mb-4">Stay Informed</h2>
@@ -109,6 +106,6 @@ export default function NewsletterSignup() {
           </div>
         </div>
       </div>
-    </section>
+    </article>
   )
 }
