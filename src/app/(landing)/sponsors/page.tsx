@@ -1,82 +1,14 @@
 'use client'
+import PartnershipTier from '@/components/partnershipTier'
 import TitleSection from '@/components/title-section'
 import { Button, buttonVariants } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { motion } from 'framer-motion'
-import {
-  ArrowRight,
-  Building2,
-  Check,
-  Gift,
-  Handshake,
-  Heart,
-} from 'lucide-react'
+import { ArrowRight, Building2, Gift, Handshake, Heart } from 'lucide-react'
 import Link from 'next/link'
-
-interface PartnershipTierProps {
-  title: string
-  amount: string
-  benefits: string[]
-}
-
-function PartnershipTier({ title, amount, benefits }: PartnershipTierProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.3 }}
-      className="h-full"
-    >
-      <Card className="relative overflow-hidden h-full flex flex-col border border-border/50 hover:border-primary/50 transition-colors duration-300">
-        <CardHeader className="space-y-2">
-          <CardTitle className="text-2xl">{title}</CardTitle>
-          <div>
-            <span className="text-3xl font-bold">{amount}</span>
-            <span className="text-muted-foreground ml-1">/year</span>
-          </div>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <ul className="space-y-4">
-            {benefits.map((benefit, index) => (
-              <motion.li
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-start gap-3"
-              >
-                <div className="rounded-full p-1 bg-primary/10 text-primary">
-                  <Check className="w-4 h-4" />
-                </div>
-                <span className="text-sm text-muted-foreground">{benefit}</span>
-              </motion.li>
-            ))}
-          </ul>
-        </CardContent>
-        <CardFooter>
-          <Button className="w-full group" variant="outline" size="lg">
-            <span className="flex items-center justify-center gap-2">
-              Select Plan
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </span>
-          </Button>
-        </CardFooter>
-      </Card>
-    </motion.div>
-  )
-}
 
 export default function Sponsors() {
   return (
-    <div className="space-y-20">
+    <div className="space-y-section">
       <TitleSection
         title={
           <>
@@ -101,11 +33,8 @@ export default function Sponsors() {
           viewport={{ once: true }}
           className="container"
         >
-          <h2 className=" mb-8 flex items-center gap-3">
-            <Handshake className="w-8 h-8 text-blue-600" />
-            Why Partner with Marianco?
-          </h2>
-          <p className="text-lg text-gray-700 max-w-3xl">
+          <h2 className=" mb-8">Why Partner with Marianco?</h2>
+          <p className="max-w-prose">
             When you partner with Marianco, you become part of a global network
             dedicated to eradicating child exploitation. Your support will not
             only help children in immediate danger but will also ensure
@@ -116,7 +45,7 @@ export default function Sponsors() {
 
       {/* Partnership Tiers */}
       <section>
-        <div className="container ">
+        <div className="container">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
             <Building2 className="w-8 h-8 text-blue-600" />
             Corporate Sponsorship Tiers

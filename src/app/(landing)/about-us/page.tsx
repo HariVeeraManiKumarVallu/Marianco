@@ -162,7 +162,7 @@ export default function About() {
                 name: 'Sarah Johnson',
                 role: 'Executive Director',
                 image:
-                  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3',
+                  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3',
                 bio: '20+ years experience in child protection and nonprofit leadership',
               },
               {
@@ -176,7 +176,7 @@ export default function About() {
                 name: 'Dr. Emily Martinez',
                 role: 'Head of Rehabilitation',
                 image:
-                  'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3',
+                  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3',
                 bio: 'Specialist in trauma-informed care and child psychology',
               },
             ].map((member, index) => (
