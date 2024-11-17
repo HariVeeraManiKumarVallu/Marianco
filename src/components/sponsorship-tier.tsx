@@ -1,21 +1,16 @@
 'use client'
 
+import { type SponsorshipTier } from '@/config/sponsorship-tiers'
 import { motion } from 'framer-motion'
-import { Check, ArrowRight } from 'lucide-react'
+import { Icons } from './icons'
 import { Button } from './ui/button'
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
 
-type PartnershipTierProps = {
-  title: string
-  amount: string
-  benefits: string[]
-}
-
-export default function PartnershipTier({
+export default function SponsorshipTier({
   title,
   amount,
   benefits,
-}: PartnershipTierProps) {
+}: SponsorshipTier) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -25,16 +20,16 @@ export default function PartnershipTier({
       transition={{ duration: 0.3 }}
       className="h-full"
     >
-      <Card className="relative overflow-hidden h-full flex flex-col border border-border/50 hover:border-primary/50 transition-colors duration-300">
-        <CardHeader className="space-y-2">
-          <CardTitle className="text-2xl">{title}</CardTitle>
+      <Card className="relative overflow-hidden h-full flex flex-col border border-brand-blue-300 hover:border-brand-blue-900 transition-colors duration-300 max-w-96 mx-auto">
+        <CardHeader className="space-y-3">
+          <CardTitle>{title}</CardTitle>
           <div>
             <span className="text-3xl font-bold">{amount}</span>
             <span className="text-muted-foreground ml-1">/year</span>
           </div>
         </CardHeader>
         <CardContent className="flex-grow">
-          <ul className="space-y-4">
+          <ul className="space-y-4 mb-6">
             {benefits.map((benefit, index) => (
               <motion.li
                 key={index}
@@ -44,19 +39,20 @@ export default function PartnershipTier({
                 className="flex items-start gap-3"
               >
                 <div className="rounded-full p-1 bg-primary/10 text-primary">
-                  <Check className="w-4 h-4" />
+                  <Icons.check className="size-4" />
                 </div>
-                <span className="text-sm text-muted-foreground">{benefit}</span>
+                <p className="text-sm">{benefit}</p>
               </motion.li>
             ))}
           </ul>
         </CardContent>
         <CardFooter>
-          <Button className="w-full group" variant="outline" size="lg">
-            <span className="flex items-center justify-center gap-2">
-              Select Plan
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </span>
+          <Button
+            className="w-full flex items-center justify-center gap-2 group"
+            size="lg"
+          >
+            <span>Select Plan</span>
+            <Icons.arrowRight className="size-4 transition-transform group-hover:translate-x-1" />
           </Button>
         </CardFooter>
       </Card>

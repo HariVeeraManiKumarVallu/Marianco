@@ -1,9 +1,11 @@
 'use client'
-import PartnershipTier from '@/components/partnershipTier'
+import { default as SponsorshipTier } from '@/components/sponsorship-tier'
 import TitleSection from '@/components/title-section'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
+import { ROUTES } from '@/config/routes'
+import { SPONSORSHIP_TIERS } from '@/config/sponsorship-tiers'
 import { motion } from 'framer-motion'
-import { ArrowRight, Building2, Gift, Handshake, Heart } from 'lucide-react'
+import { ArrowRight, Gift, Heart } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Sponsors() {
@@ -46,43 +48,16 @@ export default function Sponsors() {
       {/* Partnership Tiers */}
       <section>
         <div className="container">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
-            <Building2 className="w-8 h-8 text-blue-600" />
-            Corporate Sponsorship Tiers
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <PartnershipTier
-              title="Bronze Partner"
-              amount="$5,000"
-              benefits={[
-                'Company logo on our website',
-                'Recognition in promotional materials',
-                'Two complimentary gala tickets',
-                'Quarterly impact reports',
-              ]}
-            />
-            <PartnershipTier
-              title="Silver Partner"
-              amount="$10,000"
-              benefits={[
-                'Recognition at all Marianco events',
-                'Prominent logo placement',
-                'Four gala tickets',
-                'Personal facility tour',
-                'Monthly partnership highlights',
-              ]}
-            />
-            <PartnershipTier
-              title="Gold Partner"
-              amount="$25,000"
-              benefits={[
-                'All Silver Partner benefits',
-                'Media campaign mentions',
-                'Co-host opportunity',
-                'Executive briefings',
-                'Custom impact initiatives',
-              ]}
-            />
+          <h2 className=" mb-8 lg:mb-12 ">Corporate Sponsorship Tiers</h2>
+          <div className="grid md:grid-cols-3 gap-6 ">
+            {SPONSORSHIP_TIERS.map(tier => (
+              <SponsorshipTier
+                key={tier.title}
+                title={tier.title}
+                amount={tier.amount}
+                benefits={tier.benefits}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -146,80 +121,31 @@ export default function Sponsors() {
       </section>
 
       {/* CTA Section */}
-      <section>
+      <section className="pb-section">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className=" text-center bg-blue-50 rounded-xl p-8 container"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <h2
+            className="
+        mb-4"
+          >
             Ready to Make a Difference?
           </h2>
           <p className="text-gray-700 mb-6">
             Contact us to discuss partnership opportunities that align with your
             organization&apos;s values and goals.
           </p>
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 group">
+          <Link
+            href={ROUTES.SPONSORS}
+            className={buttonVariants({ size: 'lg' })}
+          >
             Start the Conversation
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
+          </Link>
         </motion.div>
       </section>
     </div>
   )
 }
-// return (
-//   <>
-//     <h1>Partner with Us for a safer World for Children</h1>
-//     <p>
-//       Marianco&apos;s work is made possible by the incredible contributions of
-//       our partners. By collaborating with us, you can make a lasting impact on
-//       the lives of vulnerable children while receiving meaningful recognition
-//       and engagement opportunities.
-//     </p>
-//     <h2>Why partner with Marianco?</h2>
-//     <p>
-//       When you partner with Marianco, you become part of a global network
-//       dedicated to eradicating child exploitation. Your support will not only
-//       help children in immediate danger but will also ensure long-term
-//       solutions through prevention, education, and advocacy.
-//     </p>
-//     <h2>Corporate Sponsorship Tiers</h2>
-//     <ul>
-//       <li>
-//         <h4>Bronze Partner ($5,000+):</h4>
-//         <p>
-//           Includes your company logo on our website and in select promotional
-//           materials, as well as two complimentary tickets to our annual gala.
-//         </p>
-//         <h4>Silver Partner ($10,000+):</h4>
-//         <p>
-//           Recognition at all Marianco events and your logo featured
-//           prominently on our materials, plus four gala tickets and a personal
-//           tour of our facilities.
-//         </p>
-//         <h4>Gold Partner ($25,000+):</h4>
-//         <p>
-//           In addition to all silver benefits, your company will receive
-//           special mentions in media campaigns and the opportunity to co-host a
-//           Marianco event.
-//         </p>
-//       </li>
-//     </ul>
-
-//     <h2>Foundation Partnerships</h2>
-
-//     <p>
-//       We invite foundations to collaborate with us on special initiatives,
-//       such as funding the creation of new safe homes, expanding our advocacy
-//       work, or sponsoring research on child exploitation.
-//     </p>
-//     <h2>In-Kind Donations</h2>
-//     <p>
-//       We gratefully accept in-kind donations that can help in our
-//       operations—legal services, technology, marketing, and more. Your
-//       company’s expertise can help us extend our reach and impact.
-//     </p>
-//   </>
-//
