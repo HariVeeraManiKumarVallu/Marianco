@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-muted/95 backdrop-blur supports-[backdrop-filter]:bg-muted/60">
+    <footer className="border-t border-brand-blue-300 bg-brand-blue-100/95 backdrop-blur supports-[backdrop-filter]:bg-brand-blue-900/10">
       <div className="container py-12">
         <div className="grid gap-8 grid-cols-[repeat(auto-fit,minmax(140px,1fr))]">
           <div className="space-y-4 text-pretty col-span-full xl:col-span-1">
@@ -30,7 +30,7 @@ export default function Footer() {
                   className="group"
                   aria-label={social.label}
                 >
-                  <social.icon className="size-5 fill-muted-foreground hover:fill-foreground transition-colors" />
+                  <social.icon className="size-5 fill-muted-foreground hover:fill-brand-blue-900 transition-colors" />
                 </a>
               ))}
             </div>
@@ -126,7 +126,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
+        <div className="mt-12 border-t border-brand-blue-300 pt-8 text-center text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} Marianco. All rights reserved.</p>
         </div>
       </div>

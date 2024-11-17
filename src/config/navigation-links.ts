@@ -13,7 +13,7 @@ export const NAV_LINKS = [
     href: '/events',
   },
   { title: 'Articles', href: '/articles' },
-  { title: 'Projects', href: '/projects' },
+  // { title: 'Projects', href: '/projects' },
   {
     title: 'Contact Us',
     href: '/contact',

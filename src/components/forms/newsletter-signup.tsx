@@ -60,51 +60,52 @@ export default function NewsletterSignup() {
 
   return (
     <article className="scroll-m-16" id="newsletter">
-      <div className="container py-16">
-        <div className="relative">
-          <div className="absolute inset-0 bg-red-500/10 rounded-lg" />
-          <div className="relative bg-white  rounded-lg shadow-lg p-8">
-            <div className="max-w-2xl mx-auto text-center">
-              <Mail className="w-12 h-12 text-red-500 mx-auto mb-4" />
-              <h2 className="text-3xl font-bold mb-4">Stay Informed</h2>
-              <p className="text-muted-foreground mb-8">
-                Join our newsletter to receive updates about our mission, impact
-                stories, and ways you can help make a difference.
-              </p>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(handleSubmit)}
-                  className="flex gap-4 max-w-md mx-auto"
-                >
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter your email"
-                            {...field}
-                            className="flex-1"
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          We respect your privacy. Unsubscribe at any time.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" disabled={form.formState.isSubmitting}>
-                    {form.formState.isSubmitting
-                      ? 'Subscribing...'
-                      : 'Subscribe'}
-                  </Button>
-                </form>
-              </Form>
-            </div>
-          </div>
+      <div className="container py-16 ">
+        {/* <div className="relative"> */}
+        <div className="relative rounded-lg shadow-lg p-8 text-center ">
+          {/* <div className="max-w-2xl mx-auto text-center"> */}
+          {/* <Mail className="w-12 h-12 text-red-500 mx-auto mb-4" /> */}
+          <h2 className="text-3xl font-bold mb-4">Stay Informed</h2>
+          <p className="text-muted-foreground mb-8 max-w-prose mx-auto">
+            Join our newsletter to receive updates about our mission, impact
+            stories, and ways you can help make a difference.
+          </p>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="flex gap-4 max-w-md mx-auto"
+            >
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your email"
+                        {...field}
+                        className="flex-1 focus-visible:ring-brand-blue-900"
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      We respect your privacy. Unsubscribe at any time.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="bg-brand-blue-900 text-brand-white hover:bg-brand-blue-900/90"
+              >
+                {form.formState.isSubmitting ? 'Subscribing...' : 'Subscribe'}
+              </Button>
+            </form>
+          </Form>
+          {/* </div> */}
         </div>
+        {/* </div> */}
       </div>
     </article>
   )

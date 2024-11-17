@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { donationsConfig, DonationType } from '@/config/donations-options'
+import { cn } from '@/lib/utils'
 import getStripe from '@/services/load-stripe'
 import { useEffect, useState } from 'react'
 import { Label } from './ui/label'
@@ -98,14 +99,14 @@ export default function DonationOptionsCards() {
 
   return (
     <article className="w-full ">
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {/* One-time Donation */}
-        <Card className="flex flex-col">
+        <Card className="flex flex-col h-full   transition-colors">
           <CardHeader>
             <CardTitle className="text-xl">
               {donationsConfig.oneTime.title}
             </CardTitle>
-            <CardDescription className="h-12">
+            <CardDescription>
               {donationsConfig.oneTime.description}
             </CardDescription>
           </CardHeader>
@@ -119,7 +120,13 @@ export default function DonationOptionsCards() {
                     setOneTimeAmount(amount)
                     if (customAmountInput) setCustomAmountInput('')
                   }}
-                  className="w-full"
+                  className={cn(
+                    {
+                      'hover:bg-brand-blue-900': oneTimeAmount === amount,
+                      'hover:bg-brand-blue-300/30': oneTimeAmount !== amount,
+                    },
+                    'w-full text-base border-brand-blue-300/50 '
+                  )}
                 >
                   ${amount}
                 </Button>

@@ -16,14 +16,23 @@ export default {
           xl: '1280px',
         },
       },
+      space: {
+        page: '5rem',
+      },
+      spacing: {
+        section: '5rem',
+      },
       colors: {
-        'brand-1': '#fdfefd',
-        'brand-2': '#daf7fa',
-        'brand-3': '#afd7e3',
-        'brand-4': '#70aec5',
-        'brand-5': '#4b85b8',
-        'brand-6': '#7cb58a',
-
+        brand: {
+          white: '#fdfefd',
+          blue: {
+            100: '#daf7fa',
+            300: '#afd7e3',
+            500: '#70aec5',
+            900: '#4b85b8',
+          },
+          green: '#7cb58a',
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
