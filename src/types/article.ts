@@ -14,7 +14,7 @@ import { type BlocksContent } from '@strapi/blocks-react-renderer'
 //   };
 // }
 
-type StrapiData = {
+type StrapiData<T> = {
   id: number
   documentId: string
   createdAt: string
@@ -45,7 +45,8 @@ export type Article = {
   featuredImgUrl: string
   thumbnailUrl: string
   isArchived: boolean
-} & StrapiData
+}
 
 export type ArticleResponse = StrapiResponse<Article>
+export type ArticleData = StrapiData<Article>
 // export type Article = ArticleResponse['data'][0];

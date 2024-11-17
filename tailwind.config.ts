@@ -17,10 +17,10 @@ export default {
         },
       },
       space: {
-        page: '5rem',
+        page: '6rem',
       },
       spacing: {
-        section: '5rem',
+        section: '6rem',
       },
       colors: {
         brand: {

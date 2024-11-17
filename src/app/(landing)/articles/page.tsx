@@ -20,7 +20,7 @@ export default function Page() {
               className="group"
               aria-label={social.label}
             >
-              <social.icon className="size-5 fill-foreground hover:fill-foreground transition-colors" />
+              <social.icon className="size-5 fill-foreground hover:fill-primary transition-colors" />
             </a>
           ))}
         </div>

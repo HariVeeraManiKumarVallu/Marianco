@@ -9,67 +9,13 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Card } from '@/components/ui/card'
+import { CONTACT_INFO } from '@/config/contact-info'
+import { FAQ } from '@/config/faq'
 import { motion } from 'framer-motion'
-import { Clock, Mail, MapPin, Minus, Phone, Plus } from 'lucide-react'
 
 export default function Page() {
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: 'Email',
-      details: 'team@marianco.org',
-      description: 'Send us an email anytime!',
-    },
-    {
-      icon: Phone,
-      title: 'Phone',
-      details: '+1 (555) 123-4567',
-      description: 'Mon-Fri from 8am to 6pm',
-    },
-    {
-      icon: MapPin,
-      title: 'Office',
-      details: '123 Hope Street, New York, NY 10001',
-      description: 'Come visit our office',
-    },
-    {
-      icon: Clock,
-      title: 'Working Hours',
-      details: 'Monday - Friday',
-      description: '8:00 AM - 6:00 PM',
-    },
-  ]
-
-  const faqs = [
-    {
-      question: 'How can I get involved with Hope Foundation?',
-      answer:
-        'There are many ways to get involved! You can volunteer, donate, become a member, or partner with us. Visit our Get Involved page to learn more about each opportunity.',
-    },
-    {
-      question: 'Where do my donations go?',
-      answer:
-        'Your donations directly support our programs for child protection, including rescue operations, rehabilitation services, and prevention initiatives. We ensure transparency in all our financial operations.',
-    },
-    {
-      question: 'Can I volunteer remotely?',
-      answer:
-        'Yes! We offer various remote volunteering opportunities, from digital advocacy to online mentoring. Contact us to learn more about our remote volunteer programs.',
-    },
-    {
-      question: 'How can I report a case of child trafficking?',
-      answer:
-        'If you suspect a case of child trafficking, immediately contact local law enforcement or call our 24/7 hotline. All reports are kept confidential and are handled with utmost urgency.',
-    },
-    {
-      question: 'Do you offer educational programs for schools?',
-      answer:
-        'Yes, we provide educational programs and workshops for schools to raise awareness about child trafficking and safety. Contact us to schedule a presentation for your school.',
-    },
-  ]
-
   return (
-    <div className="space-y-20">
+    <div className="space-y-page">
       <TitleSection
         title="Contact Us"
         description="Have Questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible."
@@ -92,7 +38,7 @@ export default function Page() {
         </div>
       </section> */}
 
-      <section>
+      <section className="gradient-main pb-section">
         <div className="container">
           <div className="grid gap-8 lg:grid-cols-2">
             <motion.div
@@ -108,12 +54,12 @@ export default function Page() {
                   form and we&apos;ll get back to you as soon as possible.
                 </p>
                 <div className="grid gap-6 sm:grid-cols-2">
-                  {contactInfo.map(item => (
+                  {CONTACT_INFO.map(item => (
                     <Card key={item.title} className="p-6">
                       <div className="flex items-start">
                         <div className="flex-shrink-0">
-                          <div className="p-3 bg-red-100 rounded-lg">
-                            <item.icon className="w-6 h-6 text-red-500" />
+                          <div className="p-3 bg-brand-blue-100 rounded-lg">
+                            <item.icon className="w-6 h-6 text-brand-blue-900" />
                           </div>
                         </div>
                         <div className="ml-4">
@@ -137,7 +83,7 @@ export default function Page() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Card className="p-8">
+              <Card className="p-8 border-brand-blue-300 hover:border-brand-blue-300">
                 <ContactForm />
               </Card>
             </motion.div>
@@ -146,7 +92,7 @@ export default function Page() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-12 bg-gray-50">
+      <section className="pb-section">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -154,12 +100,10 @@ export default function Page() {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto"
           >
-            <h2 className="text-2xl font-bold mb-8 text-center">
-              Frequently Asked Questions
-            </h2>
-            <Card className="p-6">
+            <h2 className="mb-8 text-center">Frequently Asked Questions</h2>
+            <Card className="p-6 border-brand-blue-300 hover:border-brand-blue-300">
               <Accordion type="single" collapsible className="w-full">
-                {faqs.map((faq, index) => (
+                {FAQ.map((faq, index) => (
                   <AccordionItem key={index} value={`item-${index}`}>
                     <AccordionTrigger>{faq.question}</AccordionTrigger>
                     <AccordionContent>{faq.answer}</AccordionContent>

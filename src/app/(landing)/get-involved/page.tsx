@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export default function Page() {
   return (
-    <div className="space-y-36">
+    <div className="space-y-page">
       <TitleSection
         title="Join Our Fight Against Child Exploitation"
         description="Together, we can protect children and create a safer world. Every voice, every action counts."
@@ -14,7 +14,7 @@ export default function Page() {
       />
 
       <section>
-        <div className="container">
+        <div className="container ">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">
               Become a Part of Our Mission

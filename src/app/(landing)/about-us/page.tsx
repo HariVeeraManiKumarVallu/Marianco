@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 export default function About() {
   return (
-    <div className="space-y-section">
+    <div className="space-y-page">
       <TitleSection
         title="Who we are"
         description="We strive to protect the most vulnerable children, ensuring they have a safe space to grow, thrive, and reclaim their lives."

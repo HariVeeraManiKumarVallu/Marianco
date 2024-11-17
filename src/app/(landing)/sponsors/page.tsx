@@ -1,16 +1,16 @@
 'use client'
+import { Icons } from '@/components/icons'
 import { default as SponsorshipTier } from '@/components/sponsorship-tier'
 import TitleSection from '@/components/title-section'
 import { buttonVariants } from '@/components/ui/button'
 import { ROUTES } from '@/config/routes'
 import { SPONSORSHIP_TIERS } from '@/config/sponsorship-tiers'
 import { motion } from 'framer-motion'
-import { ArrowRight, Gift, Heart } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Sponsors() {
   return (
-    <div className="space-y-section">
+    <div className="space-y-page">
       <TitleSection
         title={
           <>
@@ -71,7 +71,7 @@ export default function Sponsors() {
             viewport={{ once: true }}
           >
             <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <Heart className="w-6 h-6 text-blue-600" />
+              <Icons.heart className="size-6 text-primary" />
               Foundation Partnerships
             </h2>
             <p className="text-gray-700 mb-4">
@@ -82,14 +82,14 @@ export default function Sponsors() {
             </p>
 
             <Link
-              href="/get-involved"
+              href={ROUTES.SPONSORS}
               className={buttonVariants({
                 variant: 'outline',
                 className: 'group',
               })}
             >
               Learn More
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <Icons.arrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
           <motion.div
@@ -98,7 +98,7 @@ export default function Sponsors() {
             viewport={{ once: true }}
           >
             <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <Gift className="w-6 h-6 text-blue-600" />
+              <Icons.gift className="size-6 text-primary" />
               In-Kind Donations
             </h2>
             <p className="text-gray-700 mb-4">
@@ -107,14 +107,14 @@ export default function Sponsors() {
               company&apos;s expertise can help us extend our reach and impact.
             </p>
             <Link
-              href="/donate"
+              href={ROUTES.DONATE}
               className={buttonVariants({
                 variant: 'outline',
                 className: 'group',
               })}
             >
               Donate
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <Icons.arrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
         </div>
@@ -139,7 +139,7 @@ export default function Sponsors() {
             organization&apos;s values and goals.
           </p>
           <Link
-            href={ROUTES.SPONSORS}
+            href={ROUTES.GET_INVOLVED}
             className={buttonVariants({ size: 'lg' })}
           >
             Start the Conversation
