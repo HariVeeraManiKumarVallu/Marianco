@@ -181,8 +181,8 @@ export default function Home() {
 
               <Button asChild variant={'link'} className="">
                 <Link href={ROUTES.ABOUT} className="mt-12 group">
-                  Learn more about our work{' '}
-                  <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                  Learn more about our work
+                  <Icons.arrowRight className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
             </motion.div>

@@ -41,7 +41,7 @@ export function JoinForm() {
   }
 
   return (
-    <Card className="p-6 md:p-8">
+    <Card className="p-6 md:p-8 hover:border-brand-blue-500/30">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
@@ -140,10 +140,14 @@ export function JoinForm() {
               </FormItem>
             )}
           />
-
-          <Button type="submit">
-            <Send className="w-4 h-4 mr-2" /> Submit Application
-          </Button>
+          <div>
+            <Button
+              type="submit"
+              className="w-full lg:flex lg:w-auto lg:mx-auto"
+            >
+              <Send className="size-4" /> Submit Application
+            </Button>
+          </div>
         </form>
       </Form>
     </Card>
