@@ -101,6 +101,9 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      gradient: {
+        'main': 'bg-gradient-to-b from-brand-white to-brand-blue-900/20',
+      },
     },
   },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],

@@ -82,6 +82,10 @@ body {
     @apply bg-background text-foreground;
   }
 
+  .gradient-main {
+    @apply bg-gradient-to-b from-brand-white to-brand-blue-900/20;
+  }
+
   h1 {
     @apply scroll-m-20 text-6xl font-extrabold tracking-tight md:text-[5rem];
   }

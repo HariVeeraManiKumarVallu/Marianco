@@ -58,7 +58,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section className="bg-gradient-to-b from-brand-white to-brand-blue-900/20 pb-section space-y-20">
+      <section className="gradient-main  pb-section space-y-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -190,7 +190,7 @@ export default function Home() {
         </article>
       </section>
       {/* Stats Section */}
-      <section className="p-section bg-gradient-to-b">
+      <section className="p-section ">
         <div className="container  ">
           <h2 className=" text-center mb-4">
             A World in Peril
@@ -247,7 +247,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="p-section bg-gradient-to-b from-brand-white to-brand-blue-900/20">
+      <section className="p-section gradient-main">
         <div className="container">
           <h2>How You Can Help Us</h2>
           <p className="text-muted-foreground mb-12">
