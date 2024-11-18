@@ -27,6 +27,9 @@ export default function TitleSection({
         src={image.url}
         alt={image.altText}
         fill
+        sizes="100vw"
+        priority
+        quality={85}
         className="object-cover"
       />
       <div className="absolute inset-0 bg-black/50" />

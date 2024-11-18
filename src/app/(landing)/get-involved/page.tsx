@@ -1,4 +1,4 @@
-import { JoinForm } from '@/components/forms/join-form'
+import { GetInvolvedForm } from '@/components/forms/get-involved-form'
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
 import { buttonVariants } from '@/components/ui/button'
@@ -25,7 +25,7 @@ export default function Page() {
               your support makes a difference.
             </p>
           </div>
-          <JoinForm />
+          <GetInvolvedForm />
         </div>
       </section>
 

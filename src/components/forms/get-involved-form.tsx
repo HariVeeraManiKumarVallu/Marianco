@@ -1,5 +1,6 @@
 'use client'
 
+import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import {
@@ -19,25 +20,61 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { JoinFormData, joinFormSchema } from '@/lib/schemas/form-schemas'
+import { useToast } from '@/hooks/use-toast'
+import {
+  GetInvolvedFormData,
+  getInvolvedFormSchema,
+} from '@/lib/schemas/get-involved-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Send } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
-export function JoinForm() {
-  const form = useForm<JoinFormData>({
-    resolver: zodResolver(joinFormSchema),
+const options = [
+  { value: 'volunteer', label: 'Volunteer' },
+  { value: 'partner', label: 'Partner with Us' },
+  { value: 'donate', label: 'Make a Donation' },
+  { value: 'advocate', label: 'Become an Advocate' },
+] as const
+
+export function GetInvolvedForm() {
+  const { toast } = useToast()
+  const form = useForm<GetInvolvedFormData>({
+    resolver: zodResolver(getInvolvedFormSchema),
     defaultValues: {
       name: '',
       email: '',
       phone: '',
+      option: 'volunteer',
       message: '',
     },
   })
 
-  const onSubmit = (data: JoinFormData) => {
-    console.log(data)
-    // Handle form submission
+  async function onSubmit(data: GetInvolvedFormData) {
+    try {
+      const response = await fetch('/api/get-involved', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send request')
+      }
+
+      toast({
+        title: 'Request sent!',
+        description: "Thank you for your interest. We'll be in touch soon.",
+      })
+
+      form.reset()
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to send request. Please try again later.',
+        variant: 'destructive',
+      })
+    }
   }
 
   return (
@@ -81,7 +118,7 @@ export function JoinForm() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel>Phone Number (Optional)</FormLabel>
                 <FormControl>
                   <Input
                     type="tel"
@@ -96,7 +133,7 @@ export function JoinForm() {
 
           <FormField
             control={form.control}
-            name="role"
+            name="option"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>How would you like to help?</FormLabel>
@@ -106,16 +143,15 @@ export function JoinForm() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select your role" />
+                      <SelectValue placeholder="Select an option" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="volunteer">Volunteer</SelectItem>
-                    <SelectItem value="sponsor">Sponsor</SelectItem>
-                    <SelectItem value="advocate">Advocate</SelectItem>
-                    <SelectItem value="professional">
-                      Professional Services
-                    </SelectItem>
+                    {options.map(option => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -128,11 +164,11 @@ export function JoinForm() {
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Message (Optional)</FormLabel>
+                <FormLabel>Message</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Tell us about your interests and how you'd like to contribute"
-                    className="h-32"
+                    placeholder="Tell us more about how you'd like to get involved..."
+                    className="min-h-[120px]"
                     {...field}
                   />
                 </FormControl>
@@ -140,12 +176,13 @@ export function JoinForm() {
               </FormItem>
             )}
           />
-          <div>
+          <div className="flex justify-center items-center">
             <Button
               type="submit"
-              className="w-full lg:flex lg:w-auto lg:mx-auto"
+              size="lg"
+              className="w-full lg:w-auto lg:mx-auto"
             >
-              <Send className="size-4" /> Submit Application
+              Submit <Icons.send />
             </Button>
           </div>
         </form>
