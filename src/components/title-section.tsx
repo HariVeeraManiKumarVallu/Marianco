@@ -38,9 +38,9 @@ export default function TitleSection({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative container h-full"
+        className="relative container h-full "
       >
-        <div className="h-full flex flex-col justify-center items-start text-primary-foreground space-y-2">
+        <div className="h-full flex flex-col justify-center items-start text-primary-foreground gap-2">
           <h1 className="">{title}</h1>
           <p className="max-w-prose">{description}</p>
           {children}
