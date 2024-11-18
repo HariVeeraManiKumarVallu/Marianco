@@ -101,7 +101,7 @@ export default function DonationOptionsCards() {
     <article className="w-full ">
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {/* One-time Donation */}
-        <Card className="flex flex-col h-full   transition-colors">
+        <Card className="flex flex-col h-full hover:border-brand-blue-500   transition-colors">
           <CardHeader>
             <CardTitle className="text-xl">
               {donationsConfig.oneTime.title}
@@ -162,7 +162,7 @@ export default function DonationOptionsCards() {
         </Card>
 
         {/* Monthly Giving */}
-        <Card className="flex flex-col">
+        <Card className="flex flex-col h-full hover:border-brand-blue-500   transition-colors">
           <CardHeader>
             <CardTitle className="text-xl">
               {donationsConfig.monthly.title}
@@ -197,7 +197,7 @@ export default function DonationOptionsCards() {
         </Card>
 
         {/* Sponsor a Person */}
-        <Card className="flex flex-col">
+        <Card className="flex flex-col hover:border-brand-blue-500   transition-colors">
           <CardHeader>
             <CardTitle className="text-xl ">
               {donationsConfig.sponsorship.title}
@@ -237,7 +237,7 @@ export default function DonationOptionsCards() {
         </Card>
 
         {/* Fund a Project */}
-        <Card className="flex flex-col">
+        <Card className="flex flex-col hover:border-brand-blue-500   transition-colors">
           <CardHeader>
             <CardTitle className="text-xl ">
               {donationsConfig.project.title}

@@ -83,7 +83,7 @@ export default function Page() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Card className="p-8 border-brand-blue-300 hover:border-brand-blue-300">
+              <Card className="p-8 ">
                 <ContactForm />
               </Card>
             </motion.div>
@@ -101,7 +101,7 @@ export default function Page() {
             className="max-w-3xl mx-auto"
           >
             <h2 className="mb-8 text-center">Frequently Asked Questions</h2>
-            <Card className="p-6 border-brand-blue-300 hover:border-brand-blue-300">
+            <Card className="p-6 ">
               <Accordion type="single" collapsible className="w-full">
                 {FAQ.map((faq, index) => (
                   <AccordionItem key={index} value={`item-${index}`}>

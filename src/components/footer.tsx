@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-brand-blue-300 bg-brand-blue-100/95 backdrop-blur supports-[backdrop-filter]:bg-brand-blue-900/10">
       <div className="container py-12">
-        <div className="grid gap-8 grid-cols-[repeat(auto-fit,minmax(140px,1fr))]">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           <div className="space-y-4 text-pretty col-span-full xl:col-span-1">
             <div className="relative">
               <Image
@@ -16,11 +16,8 @@ export default function Footer() {
                 alt="Marianco logo"
               />
             </div>
-            <p className="text-sm font-medium leading-none text-muted-foreground ">
-              Fighting to end child trafficking and protect vulnerable children
-              worldwide.
-            </p>
-            <div className="flex gap-4">
+
+            <div className="flex gap-4 px-4">
               {SOCIAL_LINKS.map(social => (
                 <a
                   key={social.label}

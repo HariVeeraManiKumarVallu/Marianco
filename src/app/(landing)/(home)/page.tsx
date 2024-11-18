@@ -161,7 +161,7 @@ export default function Home() {
                     viewport={{ once: true }}
                     className="text-center"
                   >
-                    <Card className="h-full border-brand-blue-300  transition-colors   ">
+                    <Card className="h-full border-brand-blue-500  transition-colors   ">
                       <CardHeader>
                         <div className="size-16 bg-brand-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
                           <item.icon className="size-8 text-brand-blue-100" />
