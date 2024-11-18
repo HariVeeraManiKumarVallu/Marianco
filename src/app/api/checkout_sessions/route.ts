@@ -8,19 +8,53 @@ import { ZodError } from 'zod'
 export async function POST(req: Request) {
   try {
     const reqHeaders = await headers()
-    const { type, value }: { type: DonationType; value: string } =
-      await req.json()
+    const {
+      type,
+      value,
+      priceId,
+      currency,
+      tierName,
+    }: {
+      type: DonationType | 'sponsorship'
+      value?: string
+      priceId?: string
+      currency?: string
+      tierName?: string
+    } = await req.json()
 
-    const validatedAmount = donationsConfig[type].schema.parse(value)
+    if (type === 'sponsorship' && priceId) {
+      const session = await stripe.checkout.sessions.create({
+        line_items: [
+          {
+            price: priceId,
+            quantity: 1,
+          },
+        ],
+        mode: 'subscription' as Stripe.Checkout.SessionCreateParams.Mode,
+        currency: currency as string,
+        metadata: {
+          tierName: tierName || null,
+        },
+        success_url: `${reqHeaders.get(
+          'origin'
+        )}/sponsors/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${reqHeaders.get('origin')}/sponsors?canceled=true`,
+      } satisfies Stripe.Checkout.SessionCreateParams)
+
+      return NextResponse.json({ sessionId: session.id })
+    }
+
+    const validatedAmount =
+      donationsConfig[type as DonationType].schema.parse(value)
     const paymentMode =
-      type === 'monthly' || type === 'sponsorship' ? 'subscription' : 'payment'
+      type === 'monthly' || type === 'sponsor' ? 'subscription' : 'payment'
     function createLineItem() {
       const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
         price_data: {
           currency: 'USD',
           product_data: {
             name: type,
-            description: donationsConfig[type].description,
+            description: donationsConfig[type as DonationType].description,
           },
           unit_amount: Number(validatedAmount) * 100,
         },
@@ -39,13 +73,13 @@ export async function POST(req: Request) {
 
     const session = await stripe.checkout.sessions.create({
       line_items: [createLineItem()],
-      mode: paymentMode,
+      mode: paymentMode as Stripe.Checkout.SessionCreateParams.Mode,
 
       success_url: `${reqHeaders.get(
         'origin'
       )}/donations/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${reqHeaders.get('origin')}/donations?canceled=true`,
-    })
+    } satisfies Stripe.Checkout.SessionCreateParams)
 
     return NextResponse.json({ sessionId: session.id })
   } catch (error) {

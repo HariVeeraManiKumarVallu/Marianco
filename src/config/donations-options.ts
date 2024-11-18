@@ -20,7 +20,7 @@ export const donationsConfig = {
       'Become a sustaining donor, contributing each month to ensure our programs remain strong and consistent.',
     buttonText: 'Subscribe Monthly',
   },
-  sponsorship: {
+  sponsor: {
     schema: z.enum(['50', '100', '200'], {
       errorMap: () => ({ message: 'Please select a sponsorship level' }),
     }),

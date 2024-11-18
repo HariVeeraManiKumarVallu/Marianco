@@ -6,7 +6,50 @@ export const formattedDate = (date: Date) => {
   })
 }
 
-export const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-})
+export const formatters = {
+  USD: new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }),
+  EUR: new Intl.NumberFormat('en-EU', {
+    style: 'currency',
+    currency: 'EUR',
+  }),
+  SEK: new Intl.NumberFormat('sv-SE', {
+    style: 'currency',
+    currency: 'SEK',
+  }),
+}
+
+// Get user's currency based on location
+export const getUserCurrency = () => {
+  // Get user's country from browser
+  const userLanguage = navigator.language;
+  const userCountry = userLanguage.split('-')[1]?.toUpperCase();
+
+  if (userCountry === 'SE') return 'SEK';
+  if (['DE', 'FR', 'IT', 'ES', 'NL'].includes(userCountry)) return 'EUR';
+  return 'USD';
+}
+
+// Format amount with specified currency
+export function formatAmount(amount: number, currency: string, options?: { hideDecimals?: boolean }) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: options?.hideDecimals ? 0 : 2,
+    maximumFractionDigits: options?.hideDecimals ? 0 : 2,
+  }).format(amount)
+}
+
+export function formatNumber(num: number) {
+  return new Intl.NumberFormat('en-US').format(num)
+}
+
+export function formatDate(date: Date) {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date)
+}

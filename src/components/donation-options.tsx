@@ -19,11 +19,10 @@ import {
 } from '@/components/ui/select'
 import { donationsConfig, DonationType } from '@/config/donations-options'
 import { cn } from '@/lib/utils'
-import getStripe from '@/services/load-stripe'
 import { useEffect, useState } from 'react'
 import { Label } from './ui/label'
+import { handleStripeCheckoutSession } from '@/lib/requests'
 
-const stripePromise = getStripe()
 const initialErrorState = {
   oneTime: '',
   monthly: '',
@@ -71,30 +70,10 @@ export default function DonationOptionsCards() {
       return
     }
 
-    try {
-      const stripe = await stripePromise
-      const response = await fetch('/api/checkout_sessions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ type, value: validatedValue.data }),
-      })
-
-      if (!stripe) throw new Error('Stripe failed to initialize.')
-
-      const { sessionId } = await response.json()
-      const stripeError = await stripe.redirectToCheckout({ sessionId })
-      console.log({ sessionId, stripeError })
-
-      if (stripeError) {
-        console.error(stripeError)
-      }
-    } catch (error) {
-      // setIsLoading(false)
-
-      console.error(error)
-    }
+    handleStripeCheckoutSession({
+      type,
+      value: validatedValue.data,
+    })
   }
 
   return (
@@ -200,10 +179,10 @@ export default function DonationOptionsCards() {
         <Card className="flex flex-col hover:border-brand-blue-500   transition-colors">
           <CardHeader>
             <CardTitle className="text-xl ">
-              {donationsConfig.sponsorship.title}
+              {donationsConfig.sponsor.title}
             </CardTitle>
             <CardDescription className="h-12">
-              {donationsConfig.sponsorship.description}
+              {donationsConfig.sponsor.description}
             </CardDescription>
           </CardHeader>
           <CardContent className="mt-auto">
@@ -214,7 +193,7 @@ export default function DonationOptionsCards() {
                   <SelectValue placeholder="Select a sponsorship level" />
                 </SelectTrigger>
                 <SelectContent>
-                  {donationsConfig.sponsorship.sponsorshipTiers.map(tier => (
+                  {donationsConfig.sponsor.sponsorshipTiers.map(tier => (
                     <SelectItem key={tier.value} value={tier.value}>
                       {tier.label}
                     </SelectItem>
@@ -229,9 +208,9 @@ export default function DonationOptionsCards() {
           <CardFooter>
             <Button
               className="w-full"
-              onClick={() => handleCheckout('sponsorship', selectedSponsorship)}
+              onClick={() => handleCheckout('sponsor', selectedSponsorship)}
             >
-              {donationsConfig.sponsorship.buttonText}
+              {donationsConfig.sponsor.buttonText}
             </Button>
           </CardFooter>
         </Card>

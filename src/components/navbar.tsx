@@ -15,7 +15,7 @@ import { Button } from './ui/button'
 export default function Navbar() {
   return (
     <header>
-      <nav className="fixed lg:relative w-full top-0 z-50 bg-background">
+      <nav className="fixed lg:relative w-full top-0 z-50 bg-background border-b border-gray-200">
         <div className="h-20 container flex items-center justify-between">
           <Link href={ROUTES.HOME}>
             <Image
