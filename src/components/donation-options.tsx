@@ -39,6 +39,14 @@ export default function DonationOptionsCards() {
   const [selectedSponsorship, setSelectedSponsorship] = useState('')
   const [selectedProject, setSelectedProject] = useState('')
   const [currency, setCurrency] = useState<AvailableCurrency>('EUR')
+  const [loadingStates, setLoadingStates] = useState<
+    Record<DonationType, boolean>
+  >({
+    oneTime: false,
+    monthly: false,
+    sponsor: false,
+    project: false,
+  })
 
   const [errors, setErrors] = useState(initialErrorState)
 
@@ -73,11 +81,16 @@ export default function DonationOptionsCards() {
       return
     }
 
-    handleStripeCheckoutSession({
-      type,
-      value: validatedValue.data,
-      currency,
-    })
+    setLoadingStates(prev => ({ ...prev, [type]: true }))
+    try {
+      await handleStripeCheckoutSession({
+        type,
+        value: validatedValue.data,
+        currency,
+      })
+    } finally {
+      setLoadingStates(prev => ({ ...prev, [type]: false }))
+    }
   }
 
   return (
@@ -119,7 +132,9 @@ export default function DonationOptionsCards() {
                   )}
                 >
                   <div>
-                    <span className="mr-px">{donationsConfig.oneTime.amounts[currency].symbol}</span>
+                    <span className="mr-px">
+                      {donationsConfig.oneTime.amounts[currency].symbol}
+                    </span>
                     <span>{amount}</span>
                   </div>
                 </Button>
@@ -148,8 +163,11 @@ export default function DonationOptionsCards() {
               onClick={() =>
                 handleCheckout('oneTime', oneTimeAmount || customAmountInput)
               }
+              disabled={Object.values(loadingStates).some(Boolean)}
             >
-              {donationsConfig.oneTime.buttonText}
+              {loadingStates.oneTime
+                ? 'Processing...'
+                : donationsConfig.oneTime.buttonText}
             </Button>
           </CardFooter>
         </Card>
@@ -183,8 +201,11 @@ export default function DonationOptionsCards() {
             <Button
               className="w-full"
               onClick={() => handleCheckout('monthly', monthlyAmount)}
+              disabled={Object.values(loadingStates).some(Boolean)}
             >
-              {donationsConfig.monthly.buttonText}
+              {loadingStates.monthly
+                ? 'Processing...'
+                : donationsConfig.monthly.buttonText}
             </Button>
           </CardFooter>
         </Card>
@@ -228,8 +249,11 @@ export default function DonationOptionsCards() {
             <Button
               className="w-full"
               onClick={() => handleCheckout('sponsor', selectedSponsorship)}
+              disabled={Object.values(loadingStates).some(Boolean)}
             >
-              {donationsConfig.sponsor.buttonText}
+              {loadingStates.sponsor
+                ? 'Processing...'
+                : donationsConfig.sponsor.buttonText}
             </Button>
           </CardFooter>
         </Card>
@@ -271,8 +295,11 @@ export default function DonationOptionsCards() {
             <Button
               className="w-full"
               onClick={() => handleCheckout('project', selectedProject)}
+              disabled={Object.values(loadingStates).some(Boolean)}
             >
-              {donationsConfig.project.buttonText}
+              {loadingStates.project
+                ? 'Processing...'
+                : donationsConfig.project.buttonText}
             </Button>
           </CardFooter>
         </Card>

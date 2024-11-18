@@ -53,7 +53,7 @@ export default function Navbar() {
               <SheetClose asChild>
                 <Link href={ROUTES.HOME}>
                   <Image
-                    src="/marianco logo-p-500.jpg"
+                    src="/logo.png"
                     width={178}
                     height={100}
                     alt="logo"

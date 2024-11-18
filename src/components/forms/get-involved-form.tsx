@@ -181,8 +181,9 @@ export function GetInvolvedForm() {
               type="submit"
               size="lg"
               className="w-full lg:w-auto lg:mx-auto"
+              disabled={form.formState.isSubmitting}
             >
-              Submit <Icons.send />
+              {form.formState.isSubmitting ? 'Submitting...' : 'Submit'} <Icons.send />
             </Button>
           </div>
         </form>

@@ -12,6 +12,13 @@ export default function SponsorshipTiersSection({
   prices: Stripe.Price[]
 }) {
   const [currency, setCurrency] = useState<AvailableCurrency>('EUR')
+  const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>(
+    Object.fromEntries(prices.map(tier => [tier.id, false]))
+  )
+
+  const setTierLoading = (tierId: string, loading: boolean) => {
+    setLoadingStates(prev => ({ ...prev, [tierId]: loading }))
+  }
 
   return (
     <section className="bg-beige py-section">
@@ -28,6 +35,9 @@ export default function SponsorshipTiersSection({
                 key={tier.id}
                 sponsorshipTier={tier}
                 currency={currency}
+                isLoading={loadingStates[tier.id]}
+                isAnyLoading={Object.values(loadingStates).some(Boolean)}
+                setLoading={(loading: boolean) => setTierLoading(tier.id, loading)}
               />
             ))}
         </div>

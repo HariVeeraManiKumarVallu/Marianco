@@ -58,7 +58,7 @@ export async function POST(req: Request) {
         price_data: {
           currency,
           product_data: {
-            name: type,
+            name: donationsConfig[type as DonationType].title,
             description: donationsConfig[type as DonationType].description,
           },
           unit_amount: Number(validatedAmount) * 100,

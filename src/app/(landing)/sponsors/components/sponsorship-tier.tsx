@@ -9,15 +9,22 @@ import { formatAmount } from '@/lib/formatters'
 import { handleStripeCheckoutSession } from '@/lib/requests'
 import { motion } from 'framer-motion'
 import Stripe from 'stripe'
+import { useState } from 'react'
 
 interface SponsorshipTierProps {
   sponsorshipTier: Stripe.Price
   currency: AvailableCurrency
+  isLoading: boolean
+  isAnyLoading: boolean
+  setLoading: (loading: boolean) => void
 }
 
 export default function SponsorshipTier({
   sponsorshipTier,
   currency,
+  isLoading,
+  isAnyLoading,
+  setLoading,
 }: SponsorshipTierProps) {
   const currencyOptions = sponsorshipTier.currency_options || {}
   const tierDetails = SPONSORSHIP_TIERS.find(
@@ -36,12 +43,17 @@ export default function SponsorshipTier({
   }
 
   const handleSelectPlan = async () => {
-    await handleStripeCheckoutSession({
-      type: 'sponsorship',
-      priceId: sponsorshipTier.id,
-      currency,
-      tierName: sponsorshipTier.nickname,
-    })
+    setLoading(true)
+    try {
+      await handleStripeCheckoutSession({
+        type: 'sponsorship',
+        priceId: sponsorshipTier.id,
+        currency,
+        tierName: sponsorshipTier.nickname,
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -84,8 +96,13 @@ export default function SponsorshipTier({
           </ul>
         </CardContent>
         <div className="p-6 pt-0">
-          <Button className="w-full" size="lg" onClick={handleSelectPlan}>
-            Select Plan
+          <Button 
+            className="w-full" 
+            size="lg" 
+            onClick={handleSelectPlan} 
+            disabled={isAnyLoading}
+          >
+            {isLoading ? 'Processing...' : 'Select Plan'}
           </Button>
         </div>
       </Card>
