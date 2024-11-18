@@ -1,5 +1,6 @@
 import { buttonVariants } from '@/components/ui/button'
 import { ROUTES } from '@/config/routes'
+import { formatAmount } from '@/lib/formatters'
 import stripe from '@/services/stripe'
 import Link from 'next/link'
 
@@ -9,12 +10,9 @@ export default async function Page({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const { session_id } = await searchParams
-  const session = await stripe.checkout.sessions.retrieve(
-    session_id as string,
-    {
-      expand: ['line_items'],
-    }
-  )
+  const session = await stripe.checkout.sessions.retrieve(session_id as string, {
+    expand: ['line_items'],
+  })
   const customer = {
     name: session.customer_details?.name,
     email: session.customer_details?.email,
@@ -36,7 +34,7 @@ export default async function Page({
 
   const lineItem = session.line_items?.data[0]
   const amount = lineItem?.amount_total ? lineItem.amount_total / 100 : 0
-  const currency = lineItem?.currency?.toUpperCase()
+  const currency = lineItem?.currency?.toUpperCase() as 'USD' | 'EUR' | 'SEK'
   const isRecurring = session.mode === 'subscription'
 
   return (
@@ -51,22 +49,30 @@ export default async function Page({
               {isRecurring ? 'Monthly' : 'One-time'} Donation
             </p>
             <p className="text-3xl font-bold text-brand-blue-900 mt-2">
-              {currency} {amount}
+              {formatAmount(amount, currency)}
             </p>
             {isRecurring && (
               <p className="text-sm text-gray-600 mt-1">per month</p>
             )}
           </div>
           <p className="text-gray-600">
-            We&apos;ll send a confirmation email to {customer.email}
+            We&apos;ll send a confirmation email to{' '}
+            <span className="font-medium">{customer.email}</span>
           </p>
         </div>
-        <Link
-          href={ROUTES.HOME}
-          className={buttonVariants({ className: 'w-full' })}
-        >
-          Back to Home
-        </Link>
+        <div className="space-y-4">
+          <Link
+            href={ROUTES.HOME}
+            className={buttonVariants({ className: 'w-full' })}
+          >
+            Back to Home
+          </Link>
+          {isRecurring && (
+            <p className="text-sm text-gray-500 text-center">
+              You can manage your subscription from the email we sent you
+            </p>
+          )}
+        </div>
       </div>
     </section>
   )
