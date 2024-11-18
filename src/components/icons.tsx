@@ -1,5 +1,4 @@
 import { LucideProps } from 'lucide-react'
-import { send } from 'process'
 
 export const Icons = {
   handHeart: (props: LucideProps) => (

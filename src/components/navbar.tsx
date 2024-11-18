@@ -1,5 +1,6 @@
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetTitle,
   SheetTrigger,
@@ -49,28 +50,34 @@ export default function Navbar() {
               <VisuallyHidden.Root>
                 <SheetTitle>Mobile Navigation</SheetTitle>
               </VisuallyHidden.Root>
-              <Link href={ROUTES.HOME}>
-                <Image
-                  src="/marianco logo-p-500.jpg"
-                  width={178}
-                  height={100}
-                  alt="logo"
-                  className="py-2"
-                />
-              </Link>
+              <SheetClose asChild>
+                <Link href={ROUTES.HOME}>
+                  <Image
+                    src="/marianco logo-p-500.jpg"
+                    width={178}
+                    height={100}
+                    alt="logo"
+                    className="py-2"
+                  />
+                </Link>
+              </SheetClose>
               <ul className="space-y-8 mt-8">
                 {NAV_LINKS.map(link => (
                   <li key={link.href}>
-                    <Link href={link.href}>{link.title}</Link>
+                    <SheetClose asChild>
+                      <Link href={link.href}>{link.title}</Link>
+                    </SheetClose>
                   </li>
                 ))}
                 <li>
-                  <Button asChild className="w-full">
-                    <Link href={ROUTES.DONATE}>
-                      <Icons.handHeart />
-                      Donate
-                    </Link>
-                  </Button>
+                  <SheetClose asChild>
+                    <Button asChild className="w-full">
+                      <Link href={ROUTES.DONATE}>
+                        <Icons.handHeart />
+                        Donate
+                      </Link>
+                    </Button>
+                  </SheetClose>
                 </li>
               </ul>
             </SheetContent>
