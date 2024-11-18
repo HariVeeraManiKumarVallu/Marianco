@@ -1,4 +1,5 @@
 import { buttonVariants } from '@/components/ui/button'
+import { ROUTES } from '@/config/routes'
 import stripe from '@/services/stripe'
 import Link from 'next/link'
 
@@ -18,7 +19,10 @@ export default async function Page({
     return (
       <>
         <h1>Something went wrong</h1>
-        <Link href={'/'} className={buttonVariants({ className: 'w-full' })}>
+        <Link
+          href={ROUTES.HOME}
+          className={buttonVariants({ className: 'w-full' })}
+        >
           Back to Home
         </Link>
       </>
@@ -35,7 +39,10 @@ export default async function Page({
             We&apos;ll send a confirmation email to {customer.email}
           </p>
         </div>
-        <Link href={'/'} className={buttonVariants({ className: 'w-full' })}>
+        <Link
+          href={ROUTES.HOME}
+          className={buttonVariants({ className: 'w-full' })}
+        >
           Back to Home
         </Link>
       </div>

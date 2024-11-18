@@ -1,10 +1,11 @@
+import { ROUTES } from '@/config/routes'
 import { SOCIAL_LINKS } from '@/config/social-links'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="border-t border-brand-blue-300 bg-brand-blue-100/95 backdrop-blur supports-[backdrop-filter]:bg-brand-blue-900/10">
+    <footer className="border-t border-brand-blue-300 bg-brand-blue-900-10 backdrop-blur supports-[backdrop-filter]:bg-brand-blue-900/10">
       <div className="container py-12">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           <div className="space-y-4 text-pretty col-span-full xl:col-span-1">
@@ -38,19 +39,19 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               {[
                 {
-                  href: '/about',
+                  href: ROUTES.ABOUT,
                   label: 'About Us',
                 },
                 {
-                  href: '/projects',
+                  href: ROUTES.PROJECTS,
                   label: 'Projects',
                 },
                 {
-                  href: '/events',
+                  href: ROUTES.EVENTS,
                   label: 'Events',
                 },
                 {
-                  href: '/donate',
+                  href: ROUTES.DONATE,
                   label: 'Donate',
                 },
               ].map(link => (
@@ -68,19 +69,19 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               {[
                 {
-                  href: '/volunteer',
+                  href: ROUTES.GET_INVOLVED,
                   label: 'Volunteer',
                 },
                 {
-                  href: '/membership',
+                  href: ROUTES.GET_INVOLVED,
                   label: 'Become a Member',
                 },
                 {
-                  href: '/sponsors-and-partners',
+                  href: ROUTES.SPONSORS,
                   label: 'Partnerships',
                 },
-              ].map(link => (
-                <li key={link.href}>
+              ].map((link, i) => (
+                <li key={link.href + i}>
                   <Link href={link.href} className="hover:text-foreground">
                     {link.label}
                   </Link>
@@ -93,11 +94,11 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               {[
                 {
-                  href: '/terms-and-conditions',
+                  href: ROUTES.TERMS_AND_CONDITIONS,
                   label: 'Terms & Conditions',
                 },
                 {
-                  href: '/privacy-policy',
+                  href: ROUTES.PRIVACY_POLICY,
                   label: 'Privacy Policy',
                 },
               ].map(link => (

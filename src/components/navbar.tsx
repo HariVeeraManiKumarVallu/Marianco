@@ -17,7 +17,7 @@ export default function Navbar() {
     <header>
       <nav className="fixed lg:relative w-full top-0 z-50 bg-background">
         <div className="h-20 container flex items-center justify-between">
-          <Link href={'/'}>
+          <Link href={ROUTES.HOME}>
             <Image
               src="/logo.png"
               width={178}
@@ -49,7 +49,7 @@ export default function Navbar() {
               <VisuallyHidden.Root>
                 <SheetTitle>Mobile Navigation</SheetTitle>
               </VisuallyHidden.Root>
-              <Link href={'/'}>
+              <Link href={ROUTES.HOME}>
                 <Image
                   src="/marianco logo-p-500.jpg"
                   width={178}
@@ -66,7 +66,7 @@ export default function Navbar() {
                 ))}
                 <li>
                   <Button asChild className="w-full">
-                    <Link href={'/donations'}>
+                    <Link href={ROUTES.DONATE}>
                       <Icons.handHeart />
                       Donate
                     </Link>

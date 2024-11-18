@@ -3,7 +3,7 @@ import { Icons } from '@/components/icons'
 export const SOCIAL_LINKS = [
   {
     icon: Icons.facebook,
-    href: 'https://web.facebook.com/mariancoorg/about/',
+    href: 'https://www.facebook.com/mariancoorg',
     label: 'Facebook',
   },
   {

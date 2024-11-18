@@ -2,6 +2,7 @@ import { JoinForm } from '@/components/forms/join-form'
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
 import { buttonVariants } from '@/components/ui/button'
+import { ROUTES } from '@/config/routes'
 import Link from 'next/link'
 
 export default function Page() {
@@ -46,7 +47,7 @@ export default function Page() {
               Learn More
               <Icons.arrowRight className="group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link href="/donations" className={buttonVariants()}>
+            <Link href={ROUTES.DONATE} className={buttonVariants()}>
               Donate Now
             </Link>
           </div>
