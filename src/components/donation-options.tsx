@@ -1,5 +1,6 @@
 'use client'
 
+import CurrencySelector from '@/components/currency-selector'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -17,11 +18,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { AvailableCurrency } from '@/config/currencies'
 import { donationsConfig, DonationType } from '@/config/donations-options'
+import { handleStripeCheckoutSession } from '@/lib/requests'
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 import { Label } from './ui/label'
-import { handleStripeCheckoutSession } from '@/lib/requests'
 
 const initialErrorState = {
   oneTime: '',
@@ -36,6 +38,7 @@ export default function DonationOptionsCards() {
   const [monthlyAmount, setMonthlyAmount] = useState('')
   const [selectedSponsorship, setSelectedSponsorship] = useState('')
   const [selectedProject, setSelectedProject] = useState('')
+  const [currency, setCurrency] = useState<AvailableCurrency>('EUR')
 
   const [errors, setErrors] = useState(initialErrorState)
 
@@ -73,14 +76,18 @@ export default function DonationOptionsCards() {
     handleStripeCheckoutSession({
       type,
       value: validatedValue.data,
+      currency,
     })
   }
 
   return (
-    <article className="w-full ">
+    <article className="w-full">
+      <div className="flex justify-end mb-6">
+        <CurrencySelector onCurrencyChange={setCurrency} />
+      </div>
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {/* One-time Donation */}
-        <Card className="flex flex-col h-full hover:border-brand-blue-500   transition-colors">
+        <Card className="flex flex-col h-full hover:border-brand-blue-500 transition-colors">
           <CardHeader>
             <CardTitle className="text-xl">
               {donationsConfig.oneTime.title}
@@ -90,24 +97,31 @@ export default function DonationOptionsCards() {
             </CardDescription>
           </CardHeader>
           <CardContent className="mt-auto">
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              {donationsConfig.oneTime.predefinedAmounts.map(amount => (
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              {donationsConfig.oneTime.amounts[currency].amounts.map(amount => (
                 <Button
                   key={amount}
-                  variant={oneTimeAmount === amount ? 'default' : 'outline'}
+                  variant={
+                    oneTimeAmount === amount.toString() ? 'default' : 'outline'
+                  }
                   onClick={() => {
-                    setOneTimeAmount(amount)
+                    setOneTimeAmount(amount.toString())
                     if (customAmountInput) setCustomAmountInput('')
                   }}
                   className={cn(
                     {
-                      'hover:bg-brand-blue-900': oneTimeAmount === amount,
-                      'hover:bg-brand-blue-300/30': oneTimeAmount !== amount,
+                      'hover:bg-brand-blue-900':
+                        oneTimeAmount === amount.toString(),
+                      'hover:bg-brand-blue-300/30':
+                        oneTimeAmount !== amount.toString(),
                     },
-                    'w-full text-base border-brand-blue-300/50 '
+                    'w-full text-base border-brand-blue-300/50'
                   )}
                 >
-                  ${amount}
+                  <div>
+                    <span className="mr-px">{donationsConfig.oneTime.amounts[currency].symbol}</span>
+                    <span>{amount}</span>
+                  </div>
                 </Button>
               ))}
             </div>
@@ -141,12 +155,12 @@ export default function DonationOptionsCards() {
         </Card>
 
         {/* Monthly Giving */}
-        <Card className="flex flex-col h-full hover:border-brand-blue-500   transition-colors">
+        <Card className="flex flex-col h-full hover:border-brand-blue-500 transition-colors">
           <CardHeader>
             <CardTitle className="text-xl">
               {donationsConfig.monthly.title}
             </CardTitle>
-            <CardDescription className="h-12">
+            <CardDescription>
               {donationsConfig.monthly.description}
             </CardDescription>
           </CardHeader>
@@ -175,29 +189,34 @@ export default function DonationOptionsCards() {
           </CardFooter>
         </Card>
 
-        {/* Sponsor a Person */}
-        <Card className="flex flex-col hover:border-brand-blue-500   transition-colors">
+        {/* Sponsorship */}
+        <Card className="flex flex-col h-full hover:border-brand-blue-500 transition-colors">
           <CardHeader>
-            <CardTitle className="text-xl ">
+            <CardTitle className="text-xl">
               {donationsConfig.sponsor.title}
             </CardTitle>
-            <CardDescription className="h-12">
+            <CardDescription>
               {donationsConfig.sponsor.description}
             </CardDescription>
           </CardHeader>
           <CardContent className="mt-auto">
             <div className="space-y-2">
-              <Label htmlFor="sponsorship-level">Sponsorship Level</Label>
-              <Select onValueChange={value => setSelectedSponsorship(value)}>
-                <SelectTrigger id="sponsorship-level">
+              <Label>Sponsorship Level</Label>
+              <Select
+                value={selectedSponsorship}
+                onValueChange={setSelectedSponsorship}
+              >
+                <SelectTrigger>
                   <SelectValue placeholder="Select a sponsorship level" />
                 </SelectTrigger>
                 <SelectContent>
-                  {donationsConfig.sponsor.sponsorshipTiers.map(tier => (
-                    <SelectItem key={tier.value} value={tier.value}>
-                      {tier.label}
-                    </SelectItem>
-                  ))}
+                  {donationsConfig.sponsor.sponsorshipTiers[currency].map(
+                    tier => (
+                      <SelectItem key={tier.value} value={tier.value}>
+                        {tier.label}
+                      </SelectItem>
+                    )
+                  )}
                 </SelectContent>
               </Select>
             </div>
@@ -216,20 +235,23 @@ export default function DonationOptionsCards() {
         </Card>
 
         {/* Fund a Project */}
-        <Card className="flex flex-col hover:border-brand-blue-500   transition-colors">
+        <Card className="flex flex-col h-full hover:border-brand-blue-500 transition-colors">
           <CardHeader>
-            <CardTitle className="text-xl ">
+            <CardTitle className="text-xl">
               {donationsConfig.project.title}
             </CardTitle>
-            <CardDescription className="h-12">
+            <CardDescription>
               {donationsConfig.project.description}
             </CardDescription>
           </CardHeader>
           <CardContent className="mt-auto">
             <div className="space-y-2">
-              <Label htmlFor="project-select">Select Project</Label>
-              <Select onValueChange={value => setSelectedProject(value)}>
-                <SelectTrigger id="project-select">
+              <Label>Project Type</Label>
+              <Select
+                value={selectedProject}
+                onValueChange={setSelectedProject}
+              >
+                <SelectTrigger>
                   <SelectValue placeholder="Select a project" />
                 </SelectTrigger>
                 <SelectContent>

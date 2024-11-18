@@ -1,4 +1,6 @@
+import { AvailableCurrency } from '@/config/currencies'
 import { donationsConfig, DonationType } from '@/config/donations-options'
+import { ROUTES } from '@/config/routes'
 import stripe from '@/services/stripe'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
@@ -12,13 +14,13 @@ export async function POST(req: Request) {
       type,
       value,
       priceId,
-      currency,
+      currency = 'EUR',
       tierName,
     }: {
       type: DonationType | 'sponsorship'
       value?: string
       priceId?: string
-      currency?: string
+      currency?: AvailableCurrency
       tierName?: string
     } = await req.json()
 
@@ -31,14 +33,16 @@ export async function POST(req: Request) {
           },
         ],
         mode: 'subscription' as Stripe.Checkout.SessionCreateParams.Mode,
-        currency: currency as string,
+        currency,
         metadata: {
           tierName: tierName || null,
         },
-        success_url: `${reqHeaders.get(
-          'origin'
-        )}/sponsors/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${reqHeaders.get('origin')}/sponsors?canceled=true`,
+        success_url: `${reqHeaders.get('origin')}/${
+          ROUTES.SPONSORS
+        }/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${reqHeaders.get('origin')}/${
+          ROUTES.SPONSORS
+        }?canceled=true`,
       } satisfies Stripe.Checkout.SessionCreateParams)
 
       return NextResponse.json({ sessionId: session.id })
@@ -48,10 +52,11 @@ export async function POST(req: Request) {
       donationsConfig[type as DonationType].schema.parse(value)
     const paymentMode =
       type === 'monthly' || type === 'sponsor' ? 'subscription' : 'payment'
+
     function createLineItem() {
       const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
         price_data: {
-          currency: 'USD',
+          currency,
           product_data: {
             name: type,
             description: donationsConfig[type as DonationType].description,
@@ -74,11 +79,11 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       line_items: [createLineItem()],
       mode: paymentMode as Stripe.Checkout.SessionCreateParams.Mode,
-
-      success_url: `${reqHeaders.get(
-        'origin'
-      )}/donations/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${reqHeaders.get('origin')}/donations?canceled=true`,
+      currency,
+      success_url: `${reqHeaders.get('origin')}/${
+        ROUTES.DONATE
+      }/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${reqHeaders.get('origin')}/${ROUTES.DONATE}?canceled=true`,
     } satisfies Stripe.Checkout.SessionCreateParams)
 
     return NextResponse.json({ sessionId: session.id })
