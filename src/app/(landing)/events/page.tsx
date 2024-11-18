@@ -1,5 +1,17 @@
+import { Metadata } from 'next'
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { SOCIAL_LINKS } from '@/config/social-links'
+
+export const metadata: Metadata = {
+  title: 'Events',
+  description:
+    'Join Marianco at our upcoming events. From fundraisers and awareness campaigns to community gatherings, discover opportunities to make a difference.',
+  openGraph: {
+    title: 'Events | Marianco',
+    description:
+      'Join Marianco at our upcoming events. From fundraisers and awareness campaigns to community gatherings, discover opportunities to make a difference.',
+  },
+}
 
 export default function Events() {
   return (

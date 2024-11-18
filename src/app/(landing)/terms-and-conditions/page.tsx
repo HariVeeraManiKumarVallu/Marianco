@@ -1,3 +1,16 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Terms and Conditions',
+  description:
+    'Review Marianco\'s terms and conditions to understand our service agreements, user responsibilities, and legal framework.',
+  openGraph: {
+    title: 'Terms and Conditions | Marianco',
+    description:
+      'Review Marianco\'s terms and conditions to understand our service agreements, user responsibilities, and legal framework.',
+  },
+}
+
 export default function Page() {
   return (
     <div className="space-y-12 container">

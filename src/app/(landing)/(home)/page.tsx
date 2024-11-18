@@ -11,6 +11,19 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Marianco | Protecting Children Through Technology',
+  description:
+    'Marianco leverages technology to protect children from exploitation. Join our mission to create a safer world for every child.',
+  openGraph: {
+    title: 'Marianco | Protecting Children Through Technology',
+    description:
+      'Marianco leverages technology to protect children from exploitation. Join our mission to create a safer world for every child.',
+  },
+}
+
 export default function Home() {
   return (
     <div className="space-y-page bg-beige ">

@@ -1,3 +1,16 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description:
+    'Read Marianco\'s privacy policy to understand how we protect your personal information and maintain transparency in our data practices.',
+  openGraph: {
+    title: 'Privacy Policy | Marianco',
+    description:
+      'Read Marianco\'s privacy policy to understand how we protect your personal information and maintain transparency in our data practices.',
+  },
+}
+
 export default function PrivacyPolicy() {
   return (
     <section className="container mt-20 pb-section ">

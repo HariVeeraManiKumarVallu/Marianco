@@ -1,9 +1,21 @@
+import { Metadata } from 'next'
 import TitleSection from '@/components/title-section'
 import stripe from '@/services/stripe'
 import AdditionalOptions from './components/additional-options'
 import CTASection from './components/cta-section'
 import Heading from './components/heading'
 import SponsorshipTiersSection from './components/sponsorship-tiers-section'
+
+export const metadata: Metadata = {
+  title: 'Sponsors & Partners',
+  description:
+    'Partner with Marianco to make a lasting impact. Discover our sponsorship tiers and join our network of organizations committed to protecting children.',
+  openGraph: {
+    title: 'Sponsors & Partners | Marianco',
+    description:
+      'Partner with Marianco to make a lasting impact. Discover our sponsorship tiers and join our network of organizations committed to protecting children.',
+  },
+}
 
 export default async function Sponsors() {
   const prices = await stripe.prices.list({

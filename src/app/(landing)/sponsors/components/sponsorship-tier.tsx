@@ -9,7 +9,6 @@ import { formatAmount } from '@/lib/formatters'
 import { handleStripeCheckoutSession } from '@/lib/requests'
 import { motion } from 'framer-motion'
 import Stripe from 'stripe'
-import { useState } from 'react'
 
 interface SponsorshipTierProps {
   sponsorshipTier: Stripe.Price
@@ -96,10 +95,10 @@ export default function SponsorshipTier({
           </ul>
         </CardContent>
         <div className="p-6 pt-0">
-          <Button 
-            className="w-full" 
-            size="lg" 
-            onClick={handleSelectPlan} 
+          <Button
+            className="w-full"
+            size="lg"
+            onClick={handleSelectPlan}
             disabled={isAnyLoading}
           >
             {isLoading ? 'Processing...' : 'Select Plan'}
