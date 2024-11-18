@@ -20,14 +20,13 @@ export default function AdditionalOptions() {
             Foundation Partnerships
           </h2>
           <p className="text-gray-700 mb-4">
-            We invite foundations to collaborate with us on special
-            initiatives, such as funding the creation of new safe homes,
-            expanding our advocacy work, or sponsoring research on child
-            exploitation.
+            We invite foundations to collaborate with us on special initiatives,
+            such as funding the creation of new safe homes, expanding our
+            advocacy work, or sponsoring research on child exploitation.
           </p>
 
           <Link
-            href={ROUTES.SPONSORS}
+            href={ROUTES.GET_INVOLVED}
             className={buttonVariants({
               variant: 'outline',
               className: 'group',
