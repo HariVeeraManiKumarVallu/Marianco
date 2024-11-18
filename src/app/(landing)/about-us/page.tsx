@@ -20,11 +20,11 @@ export default function About() {
         <div className="container">
           <h2>Our Story</h2>
           <div className="flex flex-col md:flex-row gap-8 mt-8 mx-auto max-w-prose md:max-w-none">
-            <div className="relative rounded-lg overflow-hidden flex-1 min-h-64 min-w-64 max-w-[550px]">
+            <div className="relative rounded-lg overflow-hidden flex-1 min-h-64 min-w-64 lg:max-w-[350px]">
               <Image
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3"
+                src="/francisco-padilla.png"
                 fill
-                className="object-cover"
+                className="object-contain lg:object-cover"
                 // width={400}
                 // height={400}
                 alt="Francisco Padilla"
@@ -119,7 +119,7 @@ export default function About() {
                 ))}
               </ul>
             </div>
-            <div className="relative rounded-lg overflow-hidden h-[300px] md:h-auto md:flex-grow">
+            <div className="relative rounded-lg overflow-hidden h-[300px]  self-center w-[400px] md:flex-grow md:h-[700px] md:mt-auto ">
               <Image
                 src={'/mission.png'}
                 fill
@@ -131,9 +131,9 @@ export default function About() {
       </section>
 
       {/* Our Team */}
-      <section className="pb-section">
-        <div className="container">
-          {/* 
+      {/* <section className="pb-section"> */}
+      {/* <div className="container"> */}
+      {/* 
           <p>
           Behind Marianco is a team of passionate advocates, lawyers, social
           workers, psychologists, and volunteers who dedicate their time to
@@ -142,7 +142,7 @@ export default function About() {
             justice to every child we serve.
           </p> */}
 
-          <motion.div
+      {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -203,7 +203,7 @@ export default function About() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }

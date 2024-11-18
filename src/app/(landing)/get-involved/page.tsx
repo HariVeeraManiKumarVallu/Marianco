@@ -38,7 +38,7 @@ export default function Page() {
           </p>
           <div className="flex justify-center gap-4">
             <Link
-              href="/get-involved/ways-to-give"
+              href={ROUTES.EVENTS}
               className={buttonVariants({
                 variant: 'outline',
                 className: 'group hover:bg-brand-white',
