@@ -23,6 +23,7 @@ export default {
         section: '6rem',
       },
       colors: {
+        beige: '#f9f8f7',
         brand: {
           white: '#fdfefd',
           blue: {

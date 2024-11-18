@@ -3,6 +3,7 @@ import AnimatedWorldMap from '@/components/animated-world-map'
 import DonationOptions from '@/components/donation-options'
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { Icons } from '@/components/icons'
+import TitleSection from '@/components/title-section'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ROUTES } from '@/config/routes'
@@ -12,9 +13,32 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <div className="space-y-page">
+    <div className="space-y-page bg-beige ">
+      <TitleSection
+        title="Protect, Educate, Empower"
+        description="Partner with us in our mission to eradicate child exploitation and create a world where every child can grow up safe, empowered, and loved. Together, we can give children the future they deserve."
+        image={{
+          url: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3',
+          altText: 'altText',
+        }}
+        className="h-[700px] max-h-[calc(100vh)] "
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-10 flex flex-col md:flex-row justify-center gap-4"
+        >
+          <Button size="lg" variant={'secondary'} asChild>
+            <Link href={ROUTES.GET_INVOLVED}>Join the Movement</Link>
+          </Button>
+          <Button size={'lg'} asChild>
+            <Link href={ROUTES.DONATE}>Make a Donation</Link>
+          </Button>
+        </motion.div>
+      </TitleSection>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col ">
+      {/* <section className="relative min-h-screen flex flex-col ">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3')] bg-cover bg-center">
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black/60" />
         </div>
@@ -54,10 +78,10 @@ export default function Home() {
             </Button>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* About Section */}
-      <section className="gradient-main  pb-section space-y-20">
+      <section className="space-y-section ">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -189,7 +213,7 @@ export default function Home() {
         </article>
       </section>
       {/* Stats Section */}
-      <section className="p-section ">
+      <section className="p-section bg-background">
         <div className="container  ">
           <h2 className=" text-center mb-4">
             A World in Peril
@@ -229,7 +253,7 @@ export default function Home() {
                   ].map(({ title, description }) => (
                     <li
                       key={title}
-                      className="space-y-2 lg:text-start bg-brand-blue-100/20 p-4 rounded-lg"
+                      className="space-y-2 lg:text-start bg-brand-blue-300/30 p-4 rounded-lg"
                     >
                       <h4 className="text-brand-blue-900">{title}</h4>
                       <p className=" text-sm">{description}</p>
@@ -246,7 +270,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="p-section gradient-main">
+      <section>
         <div className="container">
           <h2>How You Can Help Us</h2>
           <p className="text-muted-foreground mb-12">

@@ -15,7 +15,7 @@ import { motion } from 'framer-motion'
 
 export default function Page() {
   return (
-    <div className="space-y-page">
+    <>
       <TitleSection
         title="Contact Us"
         description="Have Questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible."
@@ -38,7 +38,7 @@ export default function Page() {
         </div>
       </section> */}
 
-      <section className="gradient-main pb-section">
+      <section className=" py-section">
         <div className="container">
           <div className="grid gap-8 lg:grid-cols-2">
             <motion.div
@@ -92,7 +92,7 @@ export default function Page() {
       </section>
 
       {/* FAQ Section */}
-      <section className="pb-section">
+      <section className="py-section bg-beige">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -114,6 +114,6 @@ export default function Page() {
           </motion.div>
         </div>
       </section>
-    </div>
+    </>
   )
 }

@@ -58,7 +58,7 @@ export default function About() {
       </section>
 
       {/* Our Mission */}
-      <section className="py-section gradient-main">
+      <section className="py-section bg-beige">
         <div className="container">
           <div className="flex flex-col-reverse md:flex-row gap-8 w-full">
             <div className="md:max-w-[350px] lg:max-w-[500px]">

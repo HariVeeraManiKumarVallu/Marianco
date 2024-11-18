@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 export default function Sponsors() {
   return (
-    <div className="space-y-page">
+    <div>
       <TitleSection
         title={
           <>
@@ -28,7 +28,7 @@ export default function Sponsors() {
         }}
       />
 
-      <section>
+      <section className="py-section">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -46,7 +46,7 @@ export default function Sponsors() {
       </section>
 
       {/* Partnership Tiers */}
-      <section>
+      <section className="bg-beige py-section">
         <div className="container">
           <h2 className=" mb-8 lg:mb-12 ">Corporate Sponsorship Tiers</h2>
           <div className="grid md:grid-cols-3 gap-6 ">
@@ -63,7 +63,7 @@ export default function Sponsors() {
       </section>
 
       {/* Additional Partnership Options */}
-      <section>
+      <section className="pb-section bg-beige">
         <div className="container grid md:grid-cols-2 gap-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -121,7 +121,7 @@ export default function Sponsors() {
       </section>
 
       {/* CTA Section */}
-      <section className="pb-section">
+      <section className="py-section">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

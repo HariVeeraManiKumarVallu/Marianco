@@ -1,10 +1,12 @@
 'use client'
+import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 type TitleSectionProps = {
   title: string | React.ReactNode
   description: string
+  className?: string
   image: {
     url: string
     altText: string
@@ -16,10 +18,11 @@ export default function TitleSection({
   title,
   description,
   image,
+  className,
   children,
 }: TitleSectionProps) {
   return (
-    <section className="h-[600px] relative">
+    <section className={cn('relative h-[600px]', className ?? '')}>
       <Image
         src={image.url}
         alt={image.altText}

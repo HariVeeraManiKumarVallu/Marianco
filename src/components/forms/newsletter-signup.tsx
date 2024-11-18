@@ -59,7 +59,7 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <article className="scroll-m-16" id="newsletter">
+    <article className="scroll-m-16 bg-background" id="newsletter">
       <div className="container py-16 ">
         {/* <div className="relative"> */}
         <div className="relative rounded-lg shadow-lg p-8 text-center ">
