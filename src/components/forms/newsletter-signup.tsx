@@ -85,9 +85,7 @@ export default function NewsletterSignup() {
                         className="flex-1 focus-visible:ring-brand-blue-900"
                       />
                     </FormControl>
-                    <FormDescription>
-                      We respect your privacy. Unsubscribe at any time.
-                    </FormDescription>
+
                     <FormMessage />
                   </FormItem>
                 )}

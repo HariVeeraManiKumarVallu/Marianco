@@ -5,8 +5,8 @@ export const getInvolvedFormSchema = z.object({
   email: z.string().email('Invalid email address'),
   phone: z.string().optional(),
   option: z.enum(['volunteer', 'partner', 'donate', 'advocate']),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-  gdprConsent: z.boolean().refine((val) => val === true, {
+  message: z.string().min(1, 'Message is required'),
+  gdprConsent: z.boolean().refine(val => val === true, {
     message: 'You must accept the privacy policy to proceed',
   }),
 })
