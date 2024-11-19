@@ -1,4 +1,5 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
+import TitleSection from '@/components/title-section'
 import { SOCIAL_LINKS } from '@/config/social-links'
 import { Metadata } from 'next'
 import FeaturedArticles from './featured-articles'
@@ -34,6 +35,11 @@ export default async function Page() {
   console.log(data)
   return (
     <div className="flex-1 flex flex-col">
+      <TitleSection
+        title="Latest Articles"
+        description="Stay informed about our work and the latest developments in child protection."
+        image={{ url: '/titleImg.png', altText: 'altText' }}
+      />
       {data.data.length === 0 ? (
         <div className="container flex-1 flex flex-col items-center justify-center gap-4 ">
           <p className="text-center mt-48">
