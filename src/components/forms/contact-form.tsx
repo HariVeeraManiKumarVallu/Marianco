@@ -17,6 +17,7 @@ import { ContactFormData, contactFormSchema } from '@/lib/schemas/form-schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { GDPRCheckbox } from '../ui/gdpr-checkbox'
 
 export function ContactForm() {
   const { toast } = useToast()
@@ -28,6 +29,7 @@ export function ContactForm() {
       email: '',
       subject: '',
       message: '',
+      gdprConsent: false,
     },
   })
 
@@ -123,6 +125,8 @@ export function ContactForm() {
               </FormItem>
             )}
           />
+
+          <GDPRCheckbox control={form.control} />
 
           <Button
             type="submit"

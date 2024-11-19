@@ -16,8 +16,8 @@ import {
   newsletterSignupSchema,
 } from '@/lib/schemas/form-schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { GDPRCheckbox } from '../ui/gdpr-checkbox'
 
 export default function NewsletterSignup() {
   const { toast } = useToast()
@@ -26,6 +26,7 @@ export default function NewsletterSignup() {
     resolver: zodResolver(newsletterSignupSchema),
     defaultValues: {
       email: '',
+      gdprConsent: false,
     },
   })
 
@@ -61,10 +62,7 @@ export default function NewsletterSignup() {
   return (
     <article className="scroll-m-16 bg-background" id="newsletter">
       <div className="container py-16 ">
-        {/* <div className="relative"> */}
         <div className="relative rounded-lg shadow-lg p-8 text-center ">
-          {/* <div className="max-w-2xl mx-auto text-center"> */}
-          {/* <Mail className="w-12 h-12 text-red-500 mx-auto mb-4" /> */}
           <h2 className="text-3xl font-bold mb-4">Stay Informed</h2>
           <p className="text-muted-foreground mb-8 max-w-prose mx-auto">
             Join our newsletter to receive updates about our mission, impact
@@ -73,7 +71,7 @@ export default function NewsletterSignup() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
-              className="flex gap-4 max-w-md mx-auto"
+              className="flex flex-col gap-4 max-w-md mx-auto"
             >
               <FormField
                 control={form.control}
@@ -94,6 +92,9 @@ export default function NewsletterSignup() {
                   </FormItem>
                 )}
               />
+
+              <GDPRCheckbox control={form.control} />
+
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting}
@@ -103,9 +104,7 @@ export default function NewsletterSignup() {
               </Button>
             </form>
           </Form>
-          {/* </div> */}
         </div>
-        {/* </div> */}
       </div>
     </article>
   )

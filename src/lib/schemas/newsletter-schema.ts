@@ -8,6 +8,9 @@ export const newsletterSignupSchema = z.object({
     })
     .min(2)
     .max(100),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: 'You must accept the privacy policy to proceed',
+  }),
 })
 
 export type NewsletterSignupData = z.infer<typeof newsletterSignupSchema>

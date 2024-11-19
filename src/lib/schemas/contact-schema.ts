@@ -17,6 +17,9 @@ export const contactFormSchema = z.object({
     .trim()
     .min(1, { message: 'Message is required' })
     .max(1000, { message: 'Message must be at most 1000 characters' }),
+  gdprConsent: z.boolean().refine((val) => val === true, {
+    message: 'You must accept the privacy policy to proceed',
+  }),
 })
 
 export type ContactFormData = z.infer<typeof contactFormSchema>

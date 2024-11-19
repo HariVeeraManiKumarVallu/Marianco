@@ -27,6 +27,7 @@ import {
 } from '@/lib/schemas/get-involved-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { GDPRCheckbox } from '../ui/gdpr-checkbox'
 
 const options = [
   { value: 'volunteer', label: 'Volunteer' },
@@ -45,6 +46,7 @@ export function GetInvolvedForm() {
       phone: '',
       option: 'volunteer',
       message: '',
+      gdprConsent: false,
     },
   })
 
@@ -176,6 +178,9 @@ export function GetInvolvedForm() {
               </FormItem>
             )}
           />
+
+          <GDPRCheckbox control={form.control} />
+
           <div className="flex justify-center items-center">
             <Button
               type="submit"

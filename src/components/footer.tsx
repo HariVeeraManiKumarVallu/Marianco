@@ -114,12 +114,7 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-semibold">Contact</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>team@marianco.org</li>
-              <li>+1 (555) 123-4567</li>
-              <li>
-                123 Hope Street
-                <br />
-                New York, NY 10001
-              </li>
+              <li>Stockholm &amp; Gothenburg, Sweden</li>
             </ul>
           </div>
         </div>

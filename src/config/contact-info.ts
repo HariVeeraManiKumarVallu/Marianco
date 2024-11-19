@@ -42,8 +42,7 @@ export const CONTACT_INFO = [
   {
     icon: Icons.mapPin,
     title: 'Office',
-    details: '123 Hope Street, New York, NY 10001',
-    description: 'Come visit our office',
+    details: 'Stockholm & Gothenburg, Sweden',
   },
   {
     icon: Icons.clock,
