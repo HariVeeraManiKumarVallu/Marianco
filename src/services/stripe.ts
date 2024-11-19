@@ -1,12 +1,21 @@
 import Stripe from 'stripe'
 
-if (!process.env.STRIPE_TEST_SECRET_KEY) {
+const isDevelopment = process.env.NODE_ENV === 'development'
+
+// Get the appropriate key based on environment
+const stripeSecretKey = isDevelopment
+  ? process.env.STRIPE_TEST_SECRET_KEY
+  : process.env.STRIPE_SECRET_KEY
+
+if (!stripeSecretKey) {
   throw new Error(
-    'STRIPE_TEST_SECRET_KEY is missing. Please set the environment variable.'
+    `${
+      isDevelopment ? 'STRIPE_TEST_SECRET_KEY' : 'STRIPE_SECRET_KEY'
+    } is missing. Please set the environment variable.`
   )
 }
 
-const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY, {
+const stripe = new Stripe(stripeSecretKey, {
   typescript: true,
   apiVersion: '2024-10-28.acacia',
 })
