@@ -1,6 +1,8 @@
-import { Metadata } from 'next'
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { SOCIAL_LINKS } from '@/config/social-links'
+import { Metadata } from 'next'
+import FeaturedArticles from './featured-articles'
+import RecentArticles from './recent-articles'
 
 export const metadata: Metadata = {
   title: 'Articles',
@@ -13,31 +15,59 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Page() {
+export default async function Page() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      },
+    }
+  )
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch articles')
+  }
+
+  const data = await res.json()
+
+  console.log(data)
   return (
     <div className="flex-1 flex flex-col">
-      <div className="container flex-1 flex flex-col items-center justify-center gap-4 ">
-        <p className="text-center mt-48">
-          No articles yet. Subscribe to our newsletter or follow us on social
-          media to stay updated with the latest news.
-        </p>
+      {data.data.length === 0 ? (
+        <div className="container flex-1 flex flex-col items-center justify-center gap-4 ">
+          <p className="text-center mt-48">
+            No articles yet. Subscribe to our newsletter or follow us on social
+            media to stay updated with the latest news.
+          </p>
 
-        <div className="flex gap-4">
-          {SOCIAL_LINKS.map(social => (
-            <a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group"
-              aria-label={social.label}
-            >
-              <social.icon className="size-5 fill-foreground hover:fill-primary transition-colors" />
-            </a>
-          ))}
+          <div className="flex gap-4">
+            {SOCIAL_LINKS.map(social => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
+                aria-label={social.label}
+              >
+                <social.icon className="size-5 fill-foreground hover:fill-primary transition-colors" />
+              </a>
+            ))}
+          </div>
         </div>
-        <NewsletterSignup />
-      </div>
+      ) : (
+        <>
+          <FeaturedArticles
+            featuredArticles={data.data.filter(article => !article.isFeatured)}
+          />
+
+          <RecentArticles
+            recentArticles={data.data.filter(article => !article.isFeatured)}
+          />
+        </>
+      )}
+      <NewsletterSignup />
     </div>
   )
 }

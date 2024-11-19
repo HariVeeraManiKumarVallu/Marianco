@@ -19,8 +19,8 @@ type StrapiData<T> = {
   documentId: string
   createdAt: string
   updatedAt: string
-  publishedAt: string & T
-}
+  publishedAt: string
+} & T
 
 export type StrapiResponse<T> = {
   data: T[]
