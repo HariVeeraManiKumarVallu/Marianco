@@ -23,7 +23,7 @@ export const SOCIAL_LINKS = [
   },
   {
     icon: Icons.tiktok,
-    href: 'https://www.tiktok.com/@marianco.org',
+    href: 'https://www.tiktok.com/@marianco.org?_t=8rWwfsJ58l8&amp;_r=1',
     label: 'TikTok',
   },
 ] as const
