@@ -46,7 +46,7 @@ export default function FeaturedArticles({
                   <h2 className="text-2xl lg:text-3xl font-bold mb-2">
                     {featuredArticles[0].title}
                   </h2>
-                  <p className="text-white/80 mb-4">
+                  <p className="text-white/80 mb-4 line-clamp-3">
                     {featuredArticles[0].summary}
                   </p>
                   <div className="flex items-center text-sm">
@@ -88,7 +88,7 @@ export default function FeaturedArticles({
                       <h2 className="text-xl font-bold mb-2">
                         {article.title}
                       </h2>
-                      <p className="text-white/80 mb-4 line-clamp-2">
+                      <p className="text-white/80 mb-4 line-clamp-3">
                         {article.summary}
                       </p>
                       <div className="flex items-center text-sm">

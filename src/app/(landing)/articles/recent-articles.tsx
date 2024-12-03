@@ -39,7 +39,7 @@ export default function RecentArticles({
                   <h3 className="text-lg font-semibold mb-2 group-hover:text-red-500 transition-colors">
                     {article.title}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4">
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                     {article.summary}
                   </p>
                   <div className="flex items-center text-sm text-gray-500">
