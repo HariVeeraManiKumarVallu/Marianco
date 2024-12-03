@@ -42,11 +42,11 @@ export type Article = {
   slug: string
   summary: string
   isFeatured: boolean
-  featuredImgUrl: string
+  featuredImageUrl: string
   thumbnailUrl: string
   isArchived: boolean
 }
 
-export type ArticleResponse = StrapiResponse<Article>
 export type ArticleData = StrapiData<Article>
+export type ArticleResponse = StrapiResponse<ArticleData>
 // export type Article = ArticleResponse['data'][0];
