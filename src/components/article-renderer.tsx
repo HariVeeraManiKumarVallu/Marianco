@@ -1,13 +1,7 @@
 'use client'
 import { BlocksContent, BlocksRenderer } from '@strapi/blocks-react-renderer'
 
-const ArticleRenderer = ({
-  content,
-}: // article,
-{
-  content: BlocksContent
-  // article: ArticleData
-}) => {
+const ArticleRenderer = ({ content }: { content: BlocksContent }) => {
   return <BlocksRenderer content={content} />
 }
 

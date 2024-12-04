@@ -24,16 +24,20 @@ export const formatters = {
 // Get user's currency based on location
 export const getUserCurrency = () => {
   // Get user's country from browser
-  const userLanguage = navigator.language;
-  const userCountry = userLanguage.split('-')[1]?.toUpperCase();
+  const userLanguage = navigator.language
+  const userCountry = userLanguage.split('-')[1]?.toUpperCase()
 
-  if (userCountry === 'SE') return 'SEK';
-  if (['DE', 'FR', 'IT', 'ES', 'NL'].includes(userCountry)) return 'EUR';
-  return 'USD';
+  if (userCountry === 'SE') return 'SEK'
+  if (['DE', 'FR', 'IT', 'ES', 'NL'].includes(userCountry)) return 'EUR'
+  return 'USD'
 }
 
 // Format amount with specified currency
-export function formatAmount(amount: number, currency: string, options?: { hideDecimals?: boolean }) {
+export function formatAmount(
+  amount: number,
+  currency: string,
+  options?: { hideDecimals?: boolean }
+) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: currency,
@@ -52,4 +56,21 @@ export function formatDate(date: Date) {
     month: 'long',
     day: 'numeric',
   }).format(date)
+}
+
+export function formatTime(time: string) {
+  try {
+    const [hours, minutes] = time.split(':')
+    const date = new Date()
+    date.setHours(parseInt(hours, 10))
+    date.setMinutes(parseInt(minutes, 10))
+
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    })
+  } catch {
+    return 'Invalid time'
+  }
 }
