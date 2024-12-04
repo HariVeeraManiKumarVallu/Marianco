@@ -50,7 +50,7 @@ export default function EventsSection({ events }: { events: EventData[] }) {
                   'lg:flex max-w-[500px] mx-auto lg:max-w-none shadow-xl border-none'
                 )}
               >
-                <CardHeader className="relative rounded-lg overflow-hidden h-64 w-full lg:h-auto lg:flex-1">
+                <CardHeader className="relative rounded-lg overflow-hidden h-64 w-full lg:h-auto lg:flex-1 max-w-[704px]">
                   <Image
                     src={event.image.formats?.large?.url || ''}
                     alt={event.image.alternativeText || ''}
