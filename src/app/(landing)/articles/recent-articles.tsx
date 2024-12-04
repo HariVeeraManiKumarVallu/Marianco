@@ -1,4 +1,5 @@
 'use client'
+import { formatDate } from '@/lib/formatters'
 import { ArticleData } from '@/types/article'
 import { motion } from 'framer-motion'
 import { Calendar } from 'lucide-react'
@@ -33,9 +34,6 @@ export default function RecentArticles({
                   />
                 </div>
                 <div className="p-6">
-                  <span className="inline-block bg-brand-blue-900 text-white px-3 py-1 rounded-full text-sm mb-4">
-                    category
-                  </span>
                   <h3 className="text-lg font-semibold mb-2 group-hover:text-red-500 transition-colors">
                     {article.title}
                   </h3>
@@ -44,7 +42,7 @@ export default function RecentArticles({
                   </p>
                   <div className="flex items-center text-sm text-gray-500">
                     <Calendar className="w-4 h-4 mr-2" />
-                    {/* {format(new Date(article.date), 'MMMM d, yyyy')} */}
+                    {formatDate(new Date(article.publishedDate))}
                   </div>
                 </div>
               </Link>

@@ -1,5 +1,6 @@
 'use client'
 import { ROUTES } from '@/config/routes'
+import { formatDate } from '@/lib/formatters'
 import { ArticleData } from '@/types/article'
 import { motion } from 'framer-motion'
 import { Calendar } from 'lucide-react'
@@ -40,9 +41,6 @@ export default function FeaturedArticles({
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70" />
                 <div className="absolute bottom-0 p-6 text-white">
-                  <span className="inline-block bg-brand-blue-900 text-white px-3 py-1 rounded-full text-sm mb-4">
-                    Featured
-                  </span>
                   <h2 className="text-2xl lg:text-3xl font-bold mb-2">
                     {featuredArticles[0].title}
                   </h2>
@@ -51,9 +49,7 @@ export default function FeaturedArticles({
                   </p>
                   <div className="flex items-center text-sm">
                     <Calendar className="w-4 h-4 mr-2" />
-                    {new Date(
-                      featuredArticles[0].publishedAt
-                    ).toLocaleDateString()}
+                    {formatDate(new Date(featuredArticles[0].publishedDate))}
                   </div>
                 </div>
               </div>
@@ -82,9 +78,6 @@ export default function FeaturedArticles({
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70" />
                     <div className="absolute bottom-0 p-6 text-white">
-                      <span className="inline-block bg-brand-blue-900 text-white px-3 py-1 rounded-full text-sm mb-4">
-                        Article
-                      </span>
                       <h2 className="text-xl font-bold mb-2">
                         {article.title}
                       </h2>
@@ -93,7 +86,7 @@ export default function FeaturedArticles({
                       </p>
                       <div className="flex items-center text-sm">
                         <Calendar className="w-4 h-4 mr-2" />
-                        {new Date(article.publishedAt).toLocaleDateString()}
+                        {formatDate(new Date(article.publishedDate))}
                       </div>
                     </div>
                   </div>
