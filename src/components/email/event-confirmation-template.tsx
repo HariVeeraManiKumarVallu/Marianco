@@ -56,7 +56,7 @@ export default function EventConfirmationEmailTemplate({
                 <Img
                   src="https://marianco-images.s3.eu-north-1.amazonaws.com/logo_1b2f9e3772.png"
                   width={250}
-                  height={100}
+                  height={74}
                   alt="Marianco logo"
                   className="mx-auto mb-4"
                 />
