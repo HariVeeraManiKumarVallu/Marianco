@@ -26,7 +26,7 @@ export default function RecentArticles({
               <Link href={`/articles/${article.slug}`} className="group">
                 <div className="relative h-48">
                   <Image
-                    src={article.thumbnailUrl}
+                    src={article.image.formats.small?.url || ''}
                     alt={article.title}
                     fill
                     className="object-cover transition-transform group-hover:scale-105"

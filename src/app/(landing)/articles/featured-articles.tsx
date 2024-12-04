@@ -32,8 +32,8 @@ export default function FeaturedArticles({
             >
               <div className="relative h-[400px] lg:h-[600px] rounded-lg overflow-hidden">
                 <Image
-                  src={featuredArticles[0].thumbnailUrl}
-                  alt={featuredArticles[0].title}
+                  src={featuredArticles[0].image.formats?.small?.url || ''}
+                  alt={featuredArticles[0].image.alternativeText || ''}
                   fill
                   className="object-cover transition-transform group-hover:scale-105"
                   priority
@@ -75,8 +75,8 @@ export default function FeaturedArticles({
                 >
                   <div className="relative h-[280px] rounded-lg overflow-hidden">
                     <Image
-                      src={article.thumbnailUrl}
-                      alt={article.title}
+                      src={article.image.formats.small?.url || ''}
+                      alt={article.image.alternativeText || ''}
                       fill
                       className="object-cover transition-transform group-hover:scale-105"
                     />

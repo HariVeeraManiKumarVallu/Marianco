@@ -6,15 +6,13 @@ import { notFound } from 'next/navigation'
 
 async function getArticle(slug: string): Promise<Article> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[slug][$eq]=${slug}`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[slug][$eq]=${slug}&populate=*`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
       },
     }
   )
-
-  console.log(res)
 
   if (!res.ok) {
     throw new Error('Failed to fetch article')
@@ -47,10 +45,8 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>
 }) {
   const slug = (await params).slug
-  console.log(slug)
   const article = await getArticle(slug)
 
-  console.log(article)
   if (!article) notFound()
 
   return (
@@ -61,10 +57,10 @@ export default async function ArticlePage({
           {formatDate(new Date(article.publishedDate))}
         </p>
         <div className="relative h-[400px] rounded-lg overflow-clip mb-8">
-          {article?.featuredImageUrl && (
+          {article?.image && (
             <Image
-              src={article.featuredImageUrl}
-              alt={article.title}
+              src={article.image.formats?.large?.url || ''}
+              alt={article.image.alternativeText || ''}
               fill
               className="rounded-lg"
             />

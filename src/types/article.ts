@@ -1,18 +1,42 @@
 import { type BlocksContent } from '@strapi/blocks-react-renderer'
 
-// interface StrapiImage {
-//   data: {
-//     attributes: {
-//       url: string;
-//       formats: {
-//         thumbnail: { url: string };
-//         small: { url: string };
-//         medium: { url: string };
-//         large: { url: string };
-//       };
-//     };
-//   };
-// }
+type StrapiImageFormats = {
+  name: string
+  hash: string
+  ext: string
+  mime: string
+  width: number
+  height: number
+  size: number
+  url: string
+}
+
+interface StrapiImage {
+  id: number
+  documentId: string
+  name: string
+  alternativeText: string | null
+  caption: string | null
+  createdAt: string
+  ext: string
+  formats: {
+    thumbnail?: StrapiImageFormats
+    small?: StrapiImageFormats
+    medium?: StrapiImageFormats
+    large?: StrapiImageFormats
+  }
+  hash: string
+  height: number
+  mime: string
+  previewUrl: string | null
+  provider: string
+  provider_metadata: any
+  publishedAt: string
+  size: number
+  updatedAt: string
+  url: string
+  width: number
+}
 
 type StrapiData<T> = {
   id: number
@@ -24,7 +48,6 @@ type StrapiData<T> = {
 
 export type StrapiResponse<T> = {
   data: T[]
-
   meta: {
     pagination: {
       page: number
@@ -42,8 +65,7 @@ export type Article = {
   slug: string
   summary: string
   isFeatured: boolean
-  featuredImageUrl: string
-  thumbnailUrl: string
+  image: StrapiImage
   isArchived: boolean
 }
 

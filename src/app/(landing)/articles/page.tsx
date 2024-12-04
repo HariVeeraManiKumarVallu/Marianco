@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?populate=*`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -32,6 +32,8 @@ export default async function Page() {
   }
 
   const data: ArticleResponse = await res.json()
+
+  console.log(data)
 
   return (
     <div className="flex-1 flex flex-col">
