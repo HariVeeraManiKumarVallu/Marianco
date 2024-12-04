@@ -19,6 +19,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.2",
     "@radix-ui/react-visually-hidden": "^1.1.0",
+    "@react-email/components": "^0.0.29",
     "@strapi/blocks-react-renderer": "^1.0.1",
     "@stripe/stripe-js": "^4.10.0",
     "@types/topojson-client": "^3.1.5",

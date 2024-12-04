@@ -28,8 +28,6 @@ export default async function Events() {
 
   const data: EventResponse = await res.json()
 
-  console.log(data)
-
   return (
     <div className="flex-1 flex flex-col">
       <TitleSection

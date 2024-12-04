@@ -1,15 +1,27 @@
 'use client'
+
+import { EventSignupForm } from '@/components/forms/event-signup-form'
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { formatTime } from '@/lib/formatters'
 import { cn } from '@/lib/utils'
 import { EventData } from '@/types/event'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useState } from 'react'
 
 export default function EventsSection({ events }: { events: EventData[] }) {
+  const [open, setOpen] = useState(false)
   return (
     <section className="flex-1 w-full my-section">
       <div className="container">
@@ -39,17 +51,12 @@ export default function EventsSection({ events }: { events: EventData[] }) {
                 )}
               >
                 <CardHeader className="relative rounded-lg overflow-hidden h-64 w-full lg:h-auto lg:flex-1">
-                  {/* <div
-                    className="relative rounded-lg overflow-hidden h-full 
-           "
-                  > */}
                   <Image
                     src={event.image.formats?.large?.url || ''}
                     alt={event.image.alternativeText || ''}
                     className="object-cover"
                     fill
                   />
-                  {/* </div> */}
                 </CardHeader>
                 <CardContent className="lg:py-12 lg:max-w-[450px] text-pretty">
                   <CardTitle className="mb-4">{event.title}</CardTitle>
@@ -74,8 +81,26 @@ export default function EventsSection({ events }: { events: EventData[] }) {
                       {event.location}
                     </div>
                   </div>
-
-                  <Button className="w-full mt-8">Register Now</Button>
+                  <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogTrigger asChild>
+                      <Button className="w-full mt-8">Register Now</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Register for {event.title}</DialogTitle>
+                        <DialogDescription>
+                          Fill out the form below to register for this event.
+                          You will receive a confirmation and event updates via
+                          email.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <EventSignupForm
+                        eventId={event.id}
+                        eventTitle={event.title}
+                        onSuccess={() => setOpen(false)}
+                      />
+                    </DialogContent>
+                  </Dialog>
                 </CardContent>
               </Card>
             </motion.li>

@@ -1,4 +1,4 @@
-import { EmailTemplate } from '@/components/email-template'
+import { EmailTemplate } from '@/components/email/contact-form-template'
 import { contactFormSchema } from '@/lib/schemas/form-schemas'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'

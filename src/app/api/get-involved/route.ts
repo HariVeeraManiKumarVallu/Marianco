@@ -1,4 +1,4 @@
-import { GetInvolvedEmail } from '@/components/get-involved-email'
+import { GetInvolvedEmail } from '@/components/email/get-involved-template'
 import { getInvolvedFormSchema } from '@/lib/schemas/get-involved-schema'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
