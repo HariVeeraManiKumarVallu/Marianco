@@ -24,7 +24,9 @@ export default async function About() {
     }
   )
   const resData = await res.json()
-  const sortedTeamMembers = resData.data.toSorted(
+
+  console.log(resData)
+  const sortedTeamMembers = resData.data?.toSorted(
     (a: any, b: any) => a.heirarchy - b.heirarchy
   )
   return <AboutUsContent teamMembers={sortedTeamMembers} />
