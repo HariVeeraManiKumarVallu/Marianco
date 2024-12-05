@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { BicepsFlexed, Crown, Scale } from 'lucide-react'
 import Image from 'next/image'
 
-export default function AboutUsContent() {
+export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
   return (
     <div className="space-y-page">
       <TitleSection
@@ -125,6 +125,54 @@ export default function AboutUsContent() {
                 alt="children standing together"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Team */}
+      <section className="pb-section">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center max-w-3xl mx-auto mb-12"
+          >
+            <h2 className="mb-6">Our Team</h2>
+            <p className="text-muted-foreground">
+              Meet the dedicated professionals working tirelessly to make our
+              mission a reality.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {teamMembers.map((member, index) => (
+              <motion.div
+                key={member.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="text-center"
+              >
+                <div className="relative w-48 h-48 mx-auto mb-4">
+                  <Image
+                    src={
+                      member.image.formats?.medium?.url ??
+                      member.image.url ??
+                      ''
+                    }
+                    alt={member.name}
+                    fill
+                    className="object-cover rounded-full"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
+                <p className="text-red-500 mb-2">{member.role}</p>
+                <p className="text-gray-600">{member.bio}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
