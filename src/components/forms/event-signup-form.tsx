@@ -51,18 +51,12 @@ export function EventSignupForm({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...data}),
+        body: JSON.stringify({ ...data }),
       })
 
       if (!response.ok) {
         throw new Error('Failed to submit signup')
       }
-
-      toast({
-        title: 'Registration successful!',
-        description:
-          "Thank you for signing up. We'll send you a confirmation email shortly.",
-      })
 
       form.reset()
       onSuccess()

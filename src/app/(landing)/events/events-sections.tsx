@@ -7,21 +7,38 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
+import { EVENT_REGISTRATION_SUCCESS_TIMER } from '@/config/settings'
 import { formatTime } from '@/lib/formatters'
 import { cn } from '@/lib/utils'
 import { EventData } from '@/types/event'
 import { motion } from 'framer-motion'
+import { Check } from 'lucide-react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function EventsSection({ events }: { events: EventData[] }) {
   const [open, setOpen] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+
+  useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => {
+        setIsSuccess(false)
+        setOpen(false)
+      }, EVENT_REGISTRATION_SUCCESS_TIMER)
+
+      return () => clearTimeout(timer)
+    }
+  }, [isSuccess])
+
+  function handleSuccess() {
+    setIsSuccess(true)
+  }
 
   return (
     <section className="flex-1 w-full my-section">
@@ -91,18 +108,36 @@ export default function EventsSection({ events }: { events: EventData[] }) {
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Register for {event.title}</DialogTitle>
-                        <DialogDescription>
-                          Fill out the form below to register for this event.
-                          You will receive a confirmation and event updates via
-                          email.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <EventSignupForm
-                        documentId={event.documentId}
-                        onSuccess={() => setOpen(false)}
-                      />
+                      {isSuccess ? (
+                        <div className="p-6 flex flex-col items-center justify-center text-center space-y-4">
+                          <div className="rounded-full bg-green-100 p-3">
+                            <Check className="w-6 h-6 text-green-600" />
+                          </div>
+                          <DialogTitle className="font-semibold text-lg">
+                            Registration successful!
+                          </DialogTitle>
+                          <p className="text-muted-foreground">
+                            Thank you for signing up.
+                            <br />
+                            We&apos;ll send you a confirmation email shortly.
+                          </p>
+                          <p className="font-medium text-brand-blue-900">
+                            Looking forward to seeing you there! 🎉
+                          </p>
+                        </div>
+                      ) : (
+                        <>
+                          <DialogHeader>
+                            <DialogTitle>
+                              Register for {event.title}
+                            </DialogTitle>
+                          </DialogHeader>
+                          <EventSignupForm
+                            documentId={event.documentId}
+                            onSuccess={handleSuccess}
+                          />
+                        </>
+                      )}
                     </DialogContent>
                   </Dialog>
                 </CardContent>

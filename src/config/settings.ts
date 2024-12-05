@@ -1,0 +1,1 @@
+export const EVENT_REGISTRATION_SUCCESS_TIMER = 2000 // 2 seconds
