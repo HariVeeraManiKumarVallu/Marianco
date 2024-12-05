@@ -51,7 +51,7 @@ export default async function ArticlePage({
 
   return (
     <article className="my-section">
-      <div className="prose mx-auto prose-lg ">
+      <div className="prose mx-auto prose-lg prose-img:rounded-lg">
         <h1>{article?.title}</h1>
         <p className="text-muted-foreground -mt-4">
           {formatDate(new Date(article.publishedDate))}
