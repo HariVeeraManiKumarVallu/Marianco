@@ -48,6 +48,7 @@ export async function POST(
     )
 
     const eventData = await eventRes.json()
+    console.log(eventData)
 
     if (!eventData.data || eventData.data.length === 0) {
       return NextResponse.json(
