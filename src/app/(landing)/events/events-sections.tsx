@@ -45,7 +45,7 @@ export default function EventsSection({ events }: { events: EventData[] }) {
               <Card
                 className={cn(
                   {
-                    'lg:flex-row-reverse': index % 2 !== 0,
+                    'lg:flex-row-reverse ': index % 2 !== 0,
                   },
                   'lg:flex max-w-[500px] mx-auto lg:max-w-none shadow-xl border-none'
                 )}
@@ -58,7 +58,7 @@ export default function EventsSection({ events }: { events: EventData[] }) {
                     fill
                   />
                 </CardHeader>
-                <CardContent className="lg:py-12 lg:max-w-[450px] text-pretty">
+                <CardContent className="lg:py-12 lg:max-w-[450px] text-pretty mr-auto">
                   <CardTitle className="mb-4">{event.title}</CardTitle>
                   <p>{event.summary}</p>
 
@@ -95,8 +95,7 @@ export default function EventsSection({ events }: { events: EventData[] }) {
                         </DialogDescription>
                       </DialogHeader>
                       <EventSignupForm
-                        eventId={event.id}
-                        eventTitle={event.title}
+                        documentId={event.documentId}
                         onSuccess={() => setOpen(false)}
                       />
                     </DialogContent>

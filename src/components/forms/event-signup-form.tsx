@@ -23,14 +23,12 @@ import { GDPRCheckbox } from '../ui/gdpr-checkbox'
 
 interface EventSignupFormProps {
   onSuccess: () => void
-  eventId: number
-  eventTitle: string
+  documentId: string
 }
 
 export function EventSignupForm({
   onSuccess,
-  eventId,
-  eventTitle,
+  documentId,
 }: EventSignupFormProps) {
   const { toast } = useToast()
 
@@ -48,12 +46,12 @@ export function EventSignupForm({
 
   async function onSubmit(data: EventSignupData) {
     try {
-      const response = await fetch('/api/event-signup', {
+      const response = await fetch(`/api/event-signup/${documentId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...data, eventId, eventTitle }),
+        body: JSON.stringify({ ...data}),
       })
 
       if (!response.ok) {
