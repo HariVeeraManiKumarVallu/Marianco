@@ -22,6 +22,8 @@ import { useState } from 'react'
 
 export default function EventsSection({ events }: { events: EventData[] }) {
   const [open, setOpen] = useState(false)
+
+  console.log(events)
   return (
     <section className="flex-1 w-full my-section">
       <div className="container">
