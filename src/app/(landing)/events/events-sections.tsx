@@ -35,7 +35,7 @@ export default function EventsSection({ events }: { events: EventData[] }) {
         </p>
         <Separator className="mt-4 mb-16 bg-muted h-[2px]" />
 
-        <ul className="space-y-12">
+        <ul className="space-y-16 lg:space-y-20">
           {events.map((event, index) => (
             <motion.li
               key={event.id}
@@ -61,7 +61,7 @@ export default function EventsSection({ events }: { events: EventData[] }) {
                     fill
                   />
                 </CardHeader>
-                <CardContent className="lg:py-12 lg:max-w-[450px] text-pretty mr-auto">
+                <CardContent className="py-8 lg:py-12 lg:min-w-[400px] lg:max-w-[450px] text-pretty mr-auto">
                   <CardTitle className="mb-4">{event.title}</CardTitle>
                   <p>{event.summary}</p>
 
@@ -86,7 +86,9 @@ export default function EventsSection({ events }: { events: EventData[] }) {
                   </div>
                   <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                      <Button className="w-full mt-8">Register Now</Button>
+                      <Button className="w-full lg:w-auto mt-8">
+                        Register Now
+                      </Button>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
