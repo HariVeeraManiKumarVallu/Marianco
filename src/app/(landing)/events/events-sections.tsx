@@ -23,7 +23,6 @@ import { useState } from 'react'
 export default function EventsSection({ events }: { events: EventData[] }) {
   const [open, setOpen] = useState(false)
 
-  console.log(events)
   return (
     <section className="flex-1 w-full my-section">
       <div className="container">
@@ -54,7 +53,9 @@ export default function EventsSection({ events }: { events: EventData[] }) {
               >
                 <CardHeader className="relative rounded-lg overflow-hidden h-64 w-full lg:h-auto lg:flex-1 max-w-[704px]">
                   <Image
-                    src={event.image.formats?.large?.url || ''}
+                    src={
+                      event.image.formats?.large?.url ?? event.image.url ?? ''
+                    }
                     alt={event.image.alternativeText || ''}
                     className="object-cover"
                     fill
