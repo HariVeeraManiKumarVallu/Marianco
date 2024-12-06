@@ -3,10 +3,6 @@ import { formatDate } from '@/lib/formatters'
 import { Article, ArticleResponse } from '@/types/article'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { testConfig } from '@/app/config'
-
-// Destructure config values
-export const { dynamic, revalidate } = testConfig
 
 async function getArticle(slug: string): Promise<Article> {
   const res = await fetch(
@@ -15,8 +11,6 @@ async function getArticle(slug: string): Promise<Article> {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
       },
-      cache: 'no-store',  // Don't cache in development
-      next: { revalidate: 0 }  // Don't revalidate in development
     }
   )
 
@@ -35,8 +29,6 @@ export async function generateStaticParams() {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
       },
-      cache: 'no-store',  // Don't cache in development
-      next: { revalidate: 0 }  // Don't revalidate in development
     }
   )
 

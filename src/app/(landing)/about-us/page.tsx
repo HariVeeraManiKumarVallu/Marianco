@@ -1,9 +1,5 @@
 import { Metadata } from 'next'
 import AboutUsContent from './_components/about-us-content'
-import { testConfig } from '@/app/config'
-
-// Destructure config values
-export const { dynamic, revalidate } = testConfig
 
 export const metadata: Metadata = {
   title: 'About Us',
@@ -25,8 +21,6 @@ export default async function About() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
       },
-      cache: 'no-store',  // Don't cache in development
-      next: { revalidate: 0 }  // Don't revalidate in development
     }
   )
   const resData = await res.json()
