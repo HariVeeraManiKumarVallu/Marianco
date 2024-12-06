@@ -6,6 +6,10 @@ import { EventData, EventResponse } from '@/types/event'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
+// Set to 1 second for development
+// TODO: Change to 3600 (1 hour) for production
+export const revalidate = 1
+
 async function getEvent(slug: string): Promise<EventData> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[slug][$eq]=${slug}&populate=*`,
