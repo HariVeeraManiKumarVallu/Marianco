@@ -29,3 +29,9 @@ export const isrConfig = {
   revalidate: 60, // Revalidate every minute
   dynamic: 'force-dynamic',
 }
+
+// Test configuration for development
+export const testConfig = {
+  revalidate: 1,  // Revalidate every second
+  dynamic: 'force-static'  // Keep it static but revalidate frequently
+}

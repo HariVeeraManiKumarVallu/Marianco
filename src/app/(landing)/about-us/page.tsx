@@ -1,5 +1,9 @@
 import { Metadata } from 'next'
 import AboutUsContent from './_components/about-us-content'
+import { testConfig } from '@/app/config'
+
+// Destructure config values
+export const { dynamic, revalidate } = testConfig
 
 export const metadata: Metadata = {
   title: 'About Us',
