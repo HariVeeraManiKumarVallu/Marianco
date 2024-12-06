@@ -5,6 +5,8 @@ import { EventResponse } from '@/types/event'
 import { Metadata } from 'next'
 import EventsSection from './events-sections'
 
+export const revalidate = 1 // 1 second in development, change to 3600 for production
+
 export const metadata: Metadata = {
   title: 'Events',
   description:
