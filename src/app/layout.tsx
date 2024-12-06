@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    // url: 'https://marianco.org',
+    url: 'https://marianco.org',
     title: 'Marianco - Protecting Children Worldwide',
     description:
       'Marianco is a global nonprofit organization dedicated to protecting children from the horrors of trafficking, exploitation and abuse.',

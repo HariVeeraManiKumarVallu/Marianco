@@ -169,7 +169,7 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
                   />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
-                <p className="text-red-500 mb-2">{member.role}</p>
+                <p className="text-brand-blue-900 mb-2">{member.role}</p>
                 <p className="text-gray-600">{member.bio}</p>
               </motion.div>
             ))}

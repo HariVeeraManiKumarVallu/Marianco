@@ -1,4 +1,4 @@
-import ArticleRenderer from '@/components/article-renderer'
+import ContentRenderer from '@/components/content-renderer'
 import { formatDate } from '@/lib/formatters'
 import { Article, ArticleResponse } from '@/types/article'
 import Image from 'next/image'
@@ -66,7 +66,7 @@ export default async function ArticlePage({
             />
           )}
         </div>
-        <ArticleRenderer content={article.content} />
+        <ContentRenderer content={article.content} />
       </div>
     </article>
   )

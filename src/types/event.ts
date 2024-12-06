@@ -1,3 +1,4 @@
+import { BlocksContent } from '@strapi/blocks-react-renderer'
 import { StrapiData, StrapiImage, StrapiResponse } from './strapi'
 
 export type Event = {
@@ -7,7 +8,7 @@ export type Event = {
   time: string
   location: string
   isPastEvent: boolean
-  // content: BlocksContent
+  content: BlocksContent
   slug: string
   // summary: string
   image: StrapiImage

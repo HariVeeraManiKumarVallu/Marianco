@@ -1,5 +1,10 @@
 import { EventData, EventResponse } from '@/types/event'
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
+import ContentRenderer from '@/components/content-renderer'
+import { Icons } from '@/components/icons'
+import { formatTime } from '@/lib/formatters'
+import { EventActions } from '@/components/event-actions'
 
 async function getEvent(slug: string): Promise<EventData> {
   const res = await fetch(
@@ -44,8 +49,44 @@ export default async function EventPage({
   if (!event) notFound()
 
   return (
-    <article className="my-section">
-      <div className="prose mx-auto prose-lg "></div>
+    <article className="prose mx-auto prose-lg max-w-4xl px-6 py-10">
+      <h1 className="text-4xl font-bold mb-4">{event.title}</h1>
+      
+      <div className="flex items-center gap-4 text-gray-600 mb-8">
+        <div className="flex items-center gap-2">
+          <Icons.calender className="size-4" />
+          {new Date(event.date).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </div>
+        <div className="flex items-center gap-2">
+          <Icons.clock className="size-4" />
+          {formatTime(event.time)}
+        </div>
+        <div className="flex items-center gap-2">
+          <Icons.mapPin className="size-4" />
+          {event.location}
+        </div>
+      </div>
+
+      <EventActions event={event} variant="detail" className="mb-8" />
+      
+      {event.image?.url && (
+        <div className="relative w-full aspect-video mb-8">
+          <Image
+            src={event.image.url}
+            alt={event.title}
+            fill
+            className="object-cover rounded-lg"
+            priority
+          />
+        </div>
+      )}
+
+      <ContentRenderer content={event.content} />
     </article>
   )
 }
