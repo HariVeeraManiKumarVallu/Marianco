@@ -1,4 +1,6 @@
 import { Toaster } from '@/components/ui/toaster'
+import GoogleAnalytics from '@/services/google-analytics'
+import HotJar from '@/services/hotjar'
 import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
@@ -68,12 +70,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         {children}
         <Toaster />
       </body>
+      <HotJar />
     </html>
   )
 }
