@@ -14,7 +14,9 @@ async function getArticle(slug: string): Promise<Article> {
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      }
+      },
+      cache: 'no-store',  // Don't cache in development
+      next: { revalidate: 0 }  // Don't revalidate in development
     }
   )
 
@@ -32,7 +34,9 @@ export async function generateStaticParams() {
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      }
+      },
+      cache: 'no-store',  // Don't cache in development
+      next: { revalidate: 0 }  // Don't revalidate in development
     }
   )
 

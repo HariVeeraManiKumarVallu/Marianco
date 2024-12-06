@@ -25,6 +25,8 @@ export default async function About() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
       },
+      cache: 'no-store',  // Don't cache in development
+      next: { revalidate: 0 }  // Don't revalidate in development
     }
   )
   const resData = await res.json()
