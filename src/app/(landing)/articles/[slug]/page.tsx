@@ -1,8 +1,11 @@
+import { testConfig } from '@/app/config'
 import ContentRenderer from '@/components/content-renderer'
 import { formatDate } from '@/lib/formatters'
 import { Article, ArticleResponse } from '@/types/article'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+
+export const { revalidate, dynamic } = testConfig
 
 async function getArticle(slug: string): Promise<Article> {
   const res = await fetch(

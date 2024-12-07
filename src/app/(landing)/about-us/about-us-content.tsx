@@ -2,8 +2,6 @@
 
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { ROUTES } from '@/config/routes'
 import { motion } from 'framer-motion'
 import { BicepsFlexed, Crown, Scale } from 'lucide-react'
