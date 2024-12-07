@@ -1,5 +1,10 @@
+import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { Metadata } from 'next'
-import HomeContent from './_components/home-content'
+import AboutSection from './_components/about-section'
+import DonationsSection from './_components/donations-section'
+import FeaturedContentSection from './_components/featured-content-section'
+import HeroSection from './_components/hero-section'
+import StatsSection from './_components/stats-section'
 
 export const metadata: Metadata = {
   title: 'Marianco | Working to Protect Children',
@@ -13,5 +18,14 @@ export const metadata: Metadata = {
 }
 
 export default function Home() {
-  return <HomeContent />
+  return (
+    <>
+      <HeroSection />
+      <AboutSection />
+      <FeaturedContentSection />
+      <StatsSection />
+      <DonationsSection />
+      <NewsletterSignup />
+    </>
+  )
 }

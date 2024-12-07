@@ -10,9 +10,15 @@ import { EventActions } from '@/components/event-actions'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-export default function EventsSection({ events }: { events: EventData[] }) {
+export default function EventsSection({ 
+  events,
+  className 
+}: { 
+  events: EventData[]
+  className?: string 
+}) {
   return (
-    <section className="flex-1 w-full my-section">
+    <section className={cn("flex-1 w-full my-section", className)}>
       <div className="container">
         <h2>Events</h2>
         <p className="text-muted-foreground">

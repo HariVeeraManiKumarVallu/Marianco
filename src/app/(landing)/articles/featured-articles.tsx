@@ -1,6 +1,7 @@
 'use client'
 import { ROUTES } from '@/config/routes'
 import { formatDate } from '@/lib/formatters'
+import { cn } from '@/lib/utils'
 import { ArticleData } from '@/types/article'
 import { motion } from 'framer-motion'
 import { Calendar } from 'lucide-react'
@@ -9,15 +10,17 @@ import Link from 'next/link'
 
 export default function FeaturedArticles({
   featuredArticles,
+  className,
 }: {
   featuredArticles: ArticleData[]
+  className?: string
 }) {
   if (!featuredArticles || featuredArticles.length === 0) {
     return null
   }
 
   return (
-    <section className="flex-grow w-full my-section">
+    <section className={cn('flex-grow w-full my-section', className)}>
       <div className="container mx-auto px-4">
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Main Featured Article */}

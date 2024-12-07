@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormMessage,
@@ -60,8 +59,8 @@ export default function NewsletterSignup() {
   }
 
   return (
-    <article className="scroll-m-16 bg-background" id="newsletter">
-      <div className="container py-16 ">
+    <article className="scroll-m-16 bg-background py-section" id="newsletter">
+      <div className="container  ">
         <div className="relative rounded-lg shadow-lg p-8 text-center ">
           <h2 className="text-3xl font-bold mb-4">Stay Informed</h2>
           <p className="text-muted-foreground mb-8 max-w-prose mx-auto">
