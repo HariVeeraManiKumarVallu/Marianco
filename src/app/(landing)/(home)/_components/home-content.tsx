@@ -170,7 +170,7 @@ export default function HomeContent() {
         </article>
       </section>
       {/* Stats Section */}
-      <section className="p-section bg-background">
+      <section className="py-section bg-background">
         <div className="container  ">
           <h2 className=" text-center mb-4">
             A World in Peril
@@ -179,7 +179,7 @@ export default function HomeContent() {
               The Alarming Reality of Child Exploitation
             </span>
           </h2>
-          <div className="flex flex-col lg:flex-row">
+          <div className="xl:flex">
             <AnimatedWorldMap />
             <div className="lg:px-8 grid text-center md:place-items-center">
               <div>
