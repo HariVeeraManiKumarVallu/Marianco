@@ -1,3 +1,5 @@
+import { staticConfig } from '@/app/config'
+
 export async function getTeamMembers() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/team-members?sort=hierarchy&populate=*`,
@@ -7,7 +9,7 @@ export async function getTeamMembers() {
       },
       cache: 'force-cache',
       next: {
-        revalidate: 1,
+        revalidate: staticConfig.revalidate,
       },
     }
   )

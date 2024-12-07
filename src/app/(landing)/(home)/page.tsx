@@ -1,4 +1,6 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
+import { getFeaturedArticles } from '@/lib/queries/strapi/article'
+import { getUpcomingEvents } from '@/lib/queries/strapi/event'
 import { Metadata } from 'next'
 import AboutSection from './_components/about-section'
 import DonationsSection from './_components/donations-section'
@@ -7,22 +9,30 @@ import HeroSection from './_components/hero-section'
 import StatsSection from './_components/stats-section'
 
 export const metadata: Metadata = {
-  title: 'Marianco | Working to Protect Children',
+  title: 'Home',
   description:
-    'Marianco is dedicated to protecting children from exploitation. Join our mission to create a safer world for every child.',
+    'Marianco is a non-profit organization dedicated to protecting children from exploitation and creating lasting change.',
   openGraph: {
-    title: 'Marianco | Working to Protect Children',
+    title: 'Home | Marianco',
     description:
-      'Marianco is dedicated to protecting children from exploitation. Join our mission to create a safer world for every child.',
+      'Marianco is a non-profit organization dedicated to protecting children from exploitation and creating lasting change.',
   },
 }
 
-export default function Home() {
+export default async function Home() {
+  const [featuredArticles, upcomingEvents] = await Promise.all([
+    getFeaturedArticles(),
+    getUpcomingEvents(),
+  ])
+
   return (
     <>
       <HeroSection />
       <AboutSection />
-      <FeaturedContentSection />
+      <FeaturedContentSection
+        featuredArticles={featuredArticles.data}
+        events={upcomingEvents.data}
+      />
       <StatsSection />
       <DonationsSection />
       <NewsletterSignup />

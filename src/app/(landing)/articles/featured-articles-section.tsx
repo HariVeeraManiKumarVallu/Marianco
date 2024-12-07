@@ -18,6 +18,7 @@ export default function FeaturedArticlesSection({
   if (!featuredArticles || featuredArticles.length === 0) {
     return null
   }
+  
 
   return (
     <section className={cn('flex-grow w-full my-section', className)}>

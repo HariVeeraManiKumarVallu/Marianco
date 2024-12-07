@@ -1,3 +1,4 @@
+import { staticConfig } from '@/app/config'
 import { ArticleResponse } from '@/types/article'
 
 export async function getArticle(slug: string) {
@@ -6,6 +7,10 @@ export async function getArticle(slug: string) {
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      },
+      cache: 'force-cache',
+      next: {
+        revalidate: staticConfig.revalidate,
       },
     }
   )
@@ -25,6 +30,10 @@ export async function getFeaturedArticles() {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
       },
+      cache: 'force-cache',
+      next: {
+        revalidate: staticConfig.revalidate,
+      },
     }
   )
 
@@ -43,6 +52,10 @@ export async function getNotFeaturedArticles() {
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      },
+      cache: 'force-cache',
+      next: {
+        revalidate: staticConfig.revalidate,
       },
     }
   )

@@ -1,29 +1,12 @@
-import { testConfig } from '@/app/config'
+import { staticConfig } from '@/app/config'
 import ContentRenderer from '@/components/content-renderer'
 import { formatDate } from '@/lib/formatters'
-import { Article, ArticleResponse } from '@/types/article'
+import { getArticle } from '@/lib/queries/strapi/article'
+import { ArticleResponse } from '@/types/article'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
-export const { revalidate, dynamic } = testConfig
-
-async function getArticle(slug: string): Promise<Article> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[slug][$eq]=${slug}&populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch article')
-  }
-
-  const data: ArticleResponse = await res.json()
-  return data.data[0]
-}
+export const { revalidate, dynamic } = staticConfig
 
 export async function generateStaticParams() {
   const res = await fetch(
