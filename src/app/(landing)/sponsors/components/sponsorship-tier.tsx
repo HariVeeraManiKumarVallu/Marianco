@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { type AvailableCurrency } from '@/config/currencies'
 import { SPONSORSHIP_TIERS } from '@/config/sponsorship-tiers'
 import { formatAmount } from '@/lib/formatters'
-import { handleStripeCheckoutSession } from '@/lib/requests'
+import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { motion } from 'framer-motion'
 import Stripe from 'stripe'
 

@@ -1,0 +1,39 @@
+import { ArticleResponse } from '@/types/article'
+
+export async function getFeaturedArticles() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[isFeatured][$eq]=true&populate=*`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      },
+    }
+  )
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch articles')
+  }
+
+  const data: ArticleResponse = await res.json()
+
+  return data
+}
+
+export async function getNotFeaturedArticles() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[isFeatured][$eq]=false&populate=*`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      },
+    }
+  )
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch articles')
+  }
+
+  const data: ArticleResponse = await res.json()
+
+  return data
+}

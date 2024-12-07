@@ -2,7 +2,8 @@
 
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { ROUTES } from '@/config/routes'
 import { motion } from 'framer-motion'
 import { BicepsFlexed, Crown, Scale } from 'lucide-react'
@@ -177,14 +178,22 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
               </motion.div>
             ))}
           </div>
-          <div className="flex w-full">
-            <Button
-              asChild
-              className="mt-12 mx-auto w-full md:w-fit"
-              variant={'outline'}
+          <div className="grid gap-8 justify-center bg-brand-blue-100/30 rounded-xl p-12 shadow-sm mt-24">
+            <div className=" text-center space-y-4">
+              <h3 className=" text-brand-blue-900">Join Our Mission</h3>
+              <p className="text-lg text-gray-600 leading-relaxed max-w-prose">
+                Want to be part of our journey? We&apos;re always looking for
+                talented individuals to help us grow and make a greater impact.
+              </p>
+            </div>
+            <Link
+              href={ROUTES.GET_INVOLVED}
+              className={buttonVariants({
+                size: 'lg',
+              })}
             >
-              <Link href={ROUTES.GET_INVOLVED}>Join Our Great Team</Link>
-            </Button>
+              Join Our Great Team
+            </Link>
           </div>
         </div>
       </section>

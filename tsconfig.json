@@ -33,7 +33,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/types/app/(landing)/articles/page.tsx"
+    ".next/types/app/(landing)/articles/page.tsx",
+    "src/lib/queries/stripe"
   ],
   "exclude": [
     "node_modules"

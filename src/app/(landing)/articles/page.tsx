@@ -1,10 +1,10 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import TitleSection from '@/components/title-section'
 import { SOCIAL_LINKS } from '@/config/social-links'
-import { ArticleResponse } from '@/types/article'
+import { getFeaturedArticles } from '@/lib/queries/strapi/article'
 import { Metadata } from 'next'
-import FeaturedArticles from './featured-articles'
-import RecentArticles from './recent-articles'
+import FeaturedArticlesSection from './featured-articles-section'
+import RecentArticlesSection from './recent-articles-section'
 
 export const metadata: Metadata = {
   title: 'Articles',
@@ -18,20 +18,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch articles')
-  }
-
-  const data: ArticleResponse = await res.json()
+  const data = await getFeaturedArticles()
 
   return (
     <div className="flex-1 flex flex-col">
@@ -64,12 +51,10 @@ export default async function Page() {
         </div>
       ) : (
         <>
-          <FeaturedArticles
-            featuredArticles={data.data.filter(article => article.isFeatured)}
-          />
+          <FeaturedArticlesSection featuredArticles={data.data} />
 
-          <RecentArticles
-            recentArticles={data.data.filter(article => !article.isFeatured)}
+          <RecentArticlesSection
+          // recentArticles={data.data.filter(article => !article.isFeatured)}
           />
         </>
       )}

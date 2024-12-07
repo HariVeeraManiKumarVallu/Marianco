@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { ROUTES } from '@/config/routes'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import FeaturedArticles from '../../articles/featured-articles'
+import FeaturedArticles from '../../articles/featured-articles-section'
 import EventsSection from '../../events/events-sections'
 
 export default function FeaturedContentSection() {

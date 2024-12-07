@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/select'
 import { AvailableCurrency } from '@/config/currencies'
 import { donationsConfig, DonationType } from '@/config/donations-options'
-import { handleStripeCheckoutSession } from '@/lib/requests'
+import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 import { Label } from './ui/label'
