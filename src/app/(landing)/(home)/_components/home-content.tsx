@@ -159,7 +159,7 @@ export default function HomeContent() {
                 ))}
               </ul>
 
-              <Button asChild variant={'link'} className="">
+              <Button asChild variant={'link'}>
                 <Link href={ROUTES.ABOUT} className="mt-12 group">
                   Learn more about our work
                   <Icons.arrowRight className="group-hover:translate-x-1 transition-transform" />

@@ -43,7 +43,7 @@ export default function GetInvolvedContent() {
               href={ROUTES.EVENTS}
               className={buttonVariants({
                 variant: 'outline',
-                className: 'group hover:bg-brand-white',
+                className: 'group',
               })}
             >
               Learn More

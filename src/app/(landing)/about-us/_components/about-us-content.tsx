@@ -2,9 +2,12 @@
 
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
+import { Button } from '@/components/ui/button'
+import { ROUTES } from '@/config/routes'
 import { motion } from 'framer-motion'
 import { BicepsFlexed, Crown, Scale } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
   return (
@@ -111,7 +114,7 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
                     viewport={{ once: true }}
                     className="space-y-2"
                   >
-                    <item.icon className="size-10 text-brand-blue-900" />
+                    <item.icon className="size-10 text-brand-blue-500" />
                     <h3 className="text-xl font-semibold">{item.title}</h3>
                     <p className="">{item.description}</p>
                   </motion.li>
@@ -146,7 +149,7 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
               <motion.div
                 key={member.id}
@@ -173,6 +176,15 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
                 <p className="text-gray-600">{member.bio}</p>
               </motion.div>
             ))}
+          </div>
+          <div className="flex w-full">
+            <Button
+              asChild
+              className="mt-12 mx-auto w-full md:w-fit"
+              variant={'outline'}
+            >
+              <Link href={ROUTES.GET_INVOLVED}>Join Our Great Team</Link>
+            </Button>
           </div>
         </div>
       </section>
