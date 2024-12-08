@@ -1,9 +1,9 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { Metadata } from 'next'
-import { Suspense } from 'react'
 import AboutSection from './_components/about-section'
+import ArticlesWrapper from './_components/articles-wrapper'
 import DonationsSection from './_components/donations-section'
-import FeaturedContentStream from './_components/featured-content-stream'
+import EventsWrapper from './_components/events-wrapper'
 import HeroSection from './_components/hero-section'
 import StatsSection from './_components/stats-section'
 
@@ -23,10 +23,9 @@ export default function Home() {
     <>
       <HeroSection />
       <AboutSection />
-      <Suspense fallback={<div>Loading...</div>}>
-        <FeaturedContentStream />
-      </Suspense>
       <StatsSection />
+      <EventsWrapper />
+      <ArticlesWrapper />
       <DonationsSection />
       <NewsletterSignup />
     </>

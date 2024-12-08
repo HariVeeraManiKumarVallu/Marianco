@@ -25,7 +25,7 @@ export async function getArticle(slug: string) {
 
 export async function getFeaturedArticles() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[isFeatured][$eq]=true&populate=*`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[isFeatured][$eq]=true&populate=*&pagination[limit]=3`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,

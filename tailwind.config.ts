@@ -20,7 +20,7 @@ export default {
         page: '6rem',
       },
       spacing: {
-        section: '6rem',
+        section: '4rem',
       },
       colors: {
         beige: '#fbfaf9',
