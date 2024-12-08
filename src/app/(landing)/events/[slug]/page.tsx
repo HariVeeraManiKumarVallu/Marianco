@@ -1,7 +1,7 @@
-import { STATIC_CONFIG } from '@/app/config'
 import ContentRenderer from '@/components/content-renderer'
 import { EventActions } from '@/components/event-actions'
 import { Icons } from '@/components/icons'
+import { STATIC_CONFIG } from '@/config/cache'
 import { formatTime } from '@/lib/formatters'
 import { getEvent } from '@/lib/queries/strapi/event'
 import { EventResponse } from '@/types/event'

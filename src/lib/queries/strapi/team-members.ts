@@ -1,4 +1,4 @@
-import { STATIC_CONFIG } from '@/app/config'
+import { STATIC_CONFIG } from '@/config/cache'
 
 export async function getTeamMembers() {
   const res = await fetch(

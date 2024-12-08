@@ -1,4 +1,4 @@
-import { STATIC_CONFIG } from '@/app/config'
+import { STATIC_CONFIG } from '@/config/cache'
 import { EventData, EventResponse } from '@/types/event'
 
 export async function getEvent(slug: string): Promise<EventData> {

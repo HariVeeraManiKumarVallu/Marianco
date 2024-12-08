@@ -35,6 +35,35 @@ export function ShareButtons({
   const pathname = usePathname()
   const url = `${process.env.NEXT_PUBLIC_APP_URL}${pathname}`
 
+  const isNativeShareSupported = () => {
+    return navigator && navigator.share
+  }
+
+  const handleNativeShare = async () => {
+    try {
+      await navigator.share({
+        title: title,
+        text: summary,
+        url: url,
+      })
+    } catch (error) {
+      console.error('Error sharing:', error)
+    }
+  }
+
+  if (isNativeShareSupported()) {
+    return (
+      <Button
+        variant={'outline'}
+        className={cn('flex gap-2', className)}
+        onClick={handleNativeShare}
+      >
+        <Share2 className="size-4" />
+        <span>Share</span>
+      </Button>
+    )
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

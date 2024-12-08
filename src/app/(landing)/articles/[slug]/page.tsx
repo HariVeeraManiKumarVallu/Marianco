@@ -1,7 +1,7 @@
-import { STATIC_CONFIG } from '@/app/config'
 import ContentRenderer from '@/components/content-renderer'
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { ShareButtons } from '@/components/share-buttons'
+import { STATIC_CONFIG } from '@/config/cache'
 import { formatDate } from '@/lib/formatters'
 import { getArticle } from '@/lib/queries/strapi/article'
 import { ArticleResponse } from '@/types/article'

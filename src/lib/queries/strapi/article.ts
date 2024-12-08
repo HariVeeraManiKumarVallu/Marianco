@@ -1,4 +1,4 @@
-import { STATIC_CONFIG } from '@/app/config'
+import { STATIC_CONFIG } from '@/config/cache'
 import { ArticleResponse } from '@/types/article'
 
 export async function getArticle(slug: string) {
