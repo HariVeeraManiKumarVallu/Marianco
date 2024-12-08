@@ -1,12 +1,12 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import {
   FacebookIcon,
   FacebookShareButton,
   LinkedinIcon,
   LinkedinShareButton,
-} from 'next-share'
-import { usePathname } from 'next/navigation'
+} from 'react-share'
 
 interface ShareButtonProps {
   title: string
@@ -26,11 +26,16 @@ export function ShareButtons({
 
   return (
     <div className="flex gap-4">
-      <FacebookShareButton url={url} quote={title} hashtag={'#Marianco'}>
+      <FacebookShareButton url={url} hashtag={'#Marianco'}>
         <FacebookIcon size={32} round />
       </FacebookShareButton>
 
-      <LinkedinShareButton url={url} blankTarget>
+      <LinkedinShareButton
+        url={url}
+        title={title}
+        summary={summary}
+        source={process.env.NEXT_PUBLIC_APP_URL}
+      >
         <LinkedinIcon size={32} round />
       </LinkedinShareButton>
     </div>
