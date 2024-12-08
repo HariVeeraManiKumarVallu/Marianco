@@ -10,6 +10,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Share2 } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -32,12 +33,20 @@ export function ShareButtons({
   summary = '',
   className,
 }: ShareButtonProps) {
+  const [nativeShare, setNativeShare] = useState(false)
+
   const pathname = usePathname()
   const url = `${process.env.NEXT_PUBLIC_APP_URL}${pathname}`
 
-  const isNativeShareSupported = () => {
-    return navigator && navigator.share
-  }
+  useEffect(() => {
+    setNativeShare(
+      !!(
+        typeof window !== 'undefined' &&
+        window.navigator &&
+        window.navigator.share
+      )
+    )
+  }, [])
 
   const handleNativeShare = async () => {
     try {
@@ -51,7 +60,7 @@ export function ShareButtons({
     }
   }
 
-  if (isNativeShareSupported()) {
+  if (nativeShare) {
     return (
       <Button
         variant={'outline'}

@@ -56,7 +56,7 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <article className="my-section">
       <div className="prose mx-auto prose-lg prose-img:rounded-lg container">
-        <h1>{article?.title}</h1>
+        <h1 className="text-pretty">{article?.title}</h1>
         <p className="text-muted-foreground -mt-4">
           {formatDate(new Date(article.publishedDate))}
         </p>
