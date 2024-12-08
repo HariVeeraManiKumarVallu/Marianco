@@ -28,27 +28,20 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://marianco.org'),
   title: {
-    default: 'Marianco - Protecting Children Worldwide',
+    default: 'Marianco',
     template: '%s | Marianco',
   },
-  description:
-    'Marianco is a global nonprofit organization dedicated to protecting children from the horrors of trafficking, exploitation and abuse.',
+  description: 'Your description here',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || ''),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://marianco.org',
-    title: 'Marianco - Protecting Children Worldwide',
-    description:
-      'Marianco is a global nonprofit organization dedicated to protecting children from the horrors of trafficking, exploitation and abuse.',
     siteName: 'Marianco',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Marianco - Protecting Children Worldwide',
-    description:
-      'Marianco is a global nonprofit organization dedicated to protecting children from the horrors of trafficking, exploitation and abuse.',
+    creator: '@marianco',
   },
   robots: {
     index: true,

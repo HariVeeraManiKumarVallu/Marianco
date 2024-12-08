@@ -1,29 +1,15 @@
+import { STATIC_CONFIG } from '@/app/config'
 import ContentRenderer from '@/components/content-renderer'
 import { EventActions } from '@/components/event-actions'
 import { Icons } from '@/components/icons'
 import { formatTime } from '@/lib/formatters'
-import { EventData, EventResponse } from '@/types/event'
+import { getEvent } from '@/lib/queries/strapi/event'
+import { EventResponse } from '@/types/event'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
-export const revalidate = 1
-
-async function getEvent(slug: string): Promise<EventData> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[slug][$eq]=${slug}&populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch event')
-  }
-
-  const data: EventResponse = await res.json()
-  return data.data[0]
+interface Props {
+  params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
@@ -31,20 +17,19 @@ export async function generateStaticParams() {
     headers: {
       Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
     },
+    next: {
+      revalidate: STATIC_CONFIG.revalidate,
+    },
   })
 
-  const events: EventResponse = await res.json()
+  const data: EventResponse = await res.json()
 
-  return events.data.map(event => ({
+  return data.data.map(event => ({
     slug: event.slug,
   }))
 }
 
-export default async function EventPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export default async function EventPage({ params }: Props) {
   const slug = (await params).slug
   const event = await getEvent(slug)
 
@@ -89,6 +74,7 @@ export default async function EventPage({
         )}
 
         {event.content && <ContentRenderer content={event.content} />}
+        <EventActions event={event} variant="detail" className="mt-16" />
       </div>
     </article>
   )
