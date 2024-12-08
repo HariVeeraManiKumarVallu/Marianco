@@ -55,12 +55,13 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <article className="my-section">
-      <div className="prose mx-auto prose-lg prose-img:rounded-lg">
+      <div className="prose mx-auto prose-lg prose-img:rounded-lg container">
         <h1>{article?.title}</h1>
         <p className="text-muted-foreground -mt-4">
           {formatDate(new Date(article.publishedDate))}
         </p>
-        <div className="relative h-[400px] rounded-lg overflow-clip mb-8">
+        <ShareButtons title={article.title} summary={article.summary} />
+        <div className="relative h-[400px] rounded-lg overflow-clip my-8">
           {article?.image && (
             <Image
               src={article.image.formats?.large?.url || ''}
@@ -71,11 +72,11 @@ export default async function ArticlePage({ params }: Props) {
           )}
         </div>
         {article.content && <ContentRenderer content={article.content} />}
-        <div className="flex justify-end mt-16">
+        <div className=" mt-16">
           <ShareButtons
             title={article.title}
             summary={article.summary}
-            imageUrl={article.image?.formats?.large?.url || article.image?.url}
+            className="mx-auto"
           />
         </div>
       </div>
