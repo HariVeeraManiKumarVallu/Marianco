@@ -40,11 +40,7 @@ export function ShareButtons({
 
   useEffect(() => {
     setNativeShare(
-      !!(
-        typeof window !== 'undefined' &&
-        window.navigator &&
-        window.navigator.share
-      )
+      !!(typeof window !== 'undefined' && navigator && navigator.share)
     )
   }, [])
 
