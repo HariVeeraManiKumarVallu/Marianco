@@ -1,4 +1,4 @@
-import { staticConfig } from '@/app/config'
+import { STATIC_CONFIG } from '@/app/config'
 import ContentRenderer from '@/components/content-renderer'
 import { formatDate } from '@/lib/formatters'
 import { getArticle } from '@/lib/queries/strapi/article'
@@ -6,7 +6,7 @@ import { ArticleResponse } from '@/types/article'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
-export const { revalidate, dynamic } = staticConfig
+export const { revalidate, dynamic } = STATIC_CONFIG
 
 export async function generateStaticParams() {
   const res = await fetch(

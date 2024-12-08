@@ -1,4 +1,4 @@
-import { staticConfig } from '@/app/config'
+import { STATIC_CONFIG } from '@/app/config'
 import { ArticleResponse } from '@/types/article'
 
 export async function getArticle(slug: string) {
@@ -10,7 +10,7 @@ export async function getArticle(slug: string) {
       },
       cache: 'force-cache',
       next: {
-        revalidate: staticConfig.revalidate,
+        revalidate: STATIC_CONFIG.revalidate,
       },
     }
   )
@@ -32,7 +32,7 @@ export async function getFeaturedArticles() {
       },
       cache: 'force-cache',
       next: {
-        revalidate: staticConfig.revalidate,
+        revalidate: STATIC_CONFIG.revalidate,
       },
     }
   )
@@ -55,7 +55,7 @@ export async function getNotFeaturedArticles() {
       },
       cache: 'force-cache',
       next: {
-        revalidate: staticConfig.revalidate,
+        revalidate: STATIC_CONFIG.revalidate,
       },
     }
   )

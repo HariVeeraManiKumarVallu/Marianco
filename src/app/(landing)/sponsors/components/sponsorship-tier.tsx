@@ -7,7 +7,7 @@ import { type AvailableCurrency } from '@/config/currencies'
 import { SPONSORSHIP_TIERS } from '@/config/sponsorship-tiers'
 import { formatAmount } from '@/lib/formatters'
 import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import Stripe from 'stripe'
 
 interface SponsorshipTierProps {

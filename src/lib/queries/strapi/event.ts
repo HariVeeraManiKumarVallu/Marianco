@@ -1,4 +1,4 @@
-import { staticConfig } from '@/app/config'
+import { STATIC_CONFIG } from '@/app/config'
 import { EventResponse } from '@/types/event'
 
 export async function getUpcomingEvents() {
@@ -10,7 +10,7 @@ export async function getUpcomingEvents() {
       },
       cache: 'force-cache',
       next: {
-        revalidate: staticConfig.revalidate,
+        revalidate: STATIC_CONFIG.revalidate,
       },
     }
   )

@@ -1,7 +1,7 @@
 'use client'
 
 import DonationOptions from '@/components/donation-options'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 export default function DonationsSection() {
   return (

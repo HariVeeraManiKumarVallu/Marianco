@@ -1,7 +1,7 @@
 'use client'
 
 import AnimatedWorldMap from '@/components/animated-world-map'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 export default function StatsSection() {
   return (

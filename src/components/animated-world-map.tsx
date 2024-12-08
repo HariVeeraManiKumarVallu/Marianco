@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import {
   ComposableMap,
@@ -20,24 +20,6 @@ type Location = {
   coordinates: [number, number]
   issue: string
 }
-
-// const locations: Location[] = [
-//   { name: 'New York', coordinates: [-74.006, 40.7128], crimeRate: 5.2 },
-//   { name: 'London', coordinates: [-0.1276, 51.5074], crimeRate: 4.7 },
-//   { name: 'Tokyo', coordinates: [139.6917, 35.6895], crimeRate: 1.8 },
-//   { name: 'Sydney', coordinates: [151.2093, -33.8688], crimeRate: 3.9 },
-//   { name: 'Rio de Janeiro', coordinates: [-43.1729, -22.9068], crimeRate: 7.5 },
-//   { name: 'Cairo', coordinates: [31.2357, 30.0444], crimeRate: 6.2 },
-//   { name: 'Moscow', coordinates: [37.6173, 55.7558], crimeRate: 4.1 },
-//   { name: 'Mumbai', coordinates: [72.8777, 19.076], crimeRate: 5.8 },
-//   { name: 'Cape Town', coordinates: [18.4241, -33.9249], crimeRate: 8.9 },
-//   { name: 'Dubai', coordinates: [55.2708, 25.2048], crimeRate: 1.5 },
-//   { name: 'Singapore', coordinates: [103.8198, 1.3521], crimeRate: 0.7 },
-//   { name: 'Berlin', coordinates: [13.405, 52.52], crimeRate: 3.6 },
-//   { name: 'Toronto', coordinates: [-79.3832, 43.6532], crimeRate: 2.9 },
-//   { name: 'Mexico City', coordinates: [-99.1332, 19.4326], crimeRate: 6.8 },
-//   { name: 'Seoul', coordinates: [126.978, 37.5665], crimeRate: 2.3 },
-// ]
 
 const locations: Location[] = [
   {

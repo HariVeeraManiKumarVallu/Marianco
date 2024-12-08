@@ -11,7 +11,7 @@ import {
 import { Card } from '@/components/ui/card'
 import { CONTACT_INFO } from '@/config/contact-info'
 import { FAQ } from '@/config/faq'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 export default function Page() {
   return (

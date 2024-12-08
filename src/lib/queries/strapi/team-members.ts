@@ -1,4 +1,4 @@
-import { staticConfig } from '@/app/config'
+import { STATIC_CONFIG } from '@/app/config'
 
 export async function getTeamMembers() {
   const res = await fetch(
@@ -9,7 +9,7 @@ export async function getTeamMembers() {
       },
       cache: 'force-cache',
       next: {
-        revalidate: staticConfig.revalidate,
+        revalidate: STATIC_CONFIG.revalidate,
       },
     }
   )

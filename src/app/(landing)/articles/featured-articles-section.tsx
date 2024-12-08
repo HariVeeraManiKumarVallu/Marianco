@@ -3,7 +3,7 @@ import { ROUTES } from '@/config/routes'
 import { formatDate } from '@/lib/formatters'
 import { cn } from '@/lib/utils'
 import { ArticleData } from '@/types/article'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { Calendar } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -18,7 +18,6 @@ export default function FeaturedArticlesSection({
   if (!featuredArticles || featuredArticles.length === 0) {
     return null
   }
-  
 
   return (
     <section className={cn('flex-grow w-full my-section', className)}>
