@@ -1,11 +1,12 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import TitleSection from '@/components/title-section'
+import { STATIC_CONFIG } from '@/config/cache'
 import { SOCIAL_LINKS } from '@/config/social-links'
 import { EventResponse } from '@/types/event'
 import { Metadata } from 'next'
 import EventsSection from './events-sections'
 
-export const revalidate = 1 // 1 second in development, change to 3600 for production
+export const revalidate = STATIC_CONFIG.revalidate
 
 export const metadata: Metadata = {
   title: 'Events',
@@ -18,12 +19,16 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Events() {
+export default async function EventsPage() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?populate=*`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      },
+      cache: 'force-cache',
+      next: {
+        revalidate: STATIC_CONFIG.revalidate,
       },
     }
   )

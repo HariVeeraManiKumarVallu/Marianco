@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Page() {
+export default async function ArticlesPage() {
   const data = await getFeaturedArticles()
 
   return (

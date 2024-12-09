@@ -1,6 +1,6 @@
-import { Metadata } from 'next'
 import TitleSection from '@/components/title-section'
 import stripe from '@/services/stripe'
+import { Metadata } from 'next'
 import AdditionalOptions from './components/additional-options'
 import CTASection from './components/cta-section'
 import Heading from './components/heading'
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function Sponsors() {
+export default async function SponsorsPage() {
   const prices = await stripe.prices.list({
     expand: ['data.currency_options'],
   })

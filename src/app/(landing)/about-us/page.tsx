@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function About() {
+export default async function AboutPage() {
   const data = await getTeamMembers()
 
   return <AboutUsContent teamMembers={data.data} />

@@ -3,15 +3,15 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Membership',
   description:
-    'Join Marianco\'s membership program and become part of our community dedicated to protecting children. Access exclusive resources and support our mission.',
+    "Join Marianco's membership program and become part of our community dedicated to protecting children. Access exclusive resources and support our mission.",
   openGraph: {
     title: 'Membership | Marianco',
     description:
-      'Join Marianco\'s membership program and become part of our community dedicated to protecting children. Access exclusive resources and support our mission.',
+      "Join Marianco's membership program and become part of our community dedicated to protecting children. Access exclusive resources and support our mission.",
   },
 }
 
-export default function Membership() {
+export default function MembershipPage() {
   return (
     <>
       <h1>Become a Member and Champion for Children</h1>

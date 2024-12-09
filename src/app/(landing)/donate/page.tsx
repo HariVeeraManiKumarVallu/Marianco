@@ -1,19 +1,19 @@
-import { Metadata } from 'next'
-import TitleSection from '@/components/title-section'
 import DonationOptionsCards from '@/components/donation-options'
+import TitleSection from '@/components/title-section'
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Donate',
   description:
-    'Support Marianco\'s mission to protect children. Your donation helps fund rescue operations, rehabilitation programs, and prevention initiatives.',
+    "Support Marianco's mission to protect children. Your donation helps fund rescue operations, rehabilitation programs, and prevention initiatives.",
   openGraph: {
     title: 'Donate | Marianco',
     description:
-      'Support Marianco\'s mission to protect children. Your donation helps fund rescue operations, rehabilitation programs, and prevention initiatives.',
+      "Support Marianco's mission to protect children. Your donation helps fund rescue operations, rehabilitation programs, and prevention initiatives.",
   },
 }
 
-export default function Donate() {
+export default function DonatePage() {
   return (
     <div className="space-y-20">
       <TitleSection

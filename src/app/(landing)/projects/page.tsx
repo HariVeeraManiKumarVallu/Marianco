@@ -3,15 +3,15 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Projects',
   description:
-    'Explore Marianco\'s ongoing projects and initiatives. Learn about our current efforts in child protection, education, and community support.',
+    "Explore Marianco's ongoing projects and initiatives. Learn about our current efforts in child protection, education, and community support.",
   openGraph: {
     title: 'Projects | Marianco',
     description:
-      'Explore Marianco\'s ongoing projects and initiatives. Learn about our current efforts in child protection, education, and community support.',
+      "Explore Marianco's ongoing projects and initiatives. Learn about our current efforts in child protection, education, and community support.",
   },
 }
 
-export default function Page() {
+export default function ProjectsPage() {
   return (
     <div className="flex-1 flex flex-col">
       <div className="container flex-1 flex flex-col items-center justify-center gap-4">

@@ -13,6 +13,7 @@ export const NAV_LINKS = [
     href: '/events',
   },
   { title: 'Articles', href: '/articles' },
+  { title: 'Store', href: '/store' },
   // { title: 'Projects', href: '/projects' },
   {
     title: 'Contact Us',

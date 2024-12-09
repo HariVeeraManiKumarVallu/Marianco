@@ -12,6 +12,6 @@ export const metadata: Metadata = {
   },
 }
 
-export default function GetInvolved() {
+export default function GetInvolvedPage() {
   return <GetInvolvedContent />
 }
