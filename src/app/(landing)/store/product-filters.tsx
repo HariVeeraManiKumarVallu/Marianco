@@ -3,24 +3,19 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Slider } from '@/components/ui/slider'
+import RangeSlider, { Slider } from '@/components/ui/slider'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { X } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export default function ProductFilters({ categories }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathName = usePathname()
-  const [range, setRange] = useState<[number, number]>(() => {
-    const start = parseInt(searchParams.get('start') ?? '0')
-    const end = parseInt(searchParams.get('end') ?? '100')
-    return [start, end]
-  })
 
   const handleFiltering = useCallback(
-    (name: string, value: string) => {
+    (name: string, value: string | string[] | number[]) => {
       const params = new URLSearchParams(searchParams)
 
       if (!value) {
@@ -28,40 +23,25 @@ export default function ProductFilters({ categories }) {
         return router.replace(`${pathName}?${params.toString()}`)
       }
 
-      // const currentValues = params.getAll(name)
+      if (name === 'category' && Array.isArray(value)) {
+        params.delete(name)
+        value.forEach(value => {
+          params.append(name, value as string)
+        })
+      }
 
-      params.delete(name)
-      value.split(',').forEach(value => {
-        params.append(name, value)
-      })
+      if (name === 'price' && Array.isArray(value)) {
+        console.log(value)
+        params.set(name, value[0] + '-' + value[1])
+      }
 
-      // if (currentValues.includes(value)) {
-      //   params.delete(name, value)
-      // } else {
-      //   params.append(name, value)
-      // }
+      if (name === 'search') {
+        params.set(name, value as string)
+      }
+
       router.replace(`${pathName}?${params.toString()}`)
     },
     [pathName, router, searchParams]
-  )
-
-  useEffect(() => {
-    const start = parseInt(searchParams.get('start') ?? '0')
-    const end = parseInt(searchParams.get('end') ?? '100')
-    setRange([start, end])
-  }, [searchParams])
-
-  const handleRangeChange = useCallback(
-    (newRange: number[]) => {
-      const typedRange = newRange as [number, number]
-      setRange(typedRange)
-
-      const params = new URLSearchParams(searchParams)
-      params.set('start', typedRange[0].toString())
-      params.set('end', typedRange[1].toString())
-      router.push(`?${params.toString()}`, { scroll: false })
-    },
-    [router, searchParams]
   )
 
   const hasActiveFilters = !!searchParams.get('category')?.toString()
@@ -88,10 +68,7 @@ export default function ProductFilters({ categories }) {
           variant={'outline'}
           value={searchParams.getAll('category') ?? []}
           onValueChange={categories => {
-            handleFiltering(
-              'category',
-              categories.length ? categories.join(',') : ''
-            )
+            handleFiltering('category', categories.length ? categories : '')
           }}
           type="multiple"
         >
@@ -110,13 +87,20 @@ export default function ProductFilters({ categories }) {
 
       <div className="space-y-2">
         <Label>Price Range</Label>
-        <div>{range[0] + ' - ' + range[1]}</div>
-        <Slider
-          defaultValue={range}
+        <RangeSlider
+          defaultValue={
+            searchParams
+              .get('price')
+              ?.split('-')
+              .map(v => Number(v)) ?? [0, 100]
+          }
           min={0}
           max={100}
           step={1}
-          onValueChange={handleRangeChange}
+          minStepsBetweenThumbs={10}
+          onValueCommit={value => {
+            handleFiltering('price', value)
+          }}
         />
       </div>
 
