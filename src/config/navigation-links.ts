@@ -1,4 +1,4 @@
-export const NAV_LINKS = [
+const navLinks = [
   {
     title: 'Who We Are',
     href: '/about-us',
@@ -13,10 +13,16 @@ export const NAV_LINKS = [
     href: '/events',
   },
   { title: 'Articles', href: '/articles' },
-  { title: 'Store', href: '/store' },
+  {
+    title: 'Store',
+    href: '/store',
+    hidden: process.env.NODE_ENV === 'production',
+  },
   // { title: 'Projects', href: '/projects' },
   {
     title: 'Contact Us',
     href: '/contact',
   },
-] as const
+]
+
+export const NAV_LINKS = navLinks.filter(link => !link.hidden)
