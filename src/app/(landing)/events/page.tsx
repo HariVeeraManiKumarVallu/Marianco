@@ -1,10 +1,7 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import TitleSection from '@/components/title-section'
-import { STATIC_CONFIG } from '@/config/cache'
 import { Metadata } from 'next'
 import EventsSection from './events-sections'
-
-export const revalidate = STATIC_CONFIG.revalidate
 
 export const metadata: Metadata = {
   title: 'Events',
