@@ -13,7 +13,10 @@ export default function GetInvolvedContent() {
       <TitleSection
         title="Join Our Fight Against Child Exploitation"
         description="Together, we can protect children and create a safer world. Every voice, every action counts."
-        image={{ url: '/titleImg.png', altText: 'altText' }}
+        image={{
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_Img_e79cd2fe95.png',
+          altText: 'Hands reaching out',
+        }}
       />
 
       <section>

@@ -1,8 +1,9 @@
 import TitleSection from '@/components/title-section'
+import { ROUTES } from '@/config/routes'
 import stripe from '@/services/stripe'
 import { Metadata } from 'next'
+import CtaSection from '../../../components/cta-section'
 import AdditionalOptions from './components/additional-options'
-import CTASection from './components/cta-section'
 import Heading from './components/heading'
 import SponsorshipTiersSection from './components/sponsorship-tiers-section'
 
@@ -40,14 +41,21 @@ export default async function SponsorsPage() {
         }
         description="Join Marianco in our mission to protect vulnerable children and create lasting change through meaningful partnerships."
         image={{
-          url: '/titleImg.png',
-          altText: 'Marianco Logo',
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_Img_e79cd2fe95.png',
+          altText: 'altText',
         }}
       />
       <Heading />
       <SponsorshipTiersSection prices={prices.data} />
       <AdditionalOptions />
-      <CTASection />
+      <CtaSection
+        heading="Ready to Make a Difference"
+        description="Contact us to discuss partnership opportunities that align with your organization's values and goals."
+        link={{
+          text: 'Start the Conversation',
+          href: ROUTES.GET_INVOLVED,
+        }}
+      />
     </div>
   )
 }

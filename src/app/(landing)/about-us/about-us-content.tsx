@@ -1,11 +1,12 @@
 'use client'
 
+import CtaSection from '@/components/cta-section'
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
 import { buttonVariants } from '@/components/ui/button'
 import { ROUTES } from '@/config/routes'
-import { motion } from 'motion/react'
 import { BicepsFlexed, Crown, Scale } from 'lucide-react'
+import { motion } from 'motion/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -16,8 +17,8 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
         title="Who we are"
         description="We strive to protect the most vulnerable children, ensuring they have a safe space to grow, thrive, and reclaim their lives."
         image={{
-          url: '/titleImg.png',
-          altText: 'altText',
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_Img_e79cd2fe95.png',
+          altText: 'hands reaching out',
         }}
       />
       <section>
@@ -123,7 +124,9 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
             </div>
             <div className="relative rounded-lg overflow-hidden h-[300px]  self-center w-[400px] md:flex-grow md:h-[700px] md:mt-auto ">
               <Image
-                src={'/mission.png'}
+                src={
+                  'https://marianco-images.s3.eu-north-1.amazonaws.com/mission_e349943344.png'
+                }
                 fill
                 alt="children standing together"
               />
@@ -177,23 +180,14 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
               </motion.div>
             ))}
           </div>
-          <div className="grid gap-8 justify-center bg-brand-blue-100/30 rounded-xl p-12 shadow-sm mt-24">
-            <div className=" text-center space-y-4">
-              <h3 className=" text-brand-blue-900">Join Our Mission</h3>
-              <p className="text-lg text-gray-600 leading-relaxed max-w-prose">
-                Want to be part of our journey? We&apos;re always looking for
-                talented individuals to help us grow and make a greater impact.
-              </p>
-            </div>
-            <Link
-              href={ROUTES.GET_INVOLVED}
-              className={buttonVariants({
-                size: 'lg',
-              })}
-            >
-              Join Our Great Team
-            </Link>
-          </div>
+          <CtaSection
+            heading="Join Our Mission"
+            description="Want to be part of our journey? We're always looking for talented individuals to help us grow and make a greater impact."
+            link={{
+              text: 'Join Our Great Team',
+              href: ROUTES.GET_INVOLVED,
+            }}
+          />
         </div>
       </section>
     </div>

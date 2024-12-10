@@ -37,22 +37,24 @@ export default function AboutSection() {
               title: 'Combatting Child Trafficking',
               description:
                 'Dedicated to ending the horrific practice of child trafficking. Join us in the fight to protect vulnerable children and restore their freedom and dignity.',
-              img: '/a.jpg',
-              altText: '',
+              img: 'https://marianco-images.s3.eu-north-1.amazonaws.com/children_arms_on_shoulders_f77a5cefbd.jpg',
+              altText:
+                'Children with their arms on each others shoulders looking at a lake ',
             },
             {
               title: 'Fighting Against Child Pornography',
               description:
                 'Unwavering in our commitment to eradicating child pornography. Stand with us to protect children and eliminate this  crime.',
-              img: '/b.jpg',
-              altText: '',
+              img: 'https://marianco-images.s3.eu-north-1.amazonaws.com/children_in_a_circle_9d21bc9591.jpg',
+              altText:
+                'Children in a circle holding hands standing in a circle ',
             },
             {
               title: 'Eradicating Child Prostitution',
               description:
                 'Marianco is dedicated to ending child prostitution. Stand with us to protect children and give them the future they deserve.',
-              img: '/c.gif',
-              altText: '',
+              img: 'https://marianco-images.s3.eu-north-1.amazonaws.com/children_sitting_on_wall_50ed968c0c.gif',
+              altText: 'Children sitting on a wall',
             },
           ].map(item => (
             <li

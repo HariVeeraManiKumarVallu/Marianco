@@ -19,7 +19,10 @@ export default function Page() {
       <TitleSection
         title="Contact Us"
         description="Have Questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible."
-        image={{ url: '/titleImg.png', altText: 'altText' }}
+        image={{
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_Img_e79cd2fe95.png',
+          altText: 'hands reaching out',
+        }}
       />
       {/* <section className="relative py-20 bg-gray-50">
         <div className="container">
