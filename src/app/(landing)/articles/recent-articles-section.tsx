@@ -12,7 +12,7 @@ export default async function RecentArticlesSection({ id }: { id?: string }) {
   return (
     <section className="py-section bg-beige flex-1 w-full">
       <div className="container">
-        <h2 className="text-2xl font-bold mb-8">Recent Articles</h2>
+        <h2 className="mb-8">Recent Articles</h2>
         <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {data.data.map((article, index) => (
             <ArticleCard key={article.id} article={article} index={index} />

@@ -7,6 +7,7 @@ import { getEvent } from '@/lib/queries/strapi/event'
 import { EventResponse } from '@/types/event'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import OtherEventsSection from './other-events-section'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -36,29 +37,31 @@ export default async function EventPage({ params }: Props) {
   if (!event) notFound()
 
   return (
-    <article className="my-section">
-      <div className="prose mx-auto prose-lg prose-img:rounded-lg">
-        <h1>{event?.title}</h1>
+    <div className="my-section">
+      <section className="prose mx-auto prose-lg prose-img:rounded-lg">
+        <header>
+          <h1>{event?.title}</h1>
 
-        <div className="flex items-center gap-4 text-muted-foreground -mt-4">
-          <div className="flex items-center gap-2">
-            <Icons.calender className="size-4" />
-            {new Date(event.date).toLocaleDateString('en-US', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+          <div className="flex items-center gap-4 text-muted-foreground -mt-4">
+            <div className="flex items-center gap-2">
+              <Icons.calender className="size-4" />
+              {new Date(event.date).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </div>
+            <div className="flex items-center gap-2">
+              <Icons.clock className="size-4" />
+              {formatTime(event.time)}
+            </div>
+            <div className="flex items-center gap-2">
+              <Icons.mapPin className="size-4" />
+              {event.location}
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Icons.clock className="size-4" />
-            {formatTime(event.time)}
-          </div>
-          <div className="flex items-center gap-2">
-            <Icons.mapPin className="size-4" />
-            {event.location}
-          </div>
-        </div>
+        </header>
 
         <EventActions event={event} variant="detail" className="my-8" />
 
@@ -75,7 +78,10 @@ export default async function EventPage({ params }: Props) {
 
         {event.content && <ContentRenderer content={event.content} />}
         <EventActions event={event} variant="detail" className="mt-16" />
-      </div>
-    </article>
+      </section>
+      <section className="my-section bg-beige py-section">
+        <OtherEventsSection id={event.id.toString()} />
+      </section>
+    </div>
   )
 }

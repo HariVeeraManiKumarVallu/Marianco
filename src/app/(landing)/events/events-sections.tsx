@@ -1,32 +1,13 @@
 import { Separator } from '@/components/ui/separator'
-import { STATIC_CONFIG } from '@/config/cache'
 import { SOCIAL_LINKS } from '@/config/social-links'
-import { cn } from '@/lib/utils'
-import { EventResponse } from '@/types/event'
+import { getAllActiveEvents } from '@/lib/queries/strapi/event'
 import EventCard from './event-card'
 
-export default async function EventsSection({
-  className,
-}: {
-  className?: string
-}) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-
-  const data: EventResponse = await res.json()
+export default async function EventsSection() {
+  const data = await getAllActiveEvents()
 
   return (
-    <section className={cn('flex-1 w-full my-section', className)}>
+    <section className="flex-1 w-full my-section">
       <div className="container">
         <h2>Events</h2>
         <p className="text-muted-foreground">

@@ -23,9 +23,31 @@ export async function getEvent(slug: string): Promise<EventData> {
   return data.data[0]
 }
 
-export async function getUpcomingEvents() {
+export async function getUpcomingEvents(id?: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[isPastEvent][$eq]=false&sort=date:asc&pagination[limit]=3&populate=*`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[isPastEvent][$eq]=false&sort=date:asc&pagination[limit]=3&populate=*${id ? `&filters[id][$ne]=${id}` : ''}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      },
+      cache: 'force-cache',
+      next: {
+        revalidate: STATIC_CONFIG.revalidate,
+      },
+    }
+  )
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch events')
+  }
+
+  const data: EventResponse = await res.json()
+  return data
+}
+
+export async function getAllActiveEvents() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[isPastEvent][$eq]=false&sort=date:asc&populate=*`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,

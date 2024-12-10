@@ -1,8 +1,6 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import TitleSection from '@/components/title-section'
 import { STATIC_CONFIG } from '@/config/cache'
-import { SOCIAL_LINKS } from '@/config/social-links'
-import { EventResponse } from '@/types/event'
 import { Metadata } from 'next'
 import EventsSection from './events-sections'
 
