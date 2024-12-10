@@ -65,6 +65,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <GoogleAnalytics />
+        <HotJar />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
@@ -72,7 +73,6 @@ export default function RootLayout({
         {children}
         <Toaster />
       </body>
-      <HotJar />
     </html>
   )
 }
