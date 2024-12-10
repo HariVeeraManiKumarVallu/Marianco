@@ -18,24 +18,12 @@ export default function DonatePage() {
     <div className="space-y-20">
       <TitleSection
         title="Be a Hero for Vulnerable Children"
-        description="Your generosity makes it possible for us to rescue and protect children who are at risk or have been affected by exploitation. Every dollar you give helps us provide safe homes, education, psychological support, and the means for children to start anew."
+        description="Your generosity makes it possible for us to rescue and protect children who are at risk or have been affected by exploitation. Every donation helps us provide safe homes, education, psychological support, and the means for children to start anew."
         image={{
           url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_Img_e79cd2fe95.png',
           altText: 'altText',
         }}
       />
-      {/* <section className="mt-48">
-        <div className="container">
-          <h1>Be a Hero for Vulnerable Children</h1>
-
-          <p>
-            Your generosity makes it possible for us to rescue and protect
-            children who are at risk or have been affected by exploitation.
-            Every dollar you give helps us provide safe homes, education,
-            psychological support, and the means for children to start anew.
-          </p>
-        </div>
-      </section> */}
       <section>
         <div className="container">
           <h2 className="text-center mb-12">Support Our Cause</h2>
