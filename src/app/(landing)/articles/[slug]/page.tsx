@@ -3,11 +3,12 @@ import NewsletterSignup from '@/components/forms/newsletter-signup'
 import { ShareButtons } from '@/components/share-buttons'
 import { STATIC_CONFIG } from '@/config/cache'
 import { formatDate } from '@/lib/formatters'
-import { getArticle } from '@/lib/queries/strapi/article'
+import { getArticle, getRelatedArticles } from '@/lib/queries/strapi/article'
 import { ArticleResponse } from '@/types/article'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import RecentArticlesSection from '../recent-articles-section'
 
 export const { revalidate, dynamic } = STATIC_CONFIG
 
@@ -54,8 +55,8 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound()
 
   return (
-    <article className="my-section">
-      <div className="prose mx-auto prose-lg prose-img:rounded-lg container">
+    <div className="my-section">
+      <section className="prose mx-auto prose-lg prose-img:rounded-lg container mb-16">
         <h1 className="text-pretty">{article?.title}</h1>
         <p className="text-muted-foreground -mt-4">
           {formatDate(new Date(article.publishedDate))}
@@ -76,13 +77,14 @@ export default async function ArticlePage({ params }: Props) {
           <ShareButtons
             title={article.title}
             summary={article.summary}
-            className="mx-auto"
+            className="w-full"
           />
         </div>
-      </div>
+      </section>
+      <RecentArticlesSection id={article.id.toString()} />
       <div className="mt-16">
         <NewsletterSignup />
       </div>
-    </article>
+    </div>
   )
 }

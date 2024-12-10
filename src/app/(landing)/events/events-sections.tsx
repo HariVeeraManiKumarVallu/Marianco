@@ -1,24 +1,32 @@
-'use client'
-
-import { Icons } from '@/components/icons'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { formatTime } from '@/lib/formatters'
+import { STATIC_CONFIG } from '@/config/cache'
+import { SOCIAL_LINKS } from '@/config/social-links'
 import { cn } from '@/lib/utils'
-import { EventData } from '@/types/event'
-import { EventActions } from '@/components/event-actions'
-import { motion } from 'motion/react'
-import Image from 'next/image'
+import { EventResponse } from '@/types/event'
+import EventCard from './event-card'
 
-export default function EventsSection({ 
-  events,
-  className 
-}: { 
-  events: EventData[]
-  className?: string 
+export default async function EventsSection({
+  className,
+}: {
+  className?: string
 }) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?populate=*`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      },
+      cache: 'force-cache',
+      next: {
+        revalidate: STATIC_CONFIG.revalidate,
+      },
+    }
+  )
+
+  const data: EventResponse = await res.json()
+
   return (
-    <section className={cn("flex-1 w-full my-section", className)}>
+    <section className={cn('flex-1 w-full my-section', className)}>
       <div className="container">
         <h2>Events</h2>
         <p className="text-muted-foreground">
@@ -29,69 +37,33 @@ export default function EventsSection({
         </p>
         <Separator className="mt-4 mb-16 bg-muted h-[2px]" />
 
-        <ul className="space-y-16 lg:space-y-20">
-          {events.map((event, index) => (
-            <motion.li
-              key={event.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <Card
-                className={cn(
-                  {
-                    'lg:flex-row-reverse ': index % 2 !== 0,
-                  },
-                  'lg:flex max-w-[500px] mx-auto lg:max-w-none shadow-xl border-none'
-                )}
-              >
-                <CardHeader className="relative rounded-lg overflow-hidden h-64 w-full lg:h-auto lg:flex-1 max-w-[704px]">
-                  <Image
-                    src={
-                      event.image.formats?.large?.url ?? event.image.url ?? ''
-                    }
-                    alt={event.image.alternativeText || ''}
-                    className="object-cover"
-                    fill
-                  />
-                </CardHeader>
-                <CardContent className="py-8 lg:py-12 lg:min-w-[400px] lg:max-w-[450px] text-pretty mr-auto">
-                  <CardTitle className="mb-4">{event.title}</CardTitle>
-                  <p>{event.summary}</p>
-
-                  <div className="space-y-2 mt-4">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Icons.calender className="size-4" />
-                      {new Date(event.date).toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Icons.clock className="size-4" />
-                      {formatTime(event.time)}
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Icons.mapPin className="size-4" />
-                      {event.location}
-                    </div>
-                  </div>
-                  <EventActions event={event} className="mt-8" />
-                </CardContent>
-              </Card>
-            </motion.li>
-          ))}
-        </ul>
-
-        {events.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">
-              No events scheduled at the moment.
-              <br />
-              Check back later or subscribe to our newsletter to stay updated.
+        {data.data.length > 0 ? (
+          <ul className="space-y-16 lg:space-y-20">
+            {data.data.map((event, index) => (
+              <EventCard key={event.id} event={event} index={index} />
+            ))}
+          </ul>
+        ) : (
+          <div className="container flex-1 flex flex-col items-center justify-center gap-4 ">
+            <p className="text-center mt-48">
+              No events yet. Subscribe to our newsletter or follow us on social
+              media to stay updated with the latest news.
             </p>
+
+            <div className="flex gap-4">
+              {SOCIAL_LINKS.map(social => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                  aria-label={social.label}
+                >
+                  <social.icon className="size-5 fill-foreground hover:fill-primary transition-colors" />
+                </a>
+              ))}
+            </div>
           </div>
         )}
       </div>

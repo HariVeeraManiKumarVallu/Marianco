@@ -1,8 +1,13 @@
-import { getNotFeaturedArticles } from '@/lib/queries/strapi/article'
+import {
+  getNotFeaturedArticles,
+  getRelatedArticles,
+} from '@/lib/queries/strapi/article'
 import { ArticleCard } from '../../../components/article-card'
 
-export default async function RecentArticlesSection() {
-  const data = await getNotFeaturedArticles()
+export default async function RecentArticlesSection({ id }: { id?: string }) {
+  const data = id
+    ? await getRelatedArticles(id)
+    : await getNotFeaturedArticles()
 
   return (
     <section className="py-section bg-beige flex-1 w-full">

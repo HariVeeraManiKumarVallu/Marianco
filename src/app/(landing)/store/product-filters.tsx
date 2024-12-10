@@ -3,11 +3,11 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import RangeSlider, { Slider } from '@/components/ui/slider'
+import RangeSlider from '@/components/ui/slider'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { X } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 
 export default function ProductFilters({ categories }) {
   const router = useRouter()
@@ -31,7 +31,6 @@ export default function ProductFilters({ categories }) {
       }
 
       if (name === 'price' && Array.isArray(value)) {
-        console.log(value)
         params.set(name, value[0] + '-' + value[1])
       }
 

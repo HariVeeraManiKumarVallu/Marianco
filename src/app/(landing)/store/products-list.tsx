@@ -1,23 +1,12 @@
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination'
 import ProductCard from './product-card'
 
 type ProductsListProp = {
-  filteredCategories: string | string[] | undefined
+  query: { [key: string]: string | string[] | undefined }
   currentPage: number
+  products: any
 }
 
-const ProductsList = async ({
-  filteredCategories,
-  currentPage,
-}: ProductsListProp) => {
+const ProductsList = async ({ query, currentPage }: ProductsListProp) => {
   // const products = filteredCategories
   //   ? await fetchFilteredProducts(filteredCategories)
   //   : await fetchProducts();

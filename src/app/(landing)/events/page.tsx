@@ -19,22 +19,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function EventsPage() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-
-  const data: EventResponse = await res.json()
-
+export default function EventsPage() {
   return (
     <div className="flex-1 flex flex-col">
       <TitleSection
@@ -45,31 +30,7 @@ export default async function EventsPage() {
           altText: 'altText',
         }}
       />
-      {data.data.length === 0 ? (
-        <div className="container flex-1 flex flex-col items-center justify-center gap-4 ">
-          <p className="text-center mt-48">
-            No events yet. Subscribe to our newsletter or follow us on social
-            media to stay updated with the latest news.
-          </p>
-
-          <div className="flex gap-4">
-            {SOCIAL_LINKS.map(social => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-                aria-label={social.label}
-              >
-                <social.icon className="size-5 fill-foreground hover:fill-primary transition-colors" />
-              </a>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <EventsSection events={data.data} />
-      )}
+      <EventsSection />
       {/* <PastEventsSection pastEvents={pastEvents} /> */}
 
       <NewsletterSignup />

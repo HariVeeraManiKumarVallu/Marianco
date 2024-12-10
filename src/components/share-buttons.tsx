@@ -77,13 +77,9 @@ export function ShareButtons({
           <span>Share</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="center" className="w-full">
         <DropdownMenuItem>
-          <FacebookShareButton
-            url={url}
-            hashtag={'#Marianco'}
-            className="w-full"
-          >
+          <FacebookShareButton url={url} hashtag={'#Marianco'}>
             <div className="flex items-center">
               <FacebookIcon size={32} round />
               <span className="ml-2">Facebook</span>
@@ -97,7 +93,6 @@ export function ShareButtons({
             title={title}
             summary={summary}
             source={process.env.NEXT_PUBLIC_APP_URL}
-            className="w-full"
           >
             <div className="flex items-center">
               <LinkedinIcon size={20} round />
@@ -107,12 +102,7 @@ export function ShareButtons({
         </DropdownMenuItem>
 
         <DropdownMenuItem>
-          <TwitterShareButton
-            url={url}
-            title={title}
-            hashtags={['#Marianco']}
-            className="w-full"
-          >
+          <TwitterShareButton url={url} title={title} hashtags={['#Marianco']}>
             <div className="flex items-center">
               <XIcon size={20} round />
               <span className="ml-2">X</span>
@@ -121,7 +111,7 @@ export function ShareButtons({
         </DropdownMenuItem>
 
         <DropdownMenuItem>
-          <WhatsappShareButton url={url} title={title} className="w-full">
+          <WhatsappShareButton url={url} title={title}>
             <div className="flex items-center">
               <WhatsappIcon size={20} round />
               <span className="ml-2">WhatsApp</span>

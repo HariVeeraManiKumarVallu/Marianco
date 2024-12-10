@@ -9,19 +9,20 @@ export default async function StorePage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const products = await fetch('https://dummyjson.com/products?').then(res =>
-    res.json()
-  )
-
   const query = await searchParams
+
+  // const products = await fetch(
+  //   `https://dummyjson.com/products?limit=10&skip=${(Number(query?.page || 1) - 1) * 10}${query?.category ? `/category/${query?.category}` : ''}`
+  // ).then(res => res.json())
 
   const categories = await fetch(
     'https://dummyjson.com/products/category-list'
   ).then(res => res.json())
 
   const currentPage = Number(query?.page || 1)
-  const filteredCategories = query?.filter || ''
+  // const filteredCategories = query?.filter || ''
 
+  console.log(query)
   return (
     <>
       <header className="my-section">
@@ -35,8 +36,10 @@ export default async function StorePage({
         <div>
           <Suspense fallback={<ProductsSkeleton />}>
             <ProductsList
-              filteredCategories={filteredCategories}
+              // filteredCategories={filteredCategories}
+              query={query}
               currentPage={currentPage}
+              products={products}
             />
             <ProductPagination
               searchParams={query}
