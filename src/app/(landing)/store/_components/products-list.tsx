@@ -4,7 +4,7 @@ import ProductCard from './product-card'
 import ProductPagination from './product-pagination'
 
 type ProductsListProp = {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: { [key: string]: string | undefined }
   currentPage: number
 }
 
@@ -17,8 +17,15 @@ export default async function ProductsList({
   const query = qs.stringify(
     {
       filters: {
-        product_category: { title: { $eq: searchParams.category } },
-        price: searchParams.price,
+        product_category: {
+          title: {
+            $eq: searchParams.category?.split(','),
+          },
+        },
+        price: {
+          $gte: searchParams.price?.split('-')?.[0] || 0,
+          $lte: searchParams.price?.split('-')?.[1] || 100,
+        },
         search: searchParams.search,
       },
       populate: '*',
@@ -43,7 +50,6 @@ export default async function ProductsList({
   const products = await productsResponse.json()
 
   console.log(products)
-  console.log(query)
 
   // const productCount = await getProductCount(filteredCategories);
   return (

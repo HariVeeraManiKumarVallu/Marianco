@@ -14,7 +14,7 @@ export default function ProductFiltering({ categories }) {
   const searchParams = useSearchParams()
   const pathName = usePathname()
   const handleFiltering = useCallback(
-    (name: string, value: string | string[] | number[]) => {
+    (name: string, value: string) => {
       const params = new URLSearchParams(searchParams)
 
       if (!value) {
@@ -22,16 +22,7 @@ export default function ProductFiltering({ categories }) {
         return router.replace(`${pathName}?${params.toString()}`)
       }
 
-      if (name === 'category' && Array.isArray(value)) {
-        params.delete(name)
-        value.forEach(value => {
-          params.append(name, value as string)
-        })
-      }
-
-      if (name === 'price' && Array.isArray(value)) {
-        params.set(name, value[0] + '-' + value[1])
-      }
+      params.set(name, value)
 
       if (name === 'search') {
         params.set(name, value as string)
@@ -42,7 +33,13 @@ export default function ProductFiltering({ categories }) {
     [pathName, router, searchParams]
   )
 
-  const hasActiveFilters = !!searchParams.get('category')?.toString()
+  console.log(searchParams)
+
+  function resetFilters() {
+    router.replace(pathName)
+  }
+
+  const hasActiveFilters = !!searchParams.size
   return (
     <div className="space-y-4">
       <div className="space-y-2">
@@ -53,7 +50,7 @@ export default function ProductFiltering({ categories }) {
               className="text-sm"
               variant={'ghost'}
               size={'sm'}
-              onClick={() => handleFiltering('category', '')}
+              onClick={resetFilters}
             >
               <X className="size-4" />
               Clear All
@@ -63,9 +60,12 @@ export default function ProductFiltering({ categories }) {
         <ToggleGroup
           className="flex-wrap justify-start"
           variant={'outline'}
-          value={searchParams.getAll('category') ?? []}
+          value={searchParams.get('category')?.split(',') ?? []}
           onValueChange={categories => {
-            handleFiltering('category', categories.length ? categories : '')
+            handleFiltering(
+              'category',
+              categories.length ? categories.join(',') : ''
+            )
           }}
           type="multiple"
         >
@@ -96,7 +96,11 @@ export default function ProductFiltering({ categories }) {
           step={1}
           minStepsBetweenThumbs={10}
           onValueCommit={value => {
-            handleFiltering('price', value)
+            if (value[0] === 0 && value[1] === 100) {
+              handleFiltering('price', '')
+              return
+            }
+            handleFiltering('price', value.join('-'))
           }}
         />
       </div>
