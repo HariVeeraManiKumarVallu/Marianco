@@ -5,14 +5,19 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import RangeSlider from '@/components/ui/slider'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { useDebounce } from '@/hooks/use-debounce'
 import { X } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export default function ProductFiltering({ categories }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathName = usePathname()
+  const [productSearch, setProductSearch] = useState('')
+
+  const debouncedValue = useDebounce(productSearch)
+
   const handleFiltering = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams)
@@ -33,7 +38,9 @@ export default function ProductFiltering({ categories }) {
     [pathName, router, searchParams]
   )
 
-  console.log(searchParams)
+  useEffect(() => {
+    handleFiltering('search', debouncedValue)
+  }, [debouncedValue, handleFiltering])
 
   function resetFilters() {
     router.replace(pathName)
@@ -109,9 +116,9 @@ export default function ProductFiltering({ categories }) {
         <Label>Search</Label>
         <Input
           placeholder="Search products..."
-          defaultValue={searchParams.get('search') ?? ''}
+          defaultValue={productSearch}
           onChange={e => {
-            handleFiltering('search', e.target.value)
+            setProductSearch(e.target.value)
           }}
         />
       </div>
