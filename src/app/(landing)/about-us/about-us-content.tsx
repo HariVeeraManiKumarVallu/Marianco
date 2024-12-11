@@ -3,12 +3,10 @@
 import CtaSection from '@/components/cta-section'
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
-import { buttonVariants } from '@/components/ui/button'
 import { ROUTES } from '@/config/routes'
 import { BicepsFlexed, Crown, Scale } from 'lucide-react'
 import { motion } from 'motion/react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
   return (
@@ -27,7 +25,7 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
           <div className="flex flex-col md:flex-row gap-8 mt-8 mx-auto max-w-prose md:max-w-none">
             <div className="relative rounded-lg overflow-hidden flex-1 min-h-64 min-w-64 lg:max-w-[350px]">
               <Image
-                src="/francisco-padilla.png"
+                src="https://marianco-images.s3.eu-north-1.amazonaws.com/francisco_padilla_5caf2df652.png"
                 fill
                 className="object-contain lg:object-cover"
                 alt="Francisco Padilla"

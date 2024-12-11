@@ -9,11 +9,10 @@ import { X } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
 
-export default function ProductFilters({ categories }) {
+export default function ProductFiltering({ categories }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathName = usePathname()
-
   const handleFiltering = useCallback(
     (name: string, value: string | string[] | number[]) => {
       const params = new URLSearchParams(searchParams)
@@ -44,7 +43,6 @@ export default function ProductFilters({ categories }) {
   )
 
   const hasActiveFilters = !!searchParams.get('category')?.toString()
-
   return (
     <div className="space-y-4">
       <div className="space-y-2">
@@ -73,12 +71,12 @@ export default function ProductFilters({ categories }) {
         >
           {categories.map(category => (
             <ToggleGroupItem
-              key={category}
-              value={category}
+              key={category.id}
+              value={category.title}
               size={'sm'}
               className="capitalize data-[state=on]:bg-brand-blue-300/90  hover:bg-brand-blue-100/50"
             >
-              {category.toLowerCase()}
+              {category.title}
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
