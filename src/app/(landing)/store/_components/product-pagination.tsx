@@ -24,7 +24,6 @@ export default function ProductPagination({
     params.set('page', page.toString())
     return `?${params.toString()}`
   }
-
   return (
     <div className="mt-12">
       <Pagination>
@@ -34,7 +33,7 @@ export default function ProductPagination({
               <PaginationPrevious href={createPageUrl(currentPage - 1)} />
             </PaginationItem>
           )}
-          {Math.ceil(currentPage / totalPaginationButtons) >= 1 && (
+          {Math.floor(currentPage / totalPaginationButtons) >= 1 && (
             <>
               <PaginationItem>
                 <PaginationLink href={createPageUrl(1)}>{1}</PaginationLink>

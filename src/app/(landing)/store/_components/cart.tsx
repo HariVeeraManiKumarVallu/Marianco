@@ -1,0 +1,66 @@
+'use client'
+
+import { Button } from '@/components/ui/button'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
+import { useCart } from '@/hooks/use-cart'
+import { useCheckout } from '@/hooks/use-checkout'
+import { ShoppingCart } from 'lucide-react'
+import CartItem from './cart-item'
+
+export default function Cart() {
+  const { items, total, removeItem, updateQuantity, totalItems } = useCart()
+  const { handleCheckout } = useCheckout()
+
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline" size="icon" className="relative">
+          <ShoppingCart className="size-5" />
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground rounded-full size-5 text-xs flex items-center justify-center">
+              {totalItems}
+            </span>
+          )}
+        </Button>
+      </SheetTrigger>
+      <SheetContent className="w-full sm:max-w-lg">
+        <SheetHeader>
+          <SheetTitle>Shopping Cart</SheetTitle>
+        </SheetHeader>
+        <div className="mt-8 space-y-4">
+          {items.length === 0 ? (
+            <p className="text-center text-muted-foreground">
+              Your cart is empty
+            </p>
+          ) : (
+            <>
+              {items.map(item => (
+                <CartItem
+                  key={item.id}
+                  item={item}
+                  onUpdateQuantity={updateQuantity}
+                  onRemove={removeItem}
+                />
+              ))}
+              <div className="border-t pt-4">
+                <div className="flex justify-between">
+                  <span className="font-medium">Total</span>
+                  <span className="font-medium">${total.toFixed(2)}</span>
+                </div>
+                <Button className="w-full mt-4" onClick={handleCheckout}>
+                  Checkout with Stripe
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+      </SheetContent>
+    </Sheet>
+  )
+}

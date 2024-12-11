@@ -45,7 +45,6 @@ export async function getCategories() {
 }
 
 export async function getMaxPrice(query: string) {
-  console.log(query)
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}&sort=price:desc`,
     {
