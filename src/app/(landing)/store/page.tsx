@@ -24,7 +24,7 @@ export default async function StorePage({
       <div className="container grid grid-cols-[300px_1fr] gap-12">
         <ProductFilters />
         <Suspense fallback={<ProductsSkeleton />}>
-          <ProductsList query={query} currentPage={currentPage} />
+          <ProductsList searchParams={query} currentPage={currentPage} />
         </Suspense>
       </div>
     </>

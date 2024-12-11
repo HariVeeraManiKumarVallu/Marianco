@@ -1,19 +1,35 @@
 import { STATIC_CONFIG } from '@/config/cache'
+import qs from 'qs'
 import ProductCard from './product-card'
 import ProductPagination from './product-pagination'
 
 type ProductsListProp = {
-  query: { [key: string]: string | string[] | undefined }
+  searchParams: { [key: string]: string | string[] | undefined }
   currentPage: number
 }
 
 export default async function ProductsList({
-  query,
+  searchParams,
   currentPage,
 }: ProductsListProp) {
   const skipItems = (currentPage - 1) * 10
+
+  const query = qs.stringify(
+    {
+      filters: {
+        product_category: { title: { $eq: searchParams.category } },
+        price: searchParams.price,
+        search: searchParams.search,
+      },
+      populate: '*',
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  )
+
   const productsResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?filters[product_category][title][$eq]=${query.category}&populate=*`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -32,19 +48,19 @@ export default async function ProductsList({
   // const productCount = await getProductCount(filteredCategories);
   return (
     <div className="flex flex-1 flex-col space-y-16">
-      {products.data.length === 0 ? (
+      {products?.data?.length === 0 ? (
         <div className="flex flex-1 items-center justify-center">
           <p>No products found</p>
         </div>
       ) : (
         <>
           <div className="grid flex-1 gap-8 lg:grid-cols-2 xl:grid-cols-3">
-            {products.data.map(product => (
+            {products.data?.map(product => (
               <ProductCard product={product} key={product.id} />
             ))}
           </div>
           <ProductPagination
-            searchParams={query}
+            searchParams={searchParams}
             currentPage={currentPage}
             totalPaginationButtons={3}
             totalProducts={products.total}
