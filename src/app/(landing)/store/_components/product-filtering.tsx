@@ -36,10 +36,7 @@ export default function ProductFiltering({
       }
 
       params.set(name, value)
-
-      if (name === 'search') {
-        params.set(name, value as string)
-      }
+      params.set('page', '1')
 
       router.replace(`${pathName}?${params.toString()}`)
     },

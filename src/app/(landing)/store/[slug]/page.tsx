@@ -1,31 +1,14 @@
 import { Button } from '@/components/ui/button'
-import { STATIC_CONFIG } from '@/config/cache'
+import { getProduct } from '@/lib/queries/strapi/product'
 import Image from 'next/image'
 
 export default async function ProductPage({
   params,
 }: {
-  params: { [key: string]: string }
+  params: Promise<{ slug: string }>
 }) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products/${params.slug}?populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch product')
-  }
-
-  const resData = await res.json()
-  const product = resData.data
+  const slug = (await params).slug
+  const { data: product } = await getProduct(slug)
   console.log(product)
   if (!product) return null
 
@@ -40,12 +23,12 @@ export default async function ProductPage({
   // }
 
   return (
-    <section className="mt-8">
+    <section className="my-section">
       <div className="container space-y-24">
         <article className="grid gap-12 md:grid-cols-2 lg:gap-20 ">
           <div className="relative min-h-[400px] rounded-sm bg-stone-100 overflow-clip">
             <Image
-              src={product.images[0].url}
+              src={'/logo.png'}
               fill
               alt={product.title}
               className="aspect-square object-cover "
