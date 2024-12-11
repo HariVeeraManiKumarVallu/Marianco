@@ -6,11 +6,11 @@ import ProductsSkeleton from './_components/products-skeleton'
 export default async function StorePage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  searchParams: Promise<{ [key: string]: string | undefined }>
 }) {
   const query = await searchParams
 
-  const currentPage = Number(query?.page || 1)
+  // const currentPage = Number(query?.page || 1)
   // const filteredCategories = query?.filter || ''
 
   return (
@@ -22,9 +22,9 @@ export default async function StorePage({
         </div>
       </header>
       <div className="container grid grid-cols-[300px_1fr] gap-12">
-        <ProductFilters />
+        <ProductFilters searchParams={query} />
         <Suspense fallback={<ProductsSkeleton />}>
-          <ProductsList searchParams={query} currentPage={currentPage} />
+          <ProductsList searchParams={query} />
         </Suspense>
       </div>
     </>

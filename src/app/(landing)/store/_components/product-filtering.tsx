@@ -10,7 +10,15 @@ import { X } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
-export default function ProductFiltering({ categories }) {
+export default function ProductFiltering({
+  categories,
+  minPrice,
+  maxPrice,
+}: {
+  categories: { id: string; title: string }[]
+  minPrice: number
+  maxPrice: number
+}) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathName = usePathname()
@@ -96,14 +104,14 @@ export default function ProductFiltering({ categories }) {
             searchParams
               .get('price')
               ?.split('-')
-              .map(v => Number(v)) ?? [0, 100]
+              .map(v => Number(v)) ?? [minPrice, maxPrice]
           }
-          min={0}
-          max={100}
+          min={minPrice}
+          max={maxPrice}
           step={1}
-          minStepsBetweenThumbs={10}
+          minStepsBetweenThumbs={1}
           onValueCommit={value => {
-            if (value[0] === 0 && value[1] === 100) {
+            if (value[0] === minPrice && value[1] === maxPrice) {
               handleFiltering('price', '')
               return
             }

@@ -1,34 +1,30 @@
-import { STATIC_CONFIG } from '@/config/cache'
+import { getProducts } from '@/lib/queries/strapi/product'
 import qs from 'qs'
 import ProductCard from './product-card'
 import ProductPagination from './product-pagination'
 
 type ProductsListProp = {
   searchParams: { [key: string]: string | undefined }
-  currentPage: number
 }
 
-export default async function ProductsList({
-  searchParams,
-  currentPage,
-}: ProductsListProp) {
+export default async function ProductsList({ searchParams }: ProductsListProp) {
   const query = qs.stringify(
     {
       filters: {
         product_category: {
           title: {
-            $eq: searchParams.category?.split(','),
+            $eq: searchParams?.category?.split(','),
           },
         },
         price: {
-          $gte: searchParams.price?.split('-')?.[0] || 0,
-          $lte: searchParams.price?.split('-')?.[1] || 100,
+          $gte: searchParams?.price?.split('-')?.[0],
+          $lte: searchParams?.price?.split('-')?.[1],
         },
-        search: searchParams.search,
+        search: searchParams?.search,
       },
       pagination: {
-        page: currentPage,
-        pageSize: 5,
+        page: searchParams?.page || 1,
+        pageSize: 10,
       },
       populate: '*',
     },
@@ -36,24 +32,8 @@ export default async function ProductsList({
       encodeValuesOnly: true,
     }
   )
+  const { data: products, meta } = await getProducts(query)
 
-  const productsResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-  const products = await productsResponse.json()
-
-  console.log(products)
-
-  // const productCount = await getProductCount(filteredCategories);
   return (
     <div className="flex flex-1 flex-col space-y-16">
       {products?.data?.length === 0 ? (
@@ -63,17 +43,15 @@ export default async function ProductsList({
       ) : (
         <>
           <div className="grid flex-1 gap-8 lg:grid-cols-2 xl:grid-cols-3">
-            {products.data?.map(product => (
+            {products?.map(product => (
               <ProductCard product={product} key={product.id} />
             ))}
           </div>
           <ProductPagination
             searchParams={searchParams}
-            currentPage={products.meta.pagination.page}
+            currentPage={meta.pagination.page}
             totalPaginationButtons={5}
-            totalProducts={products.meta.pagination.total}
-            productsPerPage={products.meta.pagination.pageSize}
-            totalPages={products.meta.pagination.pageCount}
+            totalPages={meta.pagination.pageCount}
           />
         </>
       )}

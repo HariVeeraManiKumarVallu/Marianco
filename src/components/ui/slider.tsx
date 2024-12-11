@@ -41,14 +41,14 @@ export default function RangeSlider({ ...props }) {
 
   return (
     <div className="w-full max-w-sm mx-auto">
-      <div className="w-full flex items-center justify-between gap-2">
-        <span className="text-sm text-muted-foreground">0</span>
-        <Slider value={value} onValueChange={setValue} {...props} />
-        <span className="text-sm text-muted-foreground">100</span>
-      </div>
       <p className="mt-2 text-center text-sm text-muted-foreground">
         {from} - {to}
       </p>
+      <div className="w-full flex items-center justify-between gap-2">
+        <span className="text-sm text-muted-foreground">{props.min}</span>
+        <Slider value={value} onValueChange={setValue} {...props} />
+        <span className="text-sm text-muted-foreground">{props.max}</span>
+      </div>
     </div>
   )
 }

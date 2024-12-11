@@ -1,19 +1,46 @@
+import {
+  getCategories,
+  getMaxPrice,
+  getMinPrice,
+} from '@/lib/queries/strapi/product'
+import qs from 'qs'
 import ProductFiltering from './product-filtering'
 
-export default async function ProductFilters() {
-  const categoriesResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/product-categories`,
+export default async function ProductFilters({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined }
+}) {
+  const query = qs.stringify(
     {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      filters: {
+        product_category: {
+          title: {
+            $eq: searchParams?.category?.split(','),
+          },
+        },
+        search: searchParams?.search,
       },
-      cache: 'force-cache',
-      next: {
-        revalidate: 60,
+      pagination: {
+        limit: 1,
       },
+      fields: ['price'],
+    },
+    {
+      encodeValuesOnly: true,
     }
   )
-  const categories = await categoriesResponse.json()
+  const [categories, minPrice, maxPrice] = await Promise.all([
+    getCategories(),
+    getMinPrice(query),
+    getMaxPrice(query),
+  ])
 
-  return <ProductFiltering categories={categories.data} />
+  return (
+    <ProductFiltering
+      categories={categories.data}
+      minPrice={minPrice.data[0].price}
+      maxPrice={maxPrice.data[0].price}
+    />
+  )
 }

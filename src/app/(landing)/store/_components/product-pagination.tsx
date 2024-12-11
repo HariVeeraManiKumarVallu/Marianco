@@ -11,21 +11,14 @@ import {
 export default function ProductPagination({
   searchParams,
   currentPage,
-  totalProducts,
   totalPages,
-  productsPerPage,
   totalPaginationButtons,
-  // totalProducts,
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
-  totalProducts: number
   totalPages: number
-  productsPerPage: number
   currentPage: number
   totalPaginationButtons: number
-  // totalProducts: number
 }) {
-  // const totalPages = Math.ceil(totalProducts / 10)
   const createPageUrl = (page: number) => {
     const params = new URLSearchParams(searchParams as Record<string, string>)
     params.set('page', page.toString())
@@ -52,11 +45,6 @@ export default function ProductPagination({
             </>
           )}
           {[...Array(totalPaginationButtons)].map((_, index) => {
-            // const pageNumber =
-            //   Math.floor((currentPage - 1) / totalPaginationButtons) *
-            //     totalPaginationButtons +
-            //   index +
-            //   1
             let pageNumber
             if (currentPage < totalPaginationButtons) {
               pageNumber = index + 1
