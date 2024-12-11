@@ -12,8 +12,6 @@ export default async function ProductsList({
   searchParams,
   currentPage,
 }: ProductsListProp) {
-  const skipItems = (currentPage - 1) * 10
-
   const query = qs.stringify(
     {
       filters: {
@@ -27,6 +25,10 @@ export default async function ProductsList({
           $lte: searchParams.price?.split('-')?.[1] || 100,
         },
         search: searchParams.search,
+      },
+      pagination: {
+        page: currentPage,
+        pageSize: 5,
       },
       populate: '*',
     },
@@ -67,9 +69,11 @@ export default async function ProductsList({
           </div>
           <ProductPagination
             searchParams={searchParams}
-            currentPage={currentPage}
-            totalPaginationButtons={3}
-            totalProducts={products.total}
+            currentPage={products.meta.pagination.page}
+            totalPaginationButtons={5}
+            totalProducts={products.meta.pagination.total}
+            productsPerPage={products.meta.pagination.pageSize}
+            totalPages={products.meta.pagination.pageCount}
           />
         </>
       )}

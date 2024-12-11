@@ -11,16 +11,21 @@ import {
 export default function ProductPagination({
   searchParams,
   currentPage,
-  totalPaginationButtons,
   totalProducts,
+  totalPages,
+  productsPerPage,
+  totalPaginationButtons,
+  // totalProducts,
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
+  totalProducts: number
+  totalPages: number
+  productsPerPage: number
   currentPage: number
   totalPaginationButtons: number
-  totalProducts: number
+  // totalProducts: number
 }) {
-  const totalPages = Math.ceil(totalProducts / 10)
-
+  // const totalPages = Math.ceil(totalProducts / 10)
   const createPageUrl = (page: number) => {
     const params = new URLSearchParams(searchParams as Record<string, string>)
     params.set('page', page.toString())
@@ -36,7 +41,7 @@ export default function ProductPagination({
               <PaginationPrevious href={createPageUrl(currentPage - 1)} />
             </PaginationItem>
           )}
-          {Math.ceil(currentPage / totalPaginationButtons) > 1 && (
+          {Math.ceil(currentPage / totalPaginationButtons) >= 1 && (
             <>
               <PaginationItem>
                 <PaginationLink href={createPageUrl(1)}>{1}</PaginationLink>
@@ -47,11 +52,17 @@ export default function ProductPagination({
             </>
           )}
           {[...Array(totalPaginationButtons)].map((_, index) => {
-            const pageNumber =
-              Math.floor((currentPage - 1) / totalPaginationButtons) *
-                totalPaginationButtons +
-              index +
-              1
+            // const pageNumber =
+            //   Math.floor((currentPage - 1) / totalPaginationButtons) *
+            //     totalPaginationButtons +
+            //   index +
+            //   1
+            let pageNumber
+            if (currentPage < totalPaginationButtons) {
+              pageNumber = index + 1
+            } else {
+              pageNumber = currentPage - 2 + index
+            }
 
             if (pageNumber > totalPages) {
               return null
@@ -69,9 +80,7 @@ export default function ProductPagination({
             )
           })}
 
-          {Math.ceil(currentPage / totalPaginationButtons) *
-            totalPaginationButtons <
-            totalPages && (
+          {currentPage < totalPages - 2 && (
             <>
               <PaginationItem>
                 <PaginationEllipsis />
