@@ -1,12 +1,10 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RangeSlider } from '@/components/ui/slider'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useDebounce } from '@/hooks/use-debounce'
-import { X } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -47,11 +45,6 @@ export default function ProductFiltering({
     handleFiltering('search', debouncedValue)
   }, [debouncedValue, handleFiltering])
 
-  function resetFilters() {
-    router.replace(pathName)
-  }
-
-  const hasActiveFilters = !!searchParams.size
   return (
     <div className="space-y-6 ">
       <div className="space-y-2">
@@ -66,20 +59,7 @@ export default function ProductFiltering({
         />
       </div>
       <div className="space-y-2">
-        {/* <div className="flex justify-between items-center h-9"> */}
         <Label className="text-base">Categories</Label>
-        {/* {hasActiveFilters && (
-            <Button
-              className="text-sm"
-              variant={'ghost'}
-              size={'sm'}
-              onClick={resetFilters}
-            >
-              <X className="size-4" />
-              Clear All
-            </Button>
-          )} */}
-        {/* </div> */}
         <ToggleGroup
           className="flex-wrap justify-start"
           variant={'outline'}

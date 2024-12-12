@@ -45,12 +45,12 @@ export type StrapiData<T> = {
 } & T
 
 export type StrapiResponse<T> = {
-  data: T[]
+  data: T
   meta: {
     pagination: {
       page: number
-      pageSize: number
       pageCount: number
+      pageSize: number
       total: number
     }
   }

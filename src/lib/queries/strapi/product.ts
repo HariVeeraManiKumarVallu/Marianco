@@ -46,7 +46,7 @@ export async function getProduct(id: string) {
 
 export async function getCategories() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/product-categories`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/product-categories?fields=title`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -63,6 +63,7 @@ export async function getCategories() {
   }
 
   const data = await res.json()
+  console.log(data)
   return data
 }
 
