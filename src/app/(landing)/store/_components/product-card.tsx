@@ -15,14 +15,14 @@ import Link from 'next/link'
 const ProductCard = ({ product }) => {
   const cart = useCart()
   return (
-    <Card className="bg-card rounded-lg overflow-hidden shadow-lg">
-      <Link href={`/store/${product.documentId}`} className="group space-y-3 ">
+    <Card className="bg-card rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 hover:shadow-xl">
+      <Link href={`/store/${product.documentId}`} className=" space-y-3 ">
         <CardHeader className="relative h-64">
           <Image
             src={'/logo.png'}
             alt={product.title}
             fill
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+            className="w-full h-full object-cover "
           />
         </CardHeader>
         <CardContent>
