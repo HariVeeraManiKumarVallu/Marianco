@@ -42,7 +42,7 @@ export default async function ProductsList({ searchParams }: ProductsListProp) {
         </div>
       ) : (
         <>
-          <div className="grid flex-1 gap-8 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid flex-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {products?.map(product => (
               <ProductCard product={product} key={product.id} />
             ))}

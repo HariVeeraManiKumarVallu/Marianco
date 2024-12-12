@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/sheet'
 import { ROUTES } from '@/config/routes'
 import { useCart } from '@/hooks/use-cart'
-import { useCheckout } from '@/hooks/use-checkout'
+import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { ShoppingCart } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import CartItem from './cart-item'
@@ -21,7 +21,7 @@ export default function Cart({
   variant?: 'icon' | 'full'
 }) {
   const { items, total, removeItem, updateQuantity, totalItems } = useCart()
-  const { handleCheckout } = useCheckout()
+  // const { handleCheckout } = useCheckout()
   const pathname = usePathname()
 
   if (pathname !== ROUTES.STORE && totalItems === 0) return null
@@ -70,7 +70,12 @@ export default function Cart({
                   <span className="font-medium">Total</span>
                   <span className="font-medium">${total.toFixed(2)}</span>
                 </div>
-                <Button className="w-full mt-4" onClick={handleCheckout}>
+                <Button
+                  className="w-full mt-4"
+                  onClick={async () =>
+                    await handleStripeCheckoutSession({ items })
+                  }
+                >
                   Checkout with Stripe
                 </Button>
               </div>

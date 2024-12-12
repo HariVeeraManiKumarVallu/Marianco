@@ -17,7 +17,6 @@ export async function handleStripeCheckoutSession<T>(data: T) {
 
     const { sessionId } = await response.json()
     const stripeError = await stripe.redirectToCheckout({ sessionId })
-    console.log({ sessionId, stripeError })
 
     if (stripeError) {
       console.error(stripeError)

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import RangeSlider from '@/components/ui/slider'
+import { RangeSlider } from '@/components/ui/slider'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useDebounce } from '@/hooks/use-debounce'
 import { X } from 'lucide-react'
@@ -36,7 +36,7 @@ export default function ProductFiltering({
       }
 
       params.set(name, value)
-      params.set('page', '1')
+      if (Number(params.get('page')) > 1) params.set('page', '1')
 
       router.replace(`${pathName}?${params.toString()}`)
     },
@@ -53,11 +53,22 @@ export default function ProductFiltering({
 
   const hasActiveFilters = !!searchParams.size
   return (
-    <div className="space-y-4">
+    <div className="space-y-6 ">
       <div className="space-y-2">
-        <div className="flex justify-between items-center h-9">
-          <h5>Categories</h5>
-          {hasActiveFilters && (
+        <Label className="text-base">Search</Label>
+        <Input
+          placeholder="Search products..."
+          defaultValue={productSearch}
+          className="max-w-lg"
+          onChange={e => {
+            setProductSearch(e.target.value)
+          }}
+        />
+      </div>
+      <div className="space-y-2">
+        {/* <div className="flex justify-between items-center h-9"> */}
+        <Label className="text-base">Categories</Label>
+        {/* {hasActiveFilters && (
             <Button
               className="text-sm"
               variant={'ghost'}
@@ -67,20 +78,30 @@ export default function ProductFiltering({
               <X className="size-4" />
               Clear All
             </Button>
-          )}
-        </div>
+          )} */}
+        {/* </div> */}
         <ToggleGroup
           className="flex-wrap justify-start"
           variant={'outline'}
           value={searchParams.get('category')?.split(',') ?? []}
           onValueChange={categories => {
-            handleFiltering(
-              'category',
-              categories.length ? categories.join(',') : ''
-            )
+            if (categories.length === 0 || categories.includes('reset')) {
+              handleFiltering('category', '')
+              return
+            }
+
+            handleFiltering('category', categories.join(','))
           }}
           type="multiple"
         >
+          <ToggleGroupItem
+            value="reset"
+            size={'sm'}
+            data-state={searchParams.get('category') ? 'off' : 'on'}
+            className="capitalize data-[state=on]:bg-brand-blue-300/90  hover:bg-brand-blue-100/50"
+          >
+            All
+          </ToggleGroupItem>
           {categories.map(category => (
             <ToggleGroupItem
               key={category.id}
@@ -95,7 +116,7 @@ export default function ProductFiltering({
       </div>
 
       <div className="space-y-2">
-        <Label>Price Range</Label>
+        <Label className="text-base">Price Range</Label>
         <RangeSlider
           defaultValue={
             searchParams
@@ -113,17 +134,6 @@ export default function ProductFiltering({
               return
             }
             handleFiltering('price', value.join('-'))
-          }}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label>Search</Label>
-        <Input
-          placeholder="Search products..."
-          defaultValue={productSearch}
-          onChange={e => {
-            setProductSearch(e.target.value)
           }}
         />
       </div>

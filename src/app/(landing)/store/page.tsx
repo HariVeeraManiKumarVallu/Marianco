@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
-import Cart from '../../../components/cart'
 import ProductFilters from './_components/product-filters'
 import ProductsList from './_components/products-list'
 import ProductsSkeleton from './_components/products-skeleton'
+import ProductSort from './_components/product-sort'
 
 export default async function StorePage({
   searchParams,
@@ -12,19 +12,23 @@ export default async function StorePage({
   const query = await searchParams
 
   return (
-    <>
-      <header className="my-section">
-        <div className="container">
-          <h2>Store</h2>
-          <p>Browse our selection of products</p>
-        </div>
+    <div className="py-32 lg:py-section">
+      <header className="space-y-4 container">
+        <h1>Store</h1>
+        <p className="text-muted-foreground">
+          Every purchase supports our mission to protect children from
+          exploitation and abuse
+        </p>
       </header>
-      <div className="container grid grid-cols-[250px_1fr] gap-12">
-        <ProductFilters searchParams={query} />
+      <div className="container">
+        <div className="flex justify-between mt-16 mb-12">
+          <ProductFilters searchParams={query} />
+          <ProductSort />
+        </div>
         <Suspense fallback={<ProductsSkeleton />}>
           <ProductsList searchParams={query} />
         </Suspense>
       </div>
-    </>
+    </div>
   )
 }

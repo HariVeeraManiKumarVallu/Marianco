@@ -31,7 +31,9 @@ const Slider = React.forwardRef<
 ))
 Slider.displayName = SliderPrimitive.Root.displayName
 
-export default function RangeSlider({ ...props }) {
+export { Slider }
+
+export function RangeSlider({ ...props }) {
   const [value, setValue] = React.useState(props.defaultValue)
   const [from, to] = value
 
@@ -40,14 +42,14 @@ export default function RangeSlider({ ...props }) {
   }, [props.defaultValue])
 
   return (
-    <div className="w-full max-w-sm mx-auto">
-      <p className="mt-2 text-center text-sm text-muted-foreground">
-        {from} - {to}
-      </p>
+    <div className="w-full max-w-sm">
       <div className="w-full flex items-center justify-between gap-2">
         <span className="text-sm text-muted-foreground">{props.min}</span>
         <Slider value={value} onValueChange={setValue} {...props} />
         <span className="text-sm text-muted-foreground">{props.max}</span>
+        <p className="mt-2 text-center text-sm text-muted-foreground h-5">
+          {from !== props.min || to !== props.max ? `${from} - ${to}` : null}
+        </p>
       </div>
     </div>
   )

@@ -12,9 +12,6 @@ export default {
       container: {
         center: true,
         padding: '2rem',
-        screens: {
-          xl: '1280px',
-        },
       },
       space: {
         page: '6rem',

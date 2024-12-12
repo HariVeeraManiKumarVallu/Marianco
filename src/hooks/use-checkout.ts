@@ -15,7 +15,7 @@ export function useCheckout() {
       const stripe = await stripePromise
       if (!stripe) throw new Error('Stripe failed to initialize')
 
-      const response = await fetch('/api/checkout', {
+      const response = await fetch('/api/checkout_sessions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
