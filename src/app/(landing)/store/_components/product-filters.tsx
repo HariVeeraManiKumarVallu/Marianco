@@ -19,7 +19,9 @@ export default async function ProductFilters({
             $eq: searchParams?.category?.split(','),
           },
         },
-        search: searchParams?.search,
+        tags: {
+          in: searchParams?.search?.split(','),
+        },
       },
       pagination: {
         limit: 1,

@@ -19,6 +19,7 @@ export async function getProducts(query: string) {
   }
 
   const data = await res.json()
+  console.log(data)
   return data
 }
 
@@ -63,7 +64,6 @@ export async function getCategories() {
   }
 
   const data = await res.json()
-  console.log(data)
   return data
 }
 
