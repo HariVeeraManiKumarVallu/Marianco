@@ -7,33 +7,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 const sortOptions = [
-  { value: 'name-asc', label: 'Name (A-Z)' },
-  { value: 'name-desc', label: 'Name (Z-A)' },
-  { value: 'price-asc', label: 'Price (Low to High)' },
-  { value: 'price-desc', label: 'Price (High to Low)' },
-]
+  { value: 'popularity:desc', label: 'Most Popular' },
+  { value: 'title:asc', label: 'Name (A-Z)' },
+  { value: 'title:desc', label: 'Name (Z-A)' },
+  { value: 'price:asc', label: 'Price (Low to High)' },
+  { value: 'price:desc', label: 'Price (High to Low)' },
+] as const
 
 export default function ProductSort() {
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathName = usePathname()
 
   const handleSort = (value: string) => {
     const params = new URLSearchParams(searchParams)
-    const setParam = (key: string, value: string | null) => {
-      if (value) {
-        params.set(key, value)
-      } else {
-        params.delete(key)
-      }
-    }
-    setParam('sort', value === 'name-asc' ? null : value)
+
+    params.set('sort', value)
+
+    router.replace(`${pathName}?${params.toString()}`)
   }
 
   return (
     <Select
-      value={searchParams.get('sort') || 'name-asc'}
+      value={searchParams.get('sort') || sortOptions[0].value}
       onValueChange={handleSort}
     >
       <SelectTrigger className="w-[180px]">

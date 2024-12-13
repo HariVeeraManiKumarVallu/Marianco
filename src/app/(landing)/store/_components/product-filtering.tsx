@@ -5,6 +5,8 @@ import { Label } from '@/components/ui/label'
 import { RangeSlider } from '@/components/ui/slider'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useDebounce } from '@/hooks/use-debounce'
+import { Category } from '@/types/product'
+import { StrapiData } from '@/types/strapi'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -13,7 +15,7 @@ export default function ProductFiltering({
   minPrice,
   maxPrice,
 }: {
-  categories: { id: string; title: string }[]
+  categories: StrapiData<Category>[]
   minPrice: number
   maxPrice: number
 }) {
@@ -108,7 +110,7 @@ export default function ProductFiltering({
           max={maxPrice}
           step={1}
           minStepsBetweenThumbs={1}
-          onValueCommit={value => {
+          onValueCommit={(value: number[]) => {
             if (value[0] === minPrice && value[1] === maxPrice) {
               handleFiltering('price', '')
               return

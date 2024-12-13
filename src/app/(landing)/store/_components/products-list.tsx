@@ -8,6 +8,7 @@ type ProductsListProp = {
 }
 
 export default async function ProductsList({ searchParams }: ProductsListProp) {
+  console.log(searchParams)
   const query = qs.stringify(
     {
       filters: {
@@ -26,6 +27,7 @@ export default async function ProductsList({ searchParams }: ProductsListProp) {
         page: searchParams?.page || 1,
         pageSize: 10,
       },
+      sort: searchParams?.sort,
       populate: '*',
     },
     {
