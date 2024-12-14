@@ -8,7 +8,7 @@ import Link from 'next/link'
 
 export default function AdditionalOptions() {
   return (
-    <section className="pb-section bg-beige">
+    <section className="pb-section ">
       <div className="container grid md:grid-cols-2 gap-12">
         <motion.div
           initial={{ opacity: 0, x: -20 }}

@@ -6,6 +6,7 @@ import CtaSection from '../../../components/cta-section'
 import AdditionalOptions from './components/additional-options'
 import Heading from './components/heading'
 import SponsorshipTiersSection from './components/sponsorship-tiers-section'
+import SponsorsList from '@/components/sponsors-list'
 
 export const metadata: Metadata = {
   title: 'Sponsors & Partners',
@@ -46,6 +47,7 @@ export default async function SponsorsPage() {
         }}
       />
       <Heading />
+      <SponsorsList />
       <SponsorshipTiersSection prices={prices.data} />
       <AdditionalOptions />
       <CtaSection

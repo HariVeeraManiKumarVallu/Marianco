@@ -21,7 +21,7 @@ export default function SponsorshipTiersSection({
   }
 
   return (
-    <section className="bg-beige py-section">
+    <section className=" py-section">
       <div className="container">
         <h2 className="mb-8 lg:mb-12">Corporate Sponsorship Tiers</h2>
         <div className="flex justify-end mb-6">
@@ -37,7 +37,9 @@ export default function SponsorshipTiersSection({
                 currency={currency}
                 isLoading={loadingStates[tier.id]}
                 isAnyLoading={Object.values(loadingStates).some(Boolean)}
-                setLoading={(loading: boolean) => setTierLoading(tier.id, loading)}
+                setLoading={(loading: boolean) =>
+                  setTierLoading(tier.id, loading)
+                }
               />
             ))}
         </div>

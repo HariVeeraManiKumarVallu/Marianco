@@ -6,6 +6,7 @@ import DonationsSection from './_components/donations-section'
 import EventsWrapper from './_components/events-wrapper'
 import HeroSection from './_components/hero-section'
 import StatsSection from './_components/stats-section'
+import SponsorsList from '@/components/sponsors-list'
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -23,6 +24,7 @@ export default function HomePage() {
     <>
       <HeroSection />
       <AboutSection />
+      <SponsorsList />
       <StatsSection />
       <EventsWrapper />
       <ArticlesWrapper />
