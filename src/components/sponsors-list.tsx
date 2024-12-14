@@ -22,9 +22,9 @@ const sponsors = [
 
 export default function SponsorsList() {
   return (
-    <div className="bg-stone-100 p-12 ">
+    <div className="bg-stone-100 py-section ">
       <div className="container">
-        <h2 className="mb-8 text-center">Our Sponsors</h2>
+        <h2 className="mb-12 lg:mb-16 text-center">Our Sponsors</h2>
         <ul className="flex gap-20  items-center justify-center">
           {sponsors.map(sponsor => (
             <li key={sponsor.name}>

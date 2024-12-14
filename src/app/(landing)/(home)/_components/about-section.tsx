@@ -60,7 +60,7 @@ export default function AboutSection() {
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="container"
+        className="container pt-12"
       >
         <h3 className="text-center mb-8 text-2xl font-semibold">
           Our Focus Areas
