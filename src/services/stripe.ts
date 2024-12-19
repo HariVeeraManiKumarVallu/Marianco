@@ -2,7 +2,6 @@ import Stripe from 'stripe'
 
 const isDevelopment = process.env.NODE_ENV === 'development'
 
-// Get the appropriate key based on environment
 const stripeSecretKey = isDevelopment
   ? process.env.STRIPE_TEST_SECRET_KEY
   : process.env.STRIPE_SECRET_KEY

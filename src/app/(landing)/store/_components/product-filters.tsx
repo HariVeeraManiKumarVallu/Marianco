@@ -26,7 +26,7 @@ export default async function ProductFilters({
       pagination: {
         limit: 1,
       },
-      fields: ['price'],
+      fields: ['basePrice'],
     },
     {
       encodeValuesOnly: true,
@@ -38,11 +38,13 @@ export default async function ProductFilters({
     getMaxPrice(query),
   ])
 
+  console.log(minPrice)
+
   return (
     <ProductFiltering
       categories={categories.data}
-      minPrice={minPrice.data[0].price}
-      maxPrice={maxPrice.data[0].price}
+      minPrice={minPrice.data[0].basePrice / 100}
+      maxPrice={maxPrice.data[0].basePrice / 100}
     />
   )
 }

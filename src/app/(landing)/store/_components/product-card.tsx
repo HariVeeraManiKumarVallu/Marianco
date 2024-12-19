@@ -8,18 +8,21 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { useCart } from '@/hooks/use-cart'
+import { Product } from '@/types/product'
 import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product }: { product: Product }) => {
+  console.log(product)
+
   const cart = useCart()
   return (
     <Card className="bg-card rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 hover:shadow-xl">
       <Link href={`/store/${product.documentId}`} className=" space-y-3 ">
         <CardHeader className="relative h-64">
           <Image
-            src={'/logo.png'}
+            src={product.images[0].src}
             alt={product.title}
             fill
             className="w-full h-full object-cover "
@@ -31,7 +34,7 @@ const ProductCard = ({ product }) => {
         </CardContent>
       </Link>
       <CardFooter className="flex items-center justify-between">
-        <span className="text-lg font-bold">${product.price}</span>
+        <span className="text-lg font-bold">${product.basePrice / 100}</span>
         <Button size={'sm'} onClick={() => cart.addItem(product)}>
           <ShoppingCart className="size-3" />
           Add to Cart

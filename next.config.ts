@@ -18,9 +18,13 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'marianco-images.s3.eu-north-1.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images-api.printify.com',
+        pathname: '/mockup/**',
+      },
     ],
   },
 }
 
 export default nextConfig
-

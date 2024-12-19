@@ -1,8 +1,8 @@
 import { Suspense } from 'react'
 import ProductFilters from './_components/product-filters'
-import ProductsList from './_components/products-list'
-import ProductsSkeleton from './_components/products-skeleton'
 import ProductSort from './_components/product-sort'
+import ProductsGrid from './_components/products-grid'
+import ProductsSkeleton from './_components/products-skeleton'
 
 export default async function StorePage({
   searchParams,
@@ -26,7 +26,7 @@ export default async function StorePage({
           <ProductSort />
         </div>
         <Suspense fallback={<ProductsSkeleton />}>
-          <ProductsList searchParams={query} />
+          <ProductsGrid searchParams={query} />
         </Suspense>
       </div>
     </div>

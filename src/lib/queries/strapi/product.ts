@@ -1,4 +1,6 @@
 import { STATIC_CONFIG } from '@/config/cache'
+import { Product } from '@/types/product'
+import { StrapiResponse } from '@/types/strapi'
 
 export async function getProducts(query: string) {
   const res = await fetch(
@@ -19,8 +21,7 @@ export async function getProducts(query: string) {
   }
 
   const data = await res.json()
-  console.log(data)
-  return data
+  return data as StrapiResponse<Product[]>
 }
 
 export async function getProduct(id: string) {
@@ -42,7 +43,7 @@ export async function getProduct(id: string) {
   }
 
   const data = await res.json()
-  return data
+  return data as StrapiResponse<Product>
 }
 
 export async function getCategories() {
@@ -69,7 +70,7 @@ export async function getCategories() {
 
 export async function getMaxPrice(query: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}&sort=price:desc`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}&sort=basePrice:desc`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -91,7 +92,7 @@ export async function getMaxPrice(query: string) {
 
 export async function getMinPrice(query: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}&sort=price:asc`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}&sort=basePrice:asc`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { getProduct } from '@/lib/queries/strapi/product'
 import Image from 'next/image'
+import VariantSelection from '../_components/variant-selection'
 
 export default async function ProductPage({
   params,
@@ -9,7 +10,7 @@ export default async function ProductPage({
 }) {
   const slug = (await params).slug
   const { data: product } = await getProduct(slug)
-  console.log(product)
+
   if (!product) return null
 
   // const relatedProducts = await fetchRelatedProducts(
@@ -40,9 +41,14 @@ export default async function ProductPage({
               {/* <small className="inline-block">{product.category.title}</small> */}
               <p className="text-sm">
                 {/* {formatter.format(Number(product.price))} */}
-                {product.price}
+                {product.basePrice}
               </p>
             </div>
+
+            <VariantSelection
+              variants={product.variants}
+              images={product.images}
+            />
             <div className="mb-4 mt-8 flex-1 space-y-1">
               <h6>Description</h6>
               <p className="text-secondary-foreground">{product.description}</p>
