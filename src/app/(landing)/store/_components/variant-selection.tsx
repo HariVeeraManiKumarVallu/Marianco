@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 
 import { Product } from '@/types/product'
 import Image from 'next/image'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 export default function VariantSelection({
@@ -14,36 +15,47 @@ export default function VariantSelection({
   variants: Product['variants']
   images: Product['images']
 }) {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
   const colors = new Map()
   const sizes = new Map()
 
   variants.forEach(variant => {
     variant.options.forEach(option => {
-      if (option.type === 'color' && !colors.has(option.id)) {
-        colors.set(option.id, {
+      if (option.type === 'color' && !colors.has(option.name)) {
+        colors.set(option.name, {
           src: images.find(
             image => image.variantIds.includes(variant.id) && image.is_default
           )?.src,
           ...option,
         })
-      } else if (option.type === 'size' && !sizes.has(option.id)) {
-        sizes.set(option.id, option)
+      } else if (option.type === 'size' && !sizes.has(option.name)) {
+        sizes.set(option.name, option)
       }
     })
   })
 
-  const [selectedColor, setSelectedColor] = useState<number>(
-    [...colors.keys()][0]
-  )
-  const [selectedSize, setSelectedSize] = useState<number>([...sizes.keys()][0])
+  // const [selectedColor, setSelectedColor] = useState<number>(
+  //   [...colors.keys()][0]
+  // )
+  const selectedColor = searchParams.get('color') || [...colors.keys()][0]
+  const selectedSize = searchParams.get('size') || [...sizes.keys()][0]
 
   console.log(selectedColor, selectedSize)
 
-  const selectedVariant = variants.find(
-    variant =>
-      variant.options.some(option => option.id === selectedColor) &&
-      variant.options.some(option => option.id === selectedSize)
-  )
+  function findVariant(
+    optionKey: keyof Product['variants'][0]['options'][0],
+    values: string[]
+  ) {
+    return variants.find(variant =>
+      values.every(value =>
+        variant.options.some(option => option[optionKey] === value)
+      )
+    )
+  }
+
+  const selectedVariant = findVariant('name', [selectedColor, selectedSize])
 
   console.log(images)
 
@@ -51,31 +63,40 @@ export default function VariantSelection({
     image => image.variantIds.includes(selectedVariant!.id) && image.is_default
   )
 
+  function handleVariantSelection(variant: string, value: string) {
+    return () => {
+      const params = new URLSearchParams(searchParams)
+      params.set(variant, value)
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    }
+  }
+
   return (
     <div>
-      <div className="flex gap-8 items-center">
+      <span className="inline-block mt-4 text-xl font-semibold">
+        {selectedVariant?.price ? selectedVariant?.price / 100 : null}
+      </span>
+      <div className="flex gap-4 mt-8 flex-wrap items-center">
         {[...colors.values()].map(color => (
-          <div
-            key={color.id}
-            className="my-8 text-center tracking-wide space-y-2"
-          >
-            <p className={selectedColor === color.id ? 'visible' : 'invisible'}>
+          <div key={color.id} className="text-center tracking-wide space-y-2">
+            <p
+              className={selectedColor === color.name ? 'visible' : 'invisible'}
+            >
               {color.name}
             </p>
             <Button
-              variant={'ghost'}
-              size="icon"
+              variant={'icon'}
+              size="none"
               className={cn(
                 {
-                  'outline-brand-blue-900 outline-4':
-                    color.id === selectedColor,
-                  'outline-muted-foreground outline-2':
-                    color.id !== selectedColor,
+                  'outline-brand-blue-900 outline-2':
+                    color.name === selectedColor,
+                  'outline-muted-foreground outline-1':
+                    color.name !== selectedColor,
                 },
-                'size-24 rounded-md  outline outline-offset-2'
+                'size-24 rounded-sm overflow-clip outline'
               )}
-              style={{ backgroundColor: color.value }}
-              onClick={() => setSelectedColor(color.id)}
+              onClick={handleVariantSelection('color', color.name)}
             >
               <Image
                 src={color.src}
@@ -89,16 +110,40 @@ export default function VariantSelection({
           </div>
         ))}
       </div>
-      <div className="flex gap-2 items-center">
-        {[...sizes.values()].map(size => (
-          <Button
-            key={size.id}
-            variant={'ghost'}
-            className="  outline-black outline-offset-2 outline-1 outline"
-          >
-            {size.value}
-          </Button>
-        ))}
+
+      <div className="mt-6">
+        <h6 className="mb-4">Choose Size</h6>
+        <div className="flex gap-2 flex-wrap items-center">
+          {[...sizes.values()].map(size => {
+            const isDisabled = !findVariant('name', [selectedColor, size.name])
+              ?.isAvailable
+            console.log(isDisabled)
+            return (
+              <Button
+                key={size.id}
+                variant={'outline'}
+                size={'icon'}
+                disabled={
+                  !findVariant('name', [selectedColor, size.name])?.isAvailable
+                }
+                className={cn(
+                  {
+                    'border-brand-blue-900 text-brand-blue-900':
+                      size.name === selectedSize,
+                    'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900':
+                      size.name !== selectedSize,
+                    'line-through': isDisabled,
+                  },
+                  'text-lg'
+                )}
+                aria-label="size"
+                onClick={handleVariantSelection('size', size.name)}
+              >
+                {size.value}
+              </Button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

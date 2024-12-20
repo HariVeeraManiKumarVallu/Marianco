@@ -39,10 +39,9 @@ export default async function ProductPage({
             <div className="space-y-2 ">
               <h4 className="font-bold">{product.title}</h4>
               {/* <small className="inline-block">{product.category.title}</small> */}
-              <p className="text-sm">
-                {/* {formatter.format(Number(product.price))} */}
+              {/* <p className="text-sm">
                 {product.basePrice}
-              </p>
+              </p> */}
             </div>
 
             <VariantSelection
