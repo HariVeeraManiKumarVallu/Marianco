@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { getProduct } from '@/lib/queries/strapi/product'
-import Image from 'next/image'
+import ProductImagesGrid from '../_components/product-images-grid'
 import VariantSelection from '../_components/variant-selection'
 
 export default async function ProductPage({
@@ -26,16 +26,17 @@ export default async function ProductPage({
   return (
     <section className="my-section">
       <div className="container space-y-24">
-        <article className="grid gap-12 md:grid-cols-2 lg:gap-20 ">
-          <div className="relative min-h-[400px] rounded-sm bg-stone-100 overflow-clip">
+        <article className="lg:flex lg:gap-20 items-start">
+          <ProductImagesGrid images={product.images} altText={product.title} />
+          {/* <div className="relative min-h-[400px] rounded-sm bg-stone-100 overflow-clip">
             <Image
               src={'/logo.png'}
               fill
               alt={product.title}
               className="aspect-square object-cover "
             />
-          </div>
-          <div className="flex flex-col py-4 ">
+          </div> */}
+          <div className="flex flex-col py-4">
             <div className="space-y-2 ">
               <h4 className="font-bold">{product.title}</h4>
               {/* <small className="inline-block">{product.category.title}</small> */}

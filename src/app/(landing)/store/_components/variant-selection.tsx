@@ -2,11 +2,13 @@
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { selectedVariantAtom } from '@/store/variant-atom'
 
 import { Product } from '@/types/product'
+import { useAtom } from 'jotai'
 import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect } from 'react'
 
 export default function VariantSelection({
   variants,
@@ -20,6 +22,7 @@ export default function VariantSelection({
   const pathname = usePathname()
   const colors = new Map()
   const sizes = new Map()
+  const [selectedVariant, setSelectedVariant] = useAtom(selectedVariantAtom)
 
   variants.forEach(variant => {
     variant.options.forEach(option => {
@@ -36,13 +39,8 @@ export default function VariantSelection({
     })
   })
 
-  // const [selectedColor, setSelectedColor] = useState<number>(
-  //   [...colors.keys()][0]
-  // )
   const selectedColor = searchParams.get('color') || [...colors.keys()][0]
   const selectedSize = searchParams.get('size') || [...sizes.keys()][0]
-
-  console.log(selectedColor, selectedSize)
 
   function findVariant(
     optionKey: keyof Product['variants'][0]['options'][0],
@@ -55,13 +53,11 @@ export default function VariantSelection({
     )
   }
 
-  const selectedVariant = findVariant('name', [selectedColor, selectedSize])
+  useEffect(() => {
+    setSelectedVariant(findVariant('name', [selectedColor, selectedSize])!.id)
+  }, [findVariant, selectedColor, selectedSize, setSelectedVariant])
 
-  console.log(images)
-
-  const selectedImage = images.find(
-    image => image.variantIds.includes(selectedVariant!.id) && image.is_default
-  )
+  // const selectedVariant = findVariant('name', [selectedColor, selectedSize])
 
   function handleVariantSelection(variant: string, value: string) {
     return () => {
@@ -117,7 +113,6 @@ export default function VariantSelection({
           {[...sizes.values()].map(size => {
             const isDisabled = !findVariant('name', [selectedColor, size.name])
               ?.isAvailable
-            console.log(isDisabled)
             return (
               <Button
                 key={size.id}
@@ -129,10 +124,10 @@ export default function VariantSelection({
                 className={cn(
                   {
                     'border-brand-blue-900 text-brand-blue-900':
-                      size.name === selectedSize,
+                      !isDisabled && size.name === selectedSize,
                     'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900':
                       size.name !== selectedSize,
-                    'line-through': isDisabled,
+                    'line-through border-muted-foreground': isDisabled,
                   },
                   'text-lg'
                 )}
