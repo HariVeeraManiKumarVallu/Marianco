@@ -15,28 +15,32 @@ export type Category = {
 // }
 
 export type Product = StrapiData & {
+  supplierProductId: string
   title: string
-  description?: string
-  mdDescription?: string
-  longDescription?: string
+  description: string
   basePrice: number
-  variants: {
-    id: number
-    price: number
-    isEnabled: boolean
-    isDefault: boolean
-    isAvailable: boolean
-    options: {
-      type: string
-      id: number
-      name: string
-      value: string
-    }[]
-  }[]
+  variants: Variant[]
   images: {
     src: string
     variantIds: number[]
-    is_default: boolean
+    isDefault: boolean
   }[]
-  supplierProductId: string
+}
+
+export type Variant = StrapiData & {
+  variantId: number
+  price: number
+  isEnabled: boolean
+  isDefault: boolean
+  isAvailable: boolean
+  quantity: number
+  weight: number
+  options: Option[]
+}
+
+export type Option = StrapiData & {
+  optionId: string
+  type: 'color' | 'size' | 'paper'
+  title: string
+  name: string
 }

@@ -9,7 +9,6 @@ import { selectedVariantAtom } from '@/store/variant-atom'
 import { Product } from '@/types/product'
 import { useAtomValue } from 'jotai'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function ProductImagesGrid({
@@ -28,7 +27,6 @@ export default function ProductImagesGrid({
     if (!api) {
       return
     }
-    console.log(api.scrollSnapList())
     setCount(api.scrollSnapList().length)
     setCurrent(api.selectedScrollSnap() + 1)
 

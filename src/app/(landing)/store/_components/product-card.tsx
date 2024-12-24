@@ -14,26 +14,25 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const ProductCard = ({ product }: { product: Product }) => {
-  console.log(product)
-
   const cart = useCart()
   return (
-    <Card className="bg-card rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 hover:shadow-xl">
-      <Link href={`/store/${product.documentId}`} className=" space-y-3 ">
-        <CardHeader className="relative h-64">
+    <Card className="bg-card rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 hover:shadow-xl flex flex-col">
+      <Link href={`/store/${product.documentId}`} className=" space-y-3 h-full">
+        <CardHeader className="p-0">
           <Image
             src={product.images[0].src}
             alt={product.title}
-            fill
-            className="w-full h-full object-cover "
+            width={300}
+            height={300}
+            className="object-cover w-full h-full "
           />
         </CardHeader>
         <CardContent>
           <CardTitle>{product.title}</CardTitle>
-          <p className="line-clamp-3">{product.description}</p>
+          {/* <p className="line-clamp-3">{product.description}</p> */}
         </CardContent>
       </Link>
-      <CardFooter className="flex items-center justify-between">
+      <CardFooter className="flex items-center justify-between mt-auto">
         <span className="text-lg font-bold">${product.basePrice / 100}</span>
         <Button size={'sm'} onClick={() => cart.addItem(product)}>
           <ShoppingCart className="size-3" />

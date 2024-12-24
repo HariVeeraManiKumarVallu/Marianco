@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { getProduct } from '@/lib/queries/strapi/product'
+import { Option } from '@/types/product'
 import ProductImagesGrid from '../_components/product-images-grid'
 import VariantSelection from '../_components/variant-selection'
 
@@ -22,6 +23,56 @@ export default async function ProductPage({
   //   ...product,
   //   price: parseFloat(String(product?.price)),
   // }
+
+  function findVariantImageSrc(variantId: number) {
+    return product.images.find(
+      image => image.variantIds.includes(variantId) && image.isDefault
+    )?.src
+  }
+
+  const options: Map<
+    Option['type'],
+    (Pick<Option, 'optionId' | 'title' | 'name'> & { src?: string })[]
+  > = new Map()
+
+  const variantsMap = new Map()
+
+  for (const variant of product.variants) {
+    variantsMap.set(variant.variantId, variant)
+  }
+
+  for (const variant of product.variants) {
+    for (const { optionId, title, name, type } of variant.options) {
+      if (options.has(type)) {
+        const currentOptions = options.get(type)
+        if (currentOptions?.some(option => option.optionId === optionId))
+          continue
+        if (type === 'color') {
+          currentOptions?.push({
+            optionId,
+            title,
+            name,
+            src: findVariantImageSrc(Number(variant.variantId)),
+          })
+        } else {
+          currentOptions?.push({ optionId, title, name })
+        }
+        continue
+      }
+      if (type === 'color') {
+        options.set(type, [
+          {
+            optionId,
+            title,
+            name,
+            src: findVariantImageSrc(Number(variant.variantId)),
+          },
+        ])
+      } else {
+        options.set(type, [{ optionId, title, name }])
+      }
+    }
+  }
 
   return (
     <section className="my-section">
@@ -46,6 +97,7 @@ export default async function ProductPage({
             </div>
 
             <VariantSelection
+              options={options}
               variants={product.variants}
               images={product.images}
             />

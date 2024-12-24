@@ -26,7 +26,7 @@ export async function getProducts(query: string) {
 
 export async function getProduct(id: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products/${id}?populate=*`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products/${id}?populate[variants][populate][0]=options`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
