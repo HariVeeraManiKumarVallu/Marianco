@@ -74,6 +74,8 @@ export default async function ProductPage({
     }
   }
 
+  console.log(variantsMap)
+
   return (
     <section className="my-section">
       <div className="container space-y-24">

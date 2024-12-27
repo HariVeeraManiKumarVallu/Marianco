@@ -6,7 +6,7 @@ import {
 import qs from 'qs'
 import ProductFiltering from './product-filtering'
 
-export default async function ProductFilters({
+export default async function PoductFilters({
   searchParams,
 }: {
   searchParams: { [key: string]: string | undefined }

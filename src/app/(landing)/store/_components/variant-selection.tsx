@@ -29,9 +29,6 @@ export default function VariantSelection({
   // const sizes = new Map()
   // const paper = new Map()
   const [selectedVariant, setSelectedVariant] = useAtom(selectedVariantAtom)
-  const selectedColor = 'Black'
-
-  console.log(options.get('color'))
 
   // variants.forEach(variant => {
   //   variant.options.forEach(option => {
@@ -50,13 +47,14 @@ export default function VariantSelection({
   //   })
   // })
 
-  // const selectedColor = searchParams.get('color') || options.get('color')[0]
-  //   const selectedSize = searchParams.get('size') || [...sizes.keys()][0]
-  // const selectedPaper = searchParams.get('paper') || [...paper.keys()][0]
+  const selectedColor = searchParams.get('color') || options.get('color')?.[0]
+  const selectedSize = searchParams.get('size') || options.get('size')?.[0]
+  const selectedPaper = searchParams.get('paper') || options.get('paper')?.[0]
 
   const findVariant = useCallback(
     (
-      optionKey: keyof Product['variants'][0]['options'][0],
+
+      optionKey: Product['variants'][0]['options'][0]['type'],
       values: string[]
     ) => {
       return variants.find(variant =>
@@ -68,15 +66,10 @@ export default function VariantSelection({
     [variants]
   )
 
-  // useEffect(() => {
-  //   setSelectedVariant(findVariant('name', [selectedPaper, selectedSize])!.id)
-  // }, [
-  //   findVariant,
-  //   selectedColor,
-  //   selectedSize,
-  //   setSelectedVariant,
-  //   selectedPaper,
-  // ])
+  useEffect(() => {
+    setSelectedVariant(findVariant('name', [selectedPaper, selectedSize])!.id)
+  }, [
+  ])
 
   // const selectedVariant = findVariant('name', [selectedColor, selectedSize])
 
@@ -135,17 +128,18 @@ export default function VariantSelection({
         </div>
       )}
 
-      {/* <div className="mt-6">
+      <div className="mt-6">
         <h6 className="mb-4">Choose Size</h6>
         <div className="flex gap-2 flex-wrap items-center">
-          {[...sizes.values()].map(size => {
+          {options.get('size').map(size => {
             const isAvailable = findVariant('name', [
               selectedColor,
               size.name,
             ])?.isAvailable
             return (
               <Button
-                key={size.id}
+                key={size.optionId
+                }
                 variant={'outline'}
                 size={'sm'}
                 disabled={!isAvailable}
@@ -169,7 +163,7 @@ export default function VariantSelection({
         </div>
       </div>
 
-      <div className="mt-6">
+      {/* <div className="mt-6">
         <h6 className="mb-4">Choose Paper Type</h6>
         <div className="flex gap-2 flex-wrap items-center">
           {[...paper.values()].map(paper => {
