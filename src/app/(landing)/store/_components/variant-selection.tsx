@@ -47,19 +47,21 @@ export default function VariantSelection({
   //   })
   // })
 
+  console.log({ options })
   const selectedColor = searchParams.get('color') || options.get('color')?.[0]
   const selectedSize = searchParams.get('size') || options.get('size')?.[0]
   const selectedPaper = searchParams.get('paper') || options.get('paper')?.[0]
 
+  console.log(variants)
+
+  const isAvailable = true
   const findVariant = useCallback(
     (
-
-      optionKey: Product['variants'][0]['options'][0]['type'],
-      values: string[]
+      selectedOptions: string[]
     ) => {
       return variants.find(variant =>
-        values.every(value =>
-          variant.options.some(option => option[optionKey] === value)
+        selectedOptions.every(selectedOption =>
+          variant.options.some(option => option.title === selectedOption)
         )
       )
     },
@@ -67,7 +69,8 @@ export default function VariantSelection({
   )
 
   useEffect(() => {
-    setSelectedVariant(findVariant('name', [selectedPaper, selectedSize])!.id)
+    console.log({ selectedColor, selectedSize, selectedPaper })
+    // setSelectedVariant(findVariant('name', [selectedPaper, selectedSize])!.id)
   }, [
   ])
 
@@ -132,9 +135,9 @@ export default function VariantSelection({
         <h6 className="mb-4">Choose Size</h6>
         <div className="flex gap-2 flex-wrap items-center">
           {options.get('size').map(size => {
-            const isAvailable = findVariant('name', [
+            const isAvailable = findVariant([
               selectedColor,
-              size.name,
+              size.title,
             ])?.isAvailable
             return (
               <Button
@@ -146,17 +149,17 @@ export default function VariantSelection({
                 className={cn(
                   {
                     'border-brand-blue-900 text-brand-blue-900':
-                      isAvailable && size.name === selectedSize,
+                      isAvailable && size.title === selectedSize,
                     'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900':
-                      size.name !== selectedSize,
+                      size.title !== selectedSize,
                     'line-through border-muted-foreground': !isAvailable,
                   },
                   'text-lg'
                 )}
                 aria-label="size"
-                onClick={handleVariantSelection('size', size.name)}
+                onClick={handleVariantSelection('size', size.title)}
               >
-                {size.value}
+                {size.title}
               </Button>
             )
           })}
