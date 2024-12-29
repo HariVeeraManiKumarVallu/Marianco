@@ -8,40 +8,37 @@ import { Option, Product } from '@/types/product'
 import { useAtom } from 'jotai'
 import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 export default function VariantSelection({
   variants,
   options,
-  images,
 }: {
   variants: Product['variants']
   options: Map<
     Option['type'],
     (Pick<Option, 'optionId' | 'title' | 'name'> & { src?: string })[]
   >
-  images: Product['images']
 }) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
   const [selectedVariant, setSelectedVariant] = useAtom(selectedVariantAtom)
 
-  const selectedOptions = Object.fromEntries([...options.keys()].map(k => ([
-    [k], searchParams.get(k) || options.get(k)?.[0].title
-  ])))
-
-  //const selectedColor = searchParams.get('color') || options.get('color')?.[0].title
-  //const selectedSize = searchParams.get('size') || options.get('size')?.[0].title
-  //const selectedPaper = searchParams.get('paper') || options.get('paper')?.[0].title
+  const selectedOptions = useMemo(() =>
+    Object.fromEntries([...options.keys()].map(k => ([
+      [k], searchParams.get(k) || options.get(k)?.[0].title
+    ])))
+    , [options, searchParams]
+  )
 
   const findVariant = useCallback(
     (
-      selectedOptions: string[]
+      options: string[]
     ) => {
       return variants.find(variant =>
-        selectedOptions.every(selectedOption =>
-          variant.options.some(option => option.title === selectedOption)
+        options.every(option =>
+          variant.options.some(variantOption => variantOption.title === option)
         )
       )
     },
@@ -49,11 +46,10 @@ export default function VariantSelection({
   )
 
   useEffect(() => {
-    //setSelectedVariant(findVariant( [selectedPaper, selectedSize])!.id)
-  }, [
-  ])
-
-  // const selectedVariant = findVariant('name', [selectedColor, selectedSize])
+    const selectedVariant = findVariant(Object.values(selectedOptions))
+    if (!selectedVariant) return
+    setSelectedVariant(selectedVariant)
+  }, [findVariant, selectedOptions, setSelectedVariant])
 
   function handleVariantSelection(variant: string, value: string) {
     return () => {
@@ -63,7 +59,6 @@ export default function VariantSelection({
     }
   }
 
-  console.log(options)
   return (
     <div>
       <span className="inline-block mt-4 text-xl font-semibold">
@@ -114,15 +109,13 @@ export default function VariantSelection({
 
       {
         options.has('size') && options.get('size')!.length > 0 ?
-
           <div className="mt-8">
             <h6 className="mb-4">Choose Size</h6>
             <div className="flex gap-2 flex-wrap items-center">
               {options.get('size')!.map(size => {
-                const isAvailable = findVariant([
-                  selectedOptions.color,
-                  size.title,
-                ])?.isAvailable
+                const isAvailable = findVariant(
+                  Object.values({ ...selectedOptions, size: size.title }
+                  ))?.isAvailable
                 return (
                   <Button
                     key={size.optionId
@@ -156,10 +149,9 @@ export default function VariantSelection({
           <h6 className="mb-4">Choose Paper Type</h6>
           <div className="flex gap-2 flex-wrap items-center">
             {options.get('paper')!.map(paper => {
-              const isAvailable = findVariant([
-                paper,
-                paper.name,
-              ])?.isAvailable
+              const isAvailable = findVariant(
+                Object.values({ ...selectedOptions, paper: paper.title }
+                ))?.isAvailable
 
               return (
                 <Button

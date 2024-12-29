@@ -28,7 +28,7 @@ export type Product = StrapiData & {
 }
 
 export type Variant = StrapiData & {
-  variantId: number
+  variantId: string
   price: number
   isEnabled: boolean
   isDefault: boolean
