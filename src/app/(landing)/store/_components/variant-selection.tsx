@@ -25,36 +25,16 @@ export default function VariantSelection({
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
-  // const colors = new Map()
-  // const sizes = new Map()
-  // const paper = new Map()
   const [selectedVariant, setSelectedVariant] = useAtom(selectedVariantAtom)
 
-  // variants.forEach(variant => {
-  //   variant.options.forEach(option => {
-  //     if (option.type === 'color' && !colors.has(option.name)) {
-  //       colors.set(option.name, {
-  //         src: images.find(
-  //           image => image.variantIds.includes(variant.id) && image.is_default
-  //         )?.src,
-  //         ...option,
-  //       })
-  //     } else if (option.type === 'size' && !sizes.has(option.name)) {
-  //       sizes.set(option.name, option)
-  //     } else if (option.type === 'paper' && !paper.has(option.name)) {
-  //       paper.set(option.name, option)
-  //     }
-  //   })
-  // })
+  const selectedOptions = Object.fromEntries([...options.keys()].map(k => ([
+    [k], searchParams.get(k) || options.get(k)?.[0].title
+  ])))
 
-  console.log({ options })
-  const selectedColor = searchParams.get('color') || options.get('color')?.[0]
-  const selectedSize = searchParams.get('size') || options.get('size')?.[0]
-  const selectedPaper = searchParams.get('paper') || options.get('paper')?.[0]
+  //const selectedColor = searchParams.get('color') || options.get('color')?.[0].title
+  //const selectedSize = searchParams.get('size') || options.get('size')?.[0].title
+  //const selectedPaper = searchParams.get('paper') || options.get('paper')?.[0].title
 
-  console.log(variants)
-
-  const isAvailable = true
   const findVariant = useCallback(
     (
       selectedOptions: string[]
@@ -69,8 +49,7 @@ export default function VariantSelection({
   )
 
   useEffect(() => {
-    console.log({ selectedColor, selectedSize, selectedPaper })
-    // setSelectedVariant(findVariant('name', [selectedPaper, selectedSize])!.id)
+    //setSelectedVariant(findVariant( [selectedPaper, selectedSize])!.id)
   }, [
   ])
 
@@ -84,12 +63,14 @@ export default function VariantSelection({
     }
   }
 
+  console.log(options)
   return (
     <div>
       <span className="inline-block mt-4 text-xl font-semibold">
         {selectedVariant?.price ? selectedVariant?.price / 100 : null}
       </span>
-      {options.has('color') && (
+
+      {options.has('color') && options.get('color')!.length > 0 ? (
         <div className="flex gap-4 mt-8 flex-wrap items-center">
           {options.get('color')?.map(color => (
             <div
@@ -98,7 +79,7 @@ export default function VariantSelection({
             >
               <p
                 className={
-                  selectedColor === color.title ? 'visible' : 'invisible'
+                  selectedOptions.color === color.title ? 'visible' : 'invisible'
                 }
               >
                 {color.title}
@@ -109,9 +90,9 @@ export default function VariantSelection({
                 className={cn(
                   {
                     'outline-brand-blue-900 outline-2':
-                      color.title === selectedColor,
+                      color.title === selectedOptions.color,
                     'outline-muted-foreground outline-1':
-                      color.title !== selectedColor,
+                      color.title !== selectedOptions.color,
                   },
                   'size-24 rounded-sm overflow-clip outline'
                 )}
@@ -129,77 +110,82 @@ export default function VariantSelection({
             </div>
           ))}
         </div>
-      )}
+      ) : null}
 
-      <div className="mt-6">
-        <h6 className="mb-4">Choose Size</h6>
-        <div className="flex gap-2 flex-wrap items-center">
-          {options.get('size').map(size => {
-            const isAvailable = findVariant([
-              selectedColor,
-              size.title,
-            ])?.isAvailable
-            return (
-              <Button
-                key={size.optionId
-                }
-                variant={'outline'}
-                size={'sm'}
-                disabled={!isAvailable}
-                className={cn(
-                  {
-                    'border-brand-blue-900 text-brand-blue-900':
-                      isAvailable && size.title === selectedSize,
-                    'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900':
-                      size.title !== selectedSize,
-                    'line-through border-muted-foreground': !isAvailable,
-                  },
-                  'text-lg'
-                )}
-                aria-label="size"
-                onClick={handleVariantSelection('size', size.title)}
-              >
-                {size.title}
-              </Button>
-            )
-          })}
-        </div>
-      </div>
+      {
+        options.has('size') && options.get('size')!.length > 0 ?
 
-      {/* <div className="mt-6">
-        <h6 className="mb-4">Choose Paper Type</h6>
-        <div className="flex gap-2 flex-wrap items-center">
-          {[...paper.values()].map(paper => {
-            const isAvailable = findVariant('name', [
-              selectedSize,
-              paper.name,
-            ])?.isAvailable
+          <div className="mt-8">
+            <h6 className="mb-4">Choose Size</h6>
+            <div className="flex gap-2 flex-wrap items-center">
+              {options.get('size')!.map(size => {
+                const isAvailable = findVariant([
+                  selectedOptions.color,
+                  size.title,
+                ])?.isAvailable
+                return (
+                  <Button
+                    key={size.optionId
+                    }
+                    variant={'outline'}
+                    size={'sm'}
+                    disabled={!isAvailable}
+                    className={cn(
+                      {
+                        'border-brand-blue-900 text-brand-blue-900':
+                          isAvailable && size.title === selectedOptions.size,
+                        'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900':
+                          size.title !== selectedOptions.size,
+                        'line-through border-muted-foreground': !isAvailable,
+                      },
+                      'text-lg'
+                    )}
+                    aria-label="size"
+                    onClick={handleVariantSelection('size', size.title)}
+                  >
+                    {size.title}
+                  </Button>
+                )
+              })}
+            </div>
+          </div> : null
+      }
 
-            return (
-              <Button
-                key={paper.id}
-                variant={'outline'}
-                size={'sm'}
-                disabled={!isAvailable}
-                className={cn(
-                  {
-                    'border-brand-blue-900 text-brand-blue-900':
-                      isAvailable && paper.name === selectedPaper,
-                    'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900':
-                      paper.name !== selectedPaper,
-                    'line-through border-muted-foreground': !isAvailable,
-                  },
-                  'text-lg'
-                )}
-                aria-label="size"
-                onClick={handleVariantSelection('page', paper.name)}
-              >
-                {paper.value}
-              </Button>
-            )
-          })}
-        </div>
-      </div> */}
+      {options.has('paper') && options.get('paper')!.length > 0 ?
+        <div className="mt-6">
+          <h6 className="mb-4">Choose Paper Type</h6>
+          <div className="flex gap-2 flex-wrap items-center">
+            {options.get('paper')!.map(paper => {
+              const isAvailable = findVariant([
+                paper,
+                paper.name,
+              ])?.isAvailable
+
+              return (
+                <Button
+                  key={paper.optionId}
+                  variant={'outline'}
+                  size={'sm'}
+                  disabled={!isAvailable}
+                  className={cn(
+                    {
+                      'border-brand-blue-900 text-brand-blue-900':
+                        isAvailable && paper.name === selectedOptions.paper,
+                      'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900':
+                        paper.name !== selectedOptions.paper,
+                      'line-through border-muted-foreground': !isAvailable,
+                    },
+                    'text-lg'
+                  )}
+                  aria-label="size"
+                  onClick={handleVariantSelection('page', paper.name)}
+                >
+                  {paper.title}
+                </Button>
+              )
+            })}
+          </div>
+        </div> : null}
     </div>
   )
 }
