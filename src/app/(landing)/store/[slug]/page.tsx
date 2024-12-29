@@ -24,6 +24,7 @@ export default async function ProductPage({
   //   price: parseFloat(String(product?.price)),
   // }
 
+  console.log(product)
   function findVariantImageSrc(variantId: number) {
     return product.images.find(
       image => image.variantIds.includes(variantId) && image.isDefault
@@ -35,11 +36,6 @@ export default async function ProductPage({
     (Pick<Option, 'optionId' | 'title' | 'name'> & { src?: string })[]
   > = new Map()
 
-  const variantsMap = new Map()
-
-  for (const variant of product.variants) {
-    variantsMap.set(variant.variantId, variant)
-  }
 
   for (const variant of product.variants) {
     for (const { optionId, title, name, type } of variant.options) {
@@ -74,19 +70,17 @@ export default async function ProductPage({
     }
   }
 
+  options.forEach((v, k) => {
+    if (k === 'size') { v.sort((a, b) => Number(a.optionId) - Number(b.optionId)) }
+  }
+  )
+
   return (
     <section className="my-section">
       <div className="container space-y-24">
         <article className="lg:flex lg:gap-20 items-start">
           <ProductImagesGrid images={product.images} altText={product.title} />
-          {/* <div className="relative min-h-[400px] rounded-sm bg-stone-100 overflow-clip">
-            <Image
-              src={'/logo.png'}
-              fill
-              alt={product.title}
-              className="aspect-square object-cover "
-            />
-          </div> */}
+
           <div className="flex flex-col py-4">
             <div className="space-y-2 ">
               <h4 className="font-bold">{product.title}</h4>
@@ -99,7 +93,6 @@ export default async function ProductPage({
             <VariantSelection
               options={options}
               variants={product.variants}
-              images={product.images}
             />
             <div className="mb-4 mt-8 flex-1 space-y-1">
               <h6>Description</h6>

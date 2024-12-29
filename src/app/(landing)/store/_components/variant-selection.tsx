@@ -170,7 +170,7 @@ export default function VariantSelection({
                     'text-lg'
                   )}
                   aria-label="size"
-                  onClick={handleVariantSelection('page', paper.name)}
+                  onClick={handleVariantSelection('page', paper.title)}
                 >
                   {paper.title}
                 </Button>

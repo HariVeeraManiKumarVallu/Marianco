@@ -38,8 +38,6 @@ export default async function PoductFilters({
     getMaxPrice(query),
   ])
 
-  console.log(minPrice)
-
   return (
     <ProductFiltering
       categories={categories.data}

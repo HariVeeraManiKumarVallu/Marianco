@@ -37,8 +37,6 @@ export default function ProductImagesGrid({
 
   if (!selectedVariant) return null
 
-  console.log(images)
-  console.log(selectedVariant)
   const selectedImages = images.filter(image =>
     image.variantIds.includes(Number(selectedVariant.variantId))
   )
