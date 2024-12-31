@@ -3,6 +3,8 @@ import { getProduct } from '@/lib/queries/strapi/product'
 import { Option } from '@/types/product'
 import ProductImagesGrid from '../_components/product-images-grid'
 import VariantSelection from '../_components/variant-selection'
+import AddToCart from '../_components/add-to-cart'
+import { findVariantImageSrc } from '@/lib/utils'
 
 export default async function ProductPage({
   params,
@@ -13,7 +15,6 @@ export default async function ProductPage({
   const { data: product } = await getProduct(slug)
 
   if (!product) return null
-
   // const relatedProducts = await fetchRelatedProducts(
   //   product.categoryId,
   //   product.id
@@ -24,12 +25,6 @@ export default async function ProductPage({
   //   price: parseFloat(String(product?.price)),
   // }
 
-  console.log(product)
-  function findVariantImageSrc(variantId: number) {
-    return product.images.find(
-      image => image.variantIds.includes(variantId) && image.isDefault
-    )?.src
-  }
 
   const options: Map<
     Option['type'],
@@ -48,7 +43,7 @@ export default async function ProductPage({
             optionId,
             title,
             name,
-            src: findVariantImageSrc(Number(variant.variantId)),
+            src: findVariantImageSrc(product.images, Number(variant.variantId)),
           })
         } else {
           currentOptions?.push({ optionId, title, name })
@@ -61,7 +56,7 @@ export default async function ProductPage({
             optionId,
             title,
             name,
-            src: findVariantImageSrc(Number(variant.variantId)),
+            src: findVariantImageSrc(product.images, Number(variant.variantId)),
           },
         ])
       } else {
@@ -98,8 +93,12 @@ export default async function ProductPage({
               <h6>Description</h6>
               <p className="text-secondary-foreground">{product.description}</p>
             </div>
-            <Button>Add to Cart</Button>
-            {/* <AddToCart product={product} /> */}
+            <AddToCart productDetails={{
+              title: product.title,
+              supplierProductId: product.supplierProductId
+            }}
+              images={product.images}
+            />
           </div>
         </article>
         <div>

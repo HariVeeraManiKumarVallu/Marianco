@@ -4,27 +4,13 @@ export type Category = {
   title: string
 }
 
-// export type Product = {
-//   title: string
-//   description: string
-//   price: number
-//   category: Category
-//   images: StrapiImage[]
-//   tags: string[]
-//   product_category: StrapiData<Category>
-// }
-
 export type Product = StrapiData & {
   supplierProductId: string
   title: string
   description: string
   basePrice: number
   variants: Variant[]
-  images: {
-    src: string
-    variantIds: number[]
-    isDefault: boolean
-  }[]
+  images: ProductImage[]
 }
 
 export type Variant = StrapiData & {
@@ -43,4 +29,10 @@ export type Option = StrapiData & {
   type: 'color' | 'size' | 'paper'
   title: string
   name: string
+}
+
+export type ProductImage = {
+  src: string
+  variantIds: number[]
+  isDefault: boolean
 }

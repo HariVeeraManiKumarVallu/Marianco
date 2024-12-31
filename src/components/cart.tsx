@@ -20,7 +20,7 @@ export default function Cart({
 }: {
   variant?: 'icon' | 'full'
 }) {
-  const { items, total, removeItem, updateQuantity, totalItems } = useCart()
+  const { items, totalCartPrice, totalItems } = useCart()
   // const { handleCheckout } = useCheckout()
   const pathname = usePathname()
 
@@ -59,16 +59,14 @@ export default function Cart({
             <>
               {items.map(item => (
                 <CartItem
-                  key={item.id}
+                  key={item.supplierProductId}
                   item={item}
-                  onUpdateQuantity={updateQuantity}
-                  onRemove={removeItem}
                 />
               ))}
               <div className="border-t pt-4">
                 <div className="flex justify-between">
                   <span className="font-medium">Total</span>
-                  <span className="font-medium">${total.toFixed(2)}</span>
+                  <span className="font-medium">${totalCartPrice.toFixed(2)}</span>
                 </div>
                 <Button
                   className="w-full mt-4"
