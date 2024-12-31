@@ -7,14 +7,31 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { useCart } from '@/hooks/use-cart'
+import { findVariantImageSrc } from '@/lib/utils'
+import { useCartStore } from '@/store/cart-store'
+import { selectedVariantAtom } from '@/store/variant-atom'
 import { Product } from '@/types/product'
+import { useAtomValue } from 'jotai'
 import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import AddToCart from './add-to-cart'
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const cart = useCart()
+  const { addItem } = useCartStore()
+  const selectedVariant = useAtomValue(selectedVariantAtom)
+
+  function handleAddToCart() {
+    if (!selectedVariant) return
+    addItem({
+      supplierProductId: product.supplierProductId,
+      title: product.title,
+      price: selectedVariant.price,
+      variantId: selectedVariant.variantId,
+      imageSrc: findVariantImageSrc(product.images, Number(selectedVariant.variantId)) || '',
+      quantity: 1
+    })
+  }
   return (
     <Card className="bg-card rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300 hover:shadow-xl flex flex-col">
       <Link href={`/store/${product.documentId}`} className=" space-y-3 h-full">
@@ -34,10 +51,8 @@ const ProductCard = ({ product }: { product: Product }) => {
       </Link>
       <CardFooter className="flex items-center justify-between mt-auto">
         <span className="text-lg font-bold">${product.basePrice / 100}</span>
-        <Button size={'sm'} onClick={() => cart.addItem(product)}>
-          <ShoppingCart className="size-3" />
-          Add to Cart
-        </Button>
+        { /* <AddToCart productDetails={title:product.title, supplierProductId: }/> */}
+
       </CardFooter>
     </Card>
     // <article>

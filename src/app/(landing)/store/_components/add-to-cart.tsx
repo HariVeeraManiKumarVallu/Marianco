@@ -1,7 +1,7 @@
 'use client'
 import { Button } from "@/components/ui/button";
-import { CartItem, useCart } from "@/hooks/use-cart";
 import { findVariantImageSrc } from "@/lib/utils";
+import { useCartStore } from "@/store/cart-store";
 import { selectedVariantAtom } from "@/store/variant-atom";
 import { ProductImage } from "@/types/product";
 import { useAtomValue } from "jotai";
@@ -10,10 +10,9 @@ import { ShoppingCart } from "lucide-react";
 export default function AddToCart({ productDetails, images, showIcon = false }: { productDetails: { supplierProductId: string, title: string }, images: ProductImage[], showIcon?: boolean }) {
 
 
-  const { addItem } = useCart()
+  const { addItem } = useCartStore()
   const selectedVariant = useAtomValue(selectedVariantAtom)
 
-  console.log(selectedVariant)
   function handleAddToCart() {
     if (!selectedVariant) return
     addItem({

@@ -9,26 +9,34 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { ROUTES } from '@/config/routes'
-import { useCart } from '@/hooks/use-cart'
 import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { ShoppingCart } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import CartItem from './cart-item'
+import { useCartStore } from '@/store/cart-store'
+import { useEffect } from 'react'
 
 export default function Cart({
   variant = 'icon',
 }: {
   variant?: 'icon' | 'full'
 }) {
-  const { items, totalCartPrice, totalItems } = useCart()
+  const { items, totalCartPrice, totalItems } = useCartStore()
   // const { handleCheckout } = useCheckout()
   const pathname = usePathname()
+  console.log(totalItems)
 
-  if (pathname !== ROUTES.STORE && totalItems === 0) return null
+  //if (pathname !== ROUTES.STORE && totalItems === 0) return null
+
+  useEffect(() => {
+    useCartStore.persist.rehydrate()
+  }, [])
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
+      <SheetTrigger asChild className={(
+        pathname !== ROUTES.STORE && totalItems === 0 ? 'invisible' : 'visible'
+      )}>
         {variant === 'icon' ? (
           <Button variant="outline" size="icon" className="relative">
             <ShoppingCart className="size-5" />
@@ -59,7 +67,7 @@ export default function Cart({
             <>
               {items.map(item => (
                 <CartItem
-                  key={item.supplierProductId}
+                  key={item.variantId}
                   item={item}
                 />
               ))}

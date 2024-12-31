@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { type CartItem, useCart } from '@/hooks/use-cart'
+import { useCartStore, type CartItem, } from '@/store/cart-store'
 import { Trash2Icon } from 'lucide-react'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
@@ -12,7 +12,7 @@ type CartItemProps = {
 export default function CartItem({
   item,
 }: CartItemProps) {
-  const { updateQuantity, increaseQuantity, decreaseQuantity, removeItem } = useCart()
+  const { updateQuantity, increaseQuantity, decreaseQuantity, removeItem } = useCartStore()
   return (
     <div className="flex items-center gap-4">
       <div className="relative size-24">
@@ -32,24 +32,24 @@ export default function CartItem({
           <Button
             variant="outline"
             size="icon"
-            onClick={() => decreaseQuantity(item.supplierProductId)}
+            onClick={() => decreaseQuantity(item.variantId)}
             disabled={item.quantity === 1}
           >
             -
           </Button>
-          <Input className='w-16' defaultValue={item.quantity} />
+          <Input className='w-16 text-center' value={item.quantity} onChange={(e) => updateQuantity(id, e.target.value)} />
 
           <Button
             variant="outline"
             size="icon"
-            onClick={() => increaseQuantity(item.supplierProductId)}
+            onClick={() => increaseQuantity(item.variantId)}
           >
             +
           </Button>
           <Button
             variant="destructive"
             size="icon"
-            onClick={() => removeItem(item.supplierProductId)}
+            onClick={() => removeItem(item.variantId)}
           >
             <Trash2Icon />
           </Button>
