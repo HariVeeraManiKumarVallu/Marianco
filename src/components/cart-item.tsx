@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { useCartStore, type CartItem, } from '@/store/cart-store'
-import { Trash2Icon } from 'lucide-react'
+import { Minus, Plus, Trash2Icon } from 'lucide-react'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 
@@ -29,23 +29,26 @@ export default function CartItem({
           ${item.price.toFixed(2)}
         </p>
         <div className="flex items-center gap-2 mt-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => decreaseQuantity(item.variantId)}
-            disabled={item.quantity === 1}
-          >
-            -
-          </Button>
-          <Input className='w-16 text-center' value={item.quantity} onChange={(e) => updateQuantity(id, e.target.value)} />
-
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => increaseQuantity(item.variantId)}
-          >
-            +
-          </Button>
+          <div className="border-2 border-stone-200 flex items-center rounded-md gap-2">
+            <Button
+              variant="ghost"
+              className='rounded-none'
+              size="icon"
+              onClick={() => decreaseQuantity(item.variantId)}
+              disabled={item.quantity === 1}
+            >
+              <Minus />
+            </Button>
+            <Input className='w-12 text-center border-none rounded-none' type="number" value={item.quantity} onChange={(e) => updateQuantity(item.variantId, Number(e.target.value))} />
+            <Button
+              className='rounded-none'
+              variant="ghost"
+              size="icon"
+              onClick={() => increaseQuantity(item.variantId)}
+            >
+              <Plus />
+            </Button>
+          </div>
           <Button
             variant="destructive"
             size="icon"

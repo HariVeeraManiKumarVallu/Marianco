@@ -24,7 +24,6 @@ export default function Cart({
   const { items, totalCartPrice, totalItems } = useCartStore()
   // const { handleCheckout } = useCheckout()
   const pathname = usePathname()
-  console.log(totalItems)
 
   //if (pathname !== ROUTES.STORE && totalItems === 0) return null
 

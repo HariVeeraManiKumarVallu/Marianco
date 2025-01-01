@@ -94,6 +94,9 @@ export const useCartStore = create<CartStore>()(
       },
       updateQuantity: (id, quantity) =>
         set(state => {
+          console.log(typeof (quantity))
+          if (typeof (quantity) !== 'number') return {}
+          if (quantity < 1) return {}
 
           const updatedItems = state.items.map(i => (i.variantId === id ? { ...i, quantity } : i))
           const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
