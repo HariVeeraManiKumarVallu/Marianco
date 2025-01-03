@@ -1,3 +1,5 @@
+import { AvailableCurrency } from "@/config/payment"
+
 export const formattedDate = (date: Date) => {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -21,6 +23,33 @@ export const formatters = {
   }),
 }
 
+function getCurrencyFormatter(currency: AvailableCurrency, options?: { hideDecimals?: boolean }) {
+  switch (currency) {
+    case 'USD':
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: options?.hideDecimals ? 0 : 2,
+        maximumFractionDigits: options?.hideDecimals ? 0 : 2,
+      })
+    case 'EUR':
+      return new Intl.NumberFormat('en-EU', {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: options?.hideDecimals ? 0 : 2,
+        maximumFractionDigits: options?.hideDecimals ? 0 : 2,
+      })
+    case 'SEK':
+      return new Intl.NumberFormat('sv-SE', {
+        style: 'currency',
+        currency: 'SEK',
+        minimumFractionDigits: options?.hideDecimals ? 0 : 2,
+        maximumFractionDigits: options?.hideDecimals ? 0 : 2,
+      })
+  }
+
+}
+
 // Get user's currency based on location
 export const getUserCurrency = () => {
   // Get user's country from browser
@@ -32,18 +61,12 @@ export const getUserCurrency = () => {
   return 'USD'
 }
 
-// Format amount with specified currency
 export function formatAmount(
   amount: number,
-  currency: string,
+  currency: AvailableCurrency,
   options?: { hideDecimals?: boolean }
 ) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency,
-    minimumFractionDigits: options?.hideDecimals ? 0 : 2,
-    maximumFractionDigits: options?.hideDecimals ? 0 : 2,
-  }).format(amount)
+  return getCurrencyFormatter(currency, options).format(amount)
 }
 
 export function formatNumber(num: number) {

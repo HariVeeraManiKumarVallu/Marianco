@@ -3,59 +3,47 @@ import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AvailableCurrency, CHECKOUT_TYPES } from '@/config/payment'
-import { SPONSORSHIP_TIERS } from '@/config/sponsorship-tiers'
 import { formatAmount } from '@/lib/formatters'
 import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { SponsorshipTier } from '@/types/donation'
 import { motion } from 'motion/react'
+import { Dispatch, SetStateAction } from 'react'
 
 type SponsorshipTierProps = {
   sponsorshipTier: SponsorshipTier
   currency: AvailableCurrency
-  isLoading: boolean
-  isAnyLoading: boolean
-  setLoading: (lookup_key: string, loading: boolean) => void
+  selectedTier: string
+  setSelectedTier: Dispatch<SetStateAction<string>>
 }
 
 export default function SponsorshipTierCard({
   sponsorshipTier,
   currency,
-  isLoading,
-  isAnyLoading,
-  setLoading,
+  selectedTier,
+  setSelectedTier,
 }: SponsorshipTierProps) {
-  const currencyOptions = sponsorshipTier.currency_options || {}
-  const tierDetails = SPONSORSHIP_TIERS.find(
-    tier => tier.title === sponsorshipTier.nickname
-  )
+  if (!sponsorshipTier.currencyOptions[currency.toLowerCase()]?.unit_amount) return null
+  const formattedAmount = formatAmount(sponsorshipTier.currencyOptions[currency.toLowerCase()]?.unit_amount / 100, currency, { hideDecimals: true })
 
-  const getAmount = () => {
-    if (currency === 'USD') {
-      return (sponsorshipTier.unit_amount || 0) / 100
-    }
-
-    const option = currencyOptions[currency.toLowerCase()]
-    return option && 'unit_amount' in option
-      ? (option.unit_amount as number) / 100
-      : 0
-  }
-  setLoading(sponsorshipTier.lookup_key!, true)
-
-  const handleSelectPlan = async () => {
+  async function handleSelectPlan() {
     try {
+      setSelectedTier(sponsorshipTier.lookupKey)
       await handleStripeCheckoutSession({
         type: CHECKOUT_TYPES.SPONSORSHIP,
-        priceId: sponsorshipTier.id,
         currency,
-        tierName: sponsorshipTier.nickname,
+        lookupKey: sponsorshipTier.lookupKey
       })
-    } finally {
-      setLoading(sponsorshipTier.lookup_key!, false)
+    }
+    catch (error) {
+      console.log(error)
+    }
+    finally {
+      setSelectedTier('')
     }
   }
+  console.log(sponsorshipTier.currencyOptions)
 
-  return null
-
+  console.log(currency)
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -67,11 +55,11 @@ export default function SponsorshipTierCard({
     >
       <Card className="relative overflow-hidden h-full flex flex-col border border-brand-blue-300 hover:border-brand-blue-900 transition-colors duration-300 max-w-96 mx-auto">
         <CardHeader className="space-y-3">
-          <CardTitle>{sponsorshipTier.nickname}</CardTitle>
+          <CardTitle>{sponsorshipTier.title}</CardTitle>
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="text-3xl font-bold">
-                {formatAmount(getAmount(), currency, { hideDecimals: true })}
+                {formattedAmount}
               </span>
               <span className="text-muted-foreground">/year</span>
             </div>
@@ -79,7 +67,7 @@ export default function SponsorshipTierCard({
         </CardHeader>
         <CardContent className="flex-grow">
           <ul className="space-y-4 mb-6">
-            {tierDetails?.benefits.map((benefit, index) => (
+            {sponsorshipTier.benefits.map((benefit, index) => (
               <motion.li
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
@@ -100,9 +88,9 @@ export default function SponsorshipTierCard({
             className="w-full"
             size="lg"
             onClick={handleSelectPlan}
-            disabled={isAnyLoading}
+            disabled={!!selectedTier}
           >
-            {isLoading ? 'Processing...' : 'Select Plan'}
+            {selectedTier === sponsorshipTier.lookupKey ? 'Processing...' : 'Select Plan'}
           </Button>
         </div>
       </Card>

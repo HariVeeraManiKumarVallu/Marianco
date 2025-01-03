@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
 }
 
-type LookupKey = keyof typeof SPONSORSHIP_TIERS;
+type LookupKey = keyof typeof SPONSORSHIP_TIERS
 
 export default async function SponsorsPage() {
   const prices = await stripe.prices.list({
@@ -42,8 +42,6 @@ export default async function SponsorsPage() {
       currencyOptions: item.currency_options
     }
   })
-
-  console.log(tiers)
 
   return (
     <div>

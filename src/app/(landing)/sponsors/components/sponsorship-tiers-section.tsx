@@ -1,25 +1,17 @@
 'use client'
-
 import { useState } from 'react'
 import CurrencySelector from '@/components/currency-selector'
 import { AvailableCurrency } from '@/config/payment'
-import SponsorshipTierCard from './sponsorship-tier-card'
 import { SponsorshipTier } from '@/types/donation'
+import SponsorshipTierCard from './sponsorship-tier-card'
 
 export default function SponsorshipTiersSection({
   tiers,
 }: {
   tiers: SponsorshipTier[]
 }) {
-  console.log(tiers)
   const [currency, setCurrency] = useState<AvailableCurrency>('EUR')
-  const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>(
-    Object.fromEntries(prices.map(tier => [tier.lookup_key, false]))
-  )
-
-  const setTierLoading = (lookup_key: string, loading: boolean) => {
-    setLoadingStates(prev => ({ ...prev, [lookup_key]: loading }))
-  }
+  const [selectedTier, setSelectedTier] = useState('')
 
   return (
     <section className=" py-section">
@@ -32,12 +24,11 @@ export default function SponsorshipTiersSection({
           {tiers
             .map(tier => (
               <SponsorshipTierCard
-                key={tier.lookup_key}
+                key={tier.lookupKey}
                 sponsorshipTier={tier}
                 currency={currency}
-                isLoading={loadingStates[tier.lookup_key!]}
-                isAnyLoading={Object.values(loadingStates).some(Boolean)}
-                setLoading={setTierLoading}
+                selectedTier={selectedTier}
+                setSelectedTier={setSelectedTier}
               />
             ))}
         </div>

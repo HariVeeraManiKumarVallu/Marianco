@@ -3,7 +3,7 @@ import Stripe from "stripe"
 
 export type SponsorshipTier = {
   title: string
-  lookup_key: keyof typeof SPONSORSHIP_TIERS
-  prices: Stripe.Price[]
+  lookupKey: keyof typeof SPONSORSHIP_TIERS
+  currencyOptions: { [key: string]: Stripe.Price.CurrencyOptions }
   benefits: string[]
 }
