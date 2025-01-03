@@ -8,10 +8,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { ROUTES } from '@/config/routes'
 import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { ShoppingCart } from 'lucide-react'
-import { usePathname } from 'next/navigation'
 import CartItem from './cart-item'
 import { useCartStore } from '@/store/cart-store'
 import { useEffect } from 'react'
@@ -22,10 +20,8 @@ export default function Cart({
   variant?: 'icon' | 'full'
 }) {
   const { items, totalCartPrice, totalItems } = useCartStore()
-  // const { handleCheckout } = useCheckout()
-  const pathname = usePathname()
+  //const { handleCheckout } = useCheckout()
 
-  //if (pathname !== ROUTES.STORE && totalItems === 0) return null
 
   useEffect(() => {
     useCartStore.persist.rehydrate()
@@ -34,7 +30,7 @@ export default function Cart({
   return (
     <Sheet>
       <SheetTrigger asChild className={(
-        pathname !== ROUTES.STORE && totalItems === 0 ? 'invisible' : 'visible'
+        totalItems === 0 ? 'invisible' : 'visible'
       )}>
         {variant === 'icon' ? (
           <Button variant="outline" size="icon" className="relative">
@@ -81,8 +77,7 @@ export default function Cart({
                     await handleStripeCheckoutSession({ items })
                   }
                 >
-                  Checkout with Stripe
-                </Button>
+                  Checkout                 </Button>
               </div>
             </>
           )}

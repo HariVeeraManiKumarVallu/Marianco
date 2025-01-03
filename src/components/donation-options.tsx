@@ -24,6 +24,7 @@ import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 import { Label } from './ui/label'
+import { CHECKOUT_TYPES } from '@/config/payment'
 
 const initialErrorState = {
   oneTime: '',
@@ -72,9 +73,10 @@ export default function DonationOptionsCards() {
     }
   }, [])
 
-  async function handleCheckout(type: DonationType, value: string) {
+  async function handleCheckout(type: DonationType, amount: string) {
     clearError(type)
-    const validatedValue = donationsConfig[type].schema.safeParse(value)
+    if (type === 'project') return
+    const validatedValue = donationsConfig[type].schema.safeParse(amount)
     if (!validatedValue.success) {
       setErrors(prev => ({
         ...prev,
@@ -86,8 +88,9 @@ export default function DonationOptionsCards() {
     setLoadingStates(prev => ({ ...prev, [type]: true }))
     try {
       await handleStripeCheckoutSession({
-        type,
-        value: validatedValue.data,
+        checkoutType: CHECKOUT_TYPES.DONATION,
+        donationType: type,
+        amount: validatedValue.data,
         currency,
       })
     } finally {

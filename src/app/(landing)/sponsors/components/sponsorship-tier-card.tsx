@@ -1,24 +1,23 @@
 'use client'
-
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { type AvailableCurrency } from '@/config/currencies'
+import { AvailableCurrency, CHECKOUT_TYPES } from '@/config/payment'
 import { SPONSORSHIP_TIERS } from '@/config/sponsorship-tiers'
 import { formatAmount } from '@/lib/formatters'
 import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
+import { SponsorshipTier } from '@/types/donation'
 import { motion } from 'motion/react'
-import Stripe from 'stripe'
 
-interface SponsorshipTierProps {
-  sponsorshipTier: Stripe.Price
+type SponsorshipTierProps = {
+  sponsorshipTier: SponsorshipTier
   currency: AvailableCurrency
   isLoading: boolean
   isAnyLoading: boolean
-  setLoading: (loading: boolean) => void
+  setLoading: (lookup_key: string, loading: boolean) => void
 }
 
-export default function SponsorshipTier({
+export default function SponsorshipTierCard({
   sponsorshipTier,
   currency,
   isLoading,
@@ -40,20 +39,22 @@ export default function SponsorshipTier({
       ? (option.unit_amount as number) / 100
       : 0
   }
+  setLoading(sponsorshipTier.lookup_key!, true)
 
   const handleSelectPlan = async () => {
-    setLoading(true)
     try {
       await handleStripeCheckoutSession({
-        type: 'sponsorship',
+        type: CHECKOUT_TYPES.SPONSORSHIP,
         priceId: sponsorshipTier.id,
         currency,
         tierName: sponsorshipTier.nickname,
       })
     } finally {
-      setLoading(false)
+      setLoading(sponsorshipTier.lookup_key!, false)
     }
   }
+
+  return null
 
   return (
     <motion.div

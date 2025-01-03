@@ -1,23 +1,24 @@
 'use client'
 
-import { AvailableCurrency } from '@/config/currencies'
 import { useState } from 'react'
-import Stripe from 'stripe'
-import SponsorshipTier from './sponsorship-tier'
 import CurrencySelector from '@/components/currency-selector'
+import { AvailableCurrency } from '@/config/payment'
+import SponsorshipTierCard from './sponsorship-tier-card'
+import { SponsorshipTier } from '@/types/donation'
 
 export default function SponsorshipTiersSection({
-  prices,
+  tiers,
 }: {
-  prices: Stripe.Price[]
+  tiers: SponsorshipTier[]
 }) {
+  console.log(tiers)
   const [currency, setCurrency] = useState<AvailableCurrency>('EUR')
   const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>(
-    Object.fromEntries(prices.map(tier => [tier.id, false]))
+    Object.fromEntries(prices.map(tier => [tier.lookup_key, false]))
   )
 
-  const setTierLoading = (tierId: string, loading: boolean) => {
-    setLoadingStates(prev => ({ ...prev, [tierId]: loading }))
+  const setTierLoading = (lookup_key: string, loading: boolean) => {
+    setLoadingStates(prev => ({ ...prev, [lookup_key]: loading }))
   }
 
   return (
@@ -28,18 +29,15 @@ export default function SponsorshipTiersSection({
           <CurrencySelector onCurrencyChange={setCurrency} />
         </div>
         <div className="grid md:grid-cols-3 gap-6">
-          {prices
-            .sort((a, b) => a.unit_amount! - b.unit_amount!)
+          {tiers
             .map(tier => (
-              <SponsorshipTier
-                key={tier.id}
+              <SponsorshipTierCard
+                key={tier.lookup_key}
                 sponsorshipTier={tier}
                 currency={currency}
-                isLoading={loadingStates[tier.id]}
+                isLoading={loadingStates[tier.lookup_key!]}
                 isAnyLoading={Object.values(loadingStates).some(Boolean)}
-                setLoading={(loading: boolean) =>
-                  setTierLoading(tier.id, loading)
-                }
+                setLoading={setTierLoading}
               />
             ))}
         </div>

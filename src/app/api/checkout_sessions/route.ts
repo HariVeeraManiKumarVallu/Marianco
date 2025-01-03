@@ -1,92 +1,38 @@
-import { AvailableCurrency } from '@/config/currencies'
-import { donationsConfig, DonationType } from '@/config/donations-options'
-import { ROUTES } from '@/config/routes'
-import stripe from '@/services/stripe'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
-import Stripe from 'stripe'
 import { ZodError } from 'zod'
+import { CheckoutRequestBody } from './types'
+import { handleDonationCheckout, handleSponsorshipChekcout, handleStoreCheckout } from './controllers'
+import { CHECKOUT_TYPES } from '@/config/payment'
+
 
 export async function POST(req: Request) {
   try {
     const reqHeaders = await headers()
-    const {
-      type,
-      value,
-      priceId,
-      currency = 'EUR',
-      tierName,
-    }: {
-      type: DonationType | 'sponsorship'
-      value?: string
-      priceId?: string
-      currency?: AvailableCurrency
-      tierName?: string
-    } = await req.json()
+    const body: CheckoutRequestBody = await req.json()
+    const reqOrigin = reqHeaders.get('origin')
 
-    if (type === 'sponsorship' && priceId) {
-      const session = await stripe.checkout.sessions.create({
-        line_items: [
-          {
-            price: priceId,
-            quantity: 1,
-          },
-        ],
-        mode: 'subscription' as Stripe.Checkout.SessionCreateParams.Mode,
-        currency,
-        metadata: {
-          tierName: tierName || null,
-        },
-        success_url: `${reqHeaders.get('origin')}/${
-          ROUTES.SPONSORS
-        }/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${reqHeaders.get('origin')}/${
-          ROUTES.SPONSORS
-        }?canceled=true`,
-      } satisfies Stripe.Checkout.SessionCreateParams)
-
-      return NextResponse.json({ sessionId: session.id })
+    if (!reqOrigin) {
+      return NextResponse.json({
+        error: 'Unable to get request origin'
+      }, { status: 500 })
     }
 
-    const validatedAmount =
-      donationsConfig[type as DonationType].schema.parse(value)
-    const paymentMode =
-      type === 'monthly' || type === 'sponsor' ? 'subscription' : 'payment'
-
-    function createLineItem() {
-      const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
-        price_data: {
-          currency,
-          product_data: {
-            name: donationsConfig[type as DonationType].title,
-            description: donationsConfig[type as DonationType].description,
-          },
-          unit_amount: Number(validatedAmount) * 100,
-        },
-        quantity: 1,
-      }
-
-      if (paymentMode === 'subscription') {
-        lineItem.price_data!.recurring = {
-          interval: 'month',
-          interval_count: 1,
-        }
-      }
-
-      return lineItem
+    switch (body.checkoutType) {
+      case CHECKOUT_TYPES.SPONSORSHIP:
+        return handleSponsorshipChekcout(body, reqOrigin)
+      case CHECKOUT_TYPES.DONATION:
+        return handleDonationCheckout(body, reqOrigin)
+      case CHECKOUT_TYPES.PURCHASE:
+        return handleStoreCheckout(body, reqOrigin)
+      default:
+        return NextResponse.json(
+          { error: 'Invalid checkout type' },
+          { status: 400 }
+        )
     }
 
-    const session = await stripe.checkout.sessions.create({
-      line_items: [createLineItem()],
-      mode: paymentMode as Stripe.Checkout.SessionCreateParams.Mode,
-      currency,
-      success_url: `${reqHeaders.get('origin')}/${
-        ROUTES.DONATE
-      }/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${reqHeaders.get('origin')}/${ROUTES.DONATE}?canceled=true`,
-    } satisfies Stripe.Checkout.SessionCreateParams)
 
-    return NextResponse.json({ sessionId: session.id })
   } catch (error) {
     console.log(error)
     if (error instanceof ZodError) {
@@ -101,3 +47,4 @@ export async function POST(req: Request) {
     { status: 500 }
   )
 }
+

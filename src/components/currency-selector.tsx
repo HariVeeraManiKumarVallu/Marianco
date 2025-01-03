@@ -1,6 +1,6 @@
 'use client'
 
-import { AVAILABLE_CURRENCIES, AvailableCurrency } from '@/config/currencies'
+import { AVAILABLE_CURRENCIES, AvailableCurrency } from '@/config/payment'
 import {
   Select,
   SelectContent,

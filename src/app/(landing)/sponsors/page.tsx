@@ -7,6 +7,7 @@ import AdditionalOptions from './components/additional-options'
 import Heading from './components/heading'
 import SponsorshipTiersSection from './components/sponsorship-tiers-section'
 import SponsorsList from '@/components/sponsors-list'
+import { SPONSORSHIP_TIERS } from '@/config/sponsorship-tiers'
 
 export const metadata: Metadata = {
   title: 'Sponsors & Partners',
@@ -19,14 +20,30 @@ export const metadata: Metadata = {
   },
 }
 
+type LookupKey = keyof typeof SPONSORSHIP_TIERS;
+
 export default async function SponsorsPage() {
   const prices = await stripe.prices.list({
+    active: true,
+    lookup_keys: Object.keys(SPONSORSHIP_TIERS),
     expand: ['data.currency_options'],
   })
 
   if (!prices.data) {
     return null
   }
+
+  const tiers = prices.data.filter(item => item.unit_amount).sort((a, b) => a.unit_amount! - b.unit_amount!).map(item => {
+    const lookupKey = item.lookup_key as LookupKey
+    return {
+      title: SPONSORSHIP_TIERS[lookupKey].title,
+      benefits: SPONSORSHIP_TIERS[lookupKey].benefits,
+      lookupKey,
+      currencyOptions: item.currency_options
+    }
+  })
+
+  console.log(tiers)
 
   return (
     <div>
@@ -48,7 +65,7 @@ export default async function SponsorsPage() {
       />
       <Heading />
       <SponsorsList />
-      <SponsorshipTiersSection prices={prices.data} />
+      <SponsorshipTiersSection tiers={tiers} />
       <AdditionalOptions />
       <CtaSection
         heading="Ready to Make a Difference"

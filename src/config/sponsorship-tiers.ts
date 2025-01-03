@@ -1,13 +1,6 @@
-export type SponsorshipTier = {
-  title: string
-  amount: string
-  benefits: string[]
-}
-
-export const SPONSORSHIP_TIERS: SponsorshipTier[] = [
-  {
+export const SPONSORSHIP_TIERS = {
+  bronze_partner: {
     title: 'Bronze Partner',
-    amount: '$5,000',
     benefits: [
       'Company logo on our website',
       'Recognition in promotional materials',
@@ -15,9 +8,9 @@ export const SPONSORSHIP_TIERS: SponsorshipTier[] = [
       'Quarterly impact reports',
     ],
   },
-  {
+  silver_partner: {
     title: 'Silver Partner',
-    amount: '$10,000',
+    lookup_key: "silver_partner",
     benefits: [
       'Recognition at all Marianco events',
       'Prominent logo placement',
@@ -26,9 +19,9 @@ export const SPONSORSHIP_TIERS: SponsorshipTier[] = [
       'Monthly partnership highlights',
     ],
   },
-  {
+  gold_partner: {
     title: 'Gold Partner',
-    amount: '$25,000',
+    lookup_key: "gold_partner",
     benefits: [
       'All Silver Partner benefits',
       'Media campaign mentions',
@@ -37,4 +30,4 @@ export const SPONSORSHIP_TIERS: SponsorshipTier[] = [
       'Custom impact initiatives',
     ],
   },
-]
+} as const
