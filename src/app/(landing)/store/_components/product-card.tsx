@@ -24,7 +24,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   function handleAddToCart() {
     if (!selectedVariant) return
     addItem({
-      supplierProductId: product.supplierProductId,
+      productId: product.productId,
       title: product.title,
       price: selectedVariant.price,
       variantId: selectedVariant.variantId,
@@ -51,7 +51,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       </Link>
       <CardFooter className="flex items-center justify-between mt-auto">
         <span className="text-lg font-bold">${product.basePrice / 100}</span>
-        { /* <AddToCart productDetails={title:product.title, supplierProductId: }/> */}
+        { /* <AddToCart productDetails={title:product.title, productId: }/> */}
 
       </CardFooter>
     </Card>

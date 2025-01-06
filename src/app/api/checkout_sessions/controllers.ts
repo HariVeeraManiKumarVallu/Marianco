@@ -4,6 +4,7 @@ import { DonationCheckout, SponsorshipCheckout, StoreCheckout } from "./types"
 import { ROUTES } from "@/config/routes"
 import { NextResponse } from "next/server"
 import { donationsConfig } from "@/config/donations-options"
+import { Product } from "@/types/product"
 
 export async function handleSponsorshipChekcout(body: SponsorshipCheckout, reqOrigin: string) {
   const { currency, lookupKey } = body
@@ -82,27 +83,58 @@ export async function handleDonationCheckout(body: DonationCheckout, reqOrigin: 
 
 
 export async function handleStoreCheckout(body: StoreCheckout, reqOrigin: string) {
-  const { type, priceId, currency, tierName } = body
+  const { currency, items } = body
+  const updatedItems = await Promise.all(items.map(item => getLatestProductDetails(item.productId, item.variantId)))
+  const lineItems = updatedItems.map(item => ({
+    price_data: {
+      product_data: {
+        name: item.title, images: [item.imgUrl],
+      }, currency: currency.toLowerCase(), unit_amount: item.price,
+    },
+    quantity: items.find(i => i.productId === item.productId && i.variantId === item.variantId)?.quantity
+  }))
 
-  if (type === 'sponsorship' && priceId) {
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
-      mode: 'subscription' as Stripe.Checkout.SessionCreateParams.Mode,
-      currency,
-      metadata: {
-        tierName,
-      },
-      success_url: `${reqOrigin}/${ROUTES.SPONSORS
-        }/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${reqOrigin}/${ROUTES.SPONSORS
-        }?canceled=true`,
-    } satisfies Stripe.Checkout.SessionCreateParams)
+  console.log(lineItems)
 
-    return NextResponse.json({ sessionId: session.id })
+  const session = await stripe.checkout.sessions.create({
+    line_items: lineItems,
+    mode: 'payment',
+    currency,
+    success_url: `${reqOrigin}/${ROUTES.SPONSORS
+      }/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${reqOrigin}/${ROUTES.SPONSORS
+      }?canceled=true`,
+  } satisfies Stripe.Checkout.SessionCreateParams)
+
+  return NextResponse.json({ sessionId: session.id })
+}
+
+async function getLatestProductDetails(productId: string, variantId: string) {
+  const product = await getProduct(productId)
+  const { is_available, price } = product.variants.find(variant => variant.id.toString() === variantId)
+
+  const imgUrl = product.images.find(img => img.variant_ids.includes(Number(variantId)) && img.is_default)?.src
+
+  if (!is_available) return { error: { message: 'Out of stock' } }
+
+  return {
+    productId,
+    variantId,
+    title: product.title,
+    price,
+    imgUrl
   }
+}
+
+async function getProduct(productId: string) {
+  const res = await fetch(`${process.env.PRINTIFY_API_BASE_URL}/shops/${process.env.PRINTIFY_SHOP_ID}/products/${productId}.json`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.PRINTIFY_API_TOKEN}`
+      }
+    }
+  )
+
+  const data = await res.json()
+  return data
 }

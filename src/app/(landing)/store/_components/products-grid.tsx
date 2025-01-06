@@ -33,6 +33,7 @@ export default async function ProductsGrid({ searchParams }: ProductsListProp) {
       encodeValuesOnly: true,
     }
   )
+
   const { data: products, meta } = await getProducts(query)
 
   return (

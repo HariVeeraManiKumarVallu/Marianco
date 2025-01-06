@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware'
 import { calculateCartTotals, } from './utils/cart'
 
 export type CartItem = {
-  supplierProductId: string
+  productId: string
   title: string
   price: number
   variantId: string

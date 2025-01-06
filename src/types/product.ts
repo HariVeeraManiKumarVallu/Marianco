@@ -5,7 +5,7 @@ export type Category = {
 }
 
 export type Product = StrapiData & {
-  supplierProductId: string
+  productId: string
   title: string
   description: string
   basePrice: number

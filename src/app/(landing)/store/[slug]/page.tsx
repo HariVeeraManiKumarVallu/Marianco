@@ -95,7 +95,7 @@ export default async function ProductPage({
             </div>
             <AddToCart productDetails={{
               title: product.title,
-              supplierProductId: product.supplierProductId
+              productId: product.productId
             }}
               images={product.images}
             />

@@ -1,6 +1,7 @@
 import { DonationType } from "@/config/donations-options"
 import { AvailableCurrency, CHECKOUT_TYPES } from "@/config/payment"
 import { SPONSORSHIP_TIERS } from "@/config/sponsorship-tiers"
+import { CartItem } from "@/store/cart-store"
 
 type BaseCheckout = {
   currency: AvailableCurrency
@@ -19,8 +20,7 @@ export type DonationCheckout = BaseCheckout & {
 
 export type StoreCheckout = BaseCheckout & {
   checkoutType: typeof CHECKOUT_TYPES.PURCHASE
-  supplierProductId: string
-  variantId: string
+  items: Omit<CartItem, 'price'>[]
 }
 
 export type CheckoutRequestBody = SponsorshipCheckout | DonationCheckout | StoreCheckout

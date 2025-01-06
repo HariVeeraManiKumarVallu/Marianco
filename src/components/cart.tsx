@@ -13,6 +13,7 @@ import { ShoppingCart } from 'lucide-react'
 import CartItem from './cart-item'
 import { useCartStore } from '@/store/cart-store'
 import { useEffect } from 'react'
+import { StoreCheckout } from '@/app/api/checkout_sessions/types'
 
 export default function Cart({
   variant = 'icon',
@@ -74,8 +75,11 @@ export default function Cart({
                 <Button
                   className="w-full mt-4"
                   onClick={async () =>
-                    await handleStripeCheckoutSession({ items })
-                  }
+                    await handleStripeCheckoutSession<StoreCheckout>({
+                      currency: 'USD',
+                      checkoutType: 'purchase',
+                      items: items.map(({ price, ...item }) => item)
+                    })}
                 >
                   Checkout                 </Button>
               </div>

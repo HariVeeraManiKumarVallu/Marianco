@@ -7,7 +7,7 @@ import { ProductImage } from "@/types/product";
 import { useAtomValue } from "jotai";
 import { ShoppingCart } from "lucide-react";
 
-export default function AddToCart({ productDetails, images, showIcon = false }: { productDetails: { supplierProductId: string, title: string }, images: ProductImage[], showIcon?: boolean }) {
+export default function AddToCart({ productDetails, images, showIcon = false }: { productDetails: { productId: string, title: string }, images: ProductImage[], showIcon?: boolean }) {
 
 
   const { addItem } = useCartStore()
