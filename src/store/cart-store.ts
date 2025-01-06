@@ -94,7 +94,6 @@ export const useCartStore = create<CartStore>()(
       },
       updateQuantity: (id, quantity) =>
         set(state => {
-          console.log(typeof (quantity))
           if (typeof (quantity) !== 'number') return {}
           if (quantity < 1) return {}
 

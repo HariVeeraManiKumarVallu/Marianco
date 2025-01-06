@@ -1,5 +1,6 @@
 import { DonationType } from "@/config/donations-options"
 import { AvailableCurrency, CHECKOUT_TYPES } from "@/config/payment"
+import { SPONSORSHIP_TIERS } from "@/config/sponsorship-tiers"
 
 type BaseCheckout = {
   currency: AvailableCurrency
@@ -7,8 +8,7 @@ type BaseCheckout = {
 
 export type SponsorshipCheckout = BaseCheckout & {
   checkoutType: typeof CHECKOUT_TYPES.SPONSORSHIP
-  priceId: string
-  tierName: string
+  lookupKey: keyof typeof SPONSORSHIP_TIERS
 }
 
 export type DonationCheckout = BaseCheckout & {

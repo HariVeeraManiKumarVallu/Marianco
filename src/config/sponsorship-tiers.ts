@@ -30,4 +30,4 @@ export const SPONSORSHIP_TIERS = {
       'Custom impact initiatives',
     ],
   },
-} as const
+} 

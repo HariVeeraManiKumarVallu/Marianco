@@ -6,20 +6,27 @@ import { NextResponse } from "next/server"
 import { donationsConfig } from "@/config/donations-options"
 
 export async function handleSponsorshipChekcout(body: SponsorshipCheckout, reqOrigin: string) {
-  console.log(body)
-  const { priceId, currency, tierName } = body
+  const { currency, lookupKey } = body
+  const res = await stripe.prices.list({
+    active: true,
+    lookup_keys: [lookupKey],
+    currency,
+    expand: ['data.currency_options'],
+  })
+
+  const sponsorshipPriceList = res.data[0]
 
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
-        price: priceId,
+        price: sponsorshipPriceList.id,
         quantity: 1,
       },
     ],
     mode: 'subscription' as Stripe.Checkout.SessionCreateParams.Mode,
     currency,
     metadata: {
-      tierName,
+      tierName: sponsorshipPriceList.nickname,
     },
     success_url: `${reqOrigin}/${ROUTES.SPONSORS
       }/success?session_id={CHECKOUT_SESSION_ID}`,

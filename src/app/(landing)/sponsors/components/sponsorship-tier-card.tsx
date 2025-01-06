@@ -29,7 +29,7 @@ export default function SponsorshipTierCard({
     try {
       setSelectedTier(sponsorshipTier.lookupKey)
       await handleStripeCheckoutSession({
-        type: CHECKOUT_TYPES.SPONSORSHIP,
+        checkoutType: CHECKOUT_TYPES.SPONSORSHIP,
         currency,
         lookupKey: sponsorshipTier.lookupKey
       })
@@ -41,9 +41,6 @@ export default function SponsorshipTierCard({
       setSelectedTier('')
     }
   }
-  console.log(sponsorshipTier.currencyOptions)
-
-  console.log(currency)
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

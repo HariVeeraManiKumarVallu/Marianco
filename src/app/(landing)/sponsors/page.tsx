@@ -20,8 +20,6 @@ export const metadata: Metadata = {
   },
 }
 
-type LookupKey = keyof typeof SPONSORSHIP_TIERS
-
 export default async function SponsorsPage() {
   const prices = await stripe.prices.list({
     active: true,
@@ -34,12 +32,12 @@ export default async function SponsorsPage() {
   }
 
   const tiers = prices.data.filter(item => item.unit_amount).sort((a, b) => a.unit_amount! - b.unit_amount!).map(item => {
-    const lookupKey = item.lookup_key as LookupKey
+    const lookupKey = item.lookup_key as keyof typeof SPONSORSHIP_TIERS
     return {
       title: SPONSORSHIP_TIERS[lookupKey].title,
-      benefits: SPONSORSHIP_TIERS[lookupKey].benefits,
       lookupKey,
-      currencyOptions: item.currency_options
+      currencyOptions: item.currency_options!,
+      benefits: SPONSORSHIP_TIERS[lookupKey].benefits,
     }
   })
 

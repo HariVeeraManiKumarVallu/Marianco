@@ -12,6 +12,7 @@ export async function POST(req: Request) {
     const body: CheckoutRequestBody = await req.json()
     const reqOrigin = reqHeaders.get('origin')
 
+    console.log(body)
     if (!reqOrigin) {
       return NextResponse.json({
         error: 'Unable to get request origin'
