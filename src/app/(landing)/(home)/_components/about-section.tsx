@@ -36,7 +36,8 @@ export default function AboutSection() {
               href={ROUTES.ABOUT}
               className={buttonVariants({
                 variant: 'link',
-                className: 'mt-6 group px-0',
+                size: 'none',
+                className: 'mt-6 group h-10 py-2'
               })}
             >
               Learn more about our work

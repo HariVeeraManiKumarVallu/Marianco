@@ -1,6 +1,7 @@
 export const SPONSORSHIP_TIERS = {
   bronze_partner: {
     title: 'Bronze Partner',
+    lookup_key: 'bronze_partner',
     benefits: [
       'Company logo on our website',
       'Recognition in promotional materials',

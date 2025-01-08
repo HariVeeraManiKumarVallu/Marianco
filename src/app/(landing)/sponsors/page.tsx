@@ -8,6 +8,7 @@ import Heading from './components/heading'
 import SponsorshipTiersSection from './components/sponsorship-tiers-section'
 import SponsorsList from '@/components/sponsors-list'
 import { SPONSORSHIP_TIERS } from '@/config/sponsorship-tiers'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'Sponsors & Partners',
@@ -61,7 +62,10 @@ export default async function SponsorsPage() {
       />
       <Heading />
       <SponsorsList />
-      <SponsorshipTiersSection tiers={tiers} />
+      {/* TODO: Add loading skeleton */}
+      <Suspense>
+        <SponsorshipTiersSection tiers={tiers} />
+      </Suspense>
       <AdditionalOptions />
       <CtaSection
         heading="Ready to Make a Difference"
