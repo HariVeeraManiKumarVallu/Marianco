@@ -2,7 +2,7 @@ import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 import { CheckoutRequestBody } from './types'
-import { handleDonationCheckout, handleSponsorshipChekcout, handleStoreCheckout } from './controllers'
+import { handleDonationCheckout, handleSponsorshipChekcout, handleStoreCheckout } from './checkout-handlers'
 import { CHECKOUT_TYPES } from '@/config/payment'
 
 

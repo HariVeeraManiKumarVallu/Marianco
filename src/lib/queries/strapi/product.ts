@@ -1,6 +1,7 @@
 import { STATIC_CONFIG } from '@/config/cache'
 import { Product } from '@/types/product'
 import { StrapiResponse } from '@/types/strapi'
+import qs from 'qs'
 
 export async function getProducts(query: string) {
   const res = await fetch(
@@ -25,8 +26,29 @@ export async function getProducts(query: string) {
 }
 
 export async function getProduct(id: string) {
+  const query = qs.stringify({
+    populate: {
+      skus: {
+        fields: 'skuId',
+        populate: {
+          variant: {
+            fields: 'variantId',
+          }
+        },
+      },
+      variants: {
+        populate: {
+          options: {
+            fields: ['optionId', 'name', 'type', 'title']
+          }
+        }
+      },
+    }
+  }, {
+    encodeValuesOnly: true
+  })
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products/${id}?populate[variants][populate][0]=options`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products/${id}?${query}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -37,12 +59,12 @@ export async function getProduct(id: string) {
       },
     }
   )
-
   if (!res.ok) {
     throw new Error('Failed to fetch product')
   }
 
   const data = await res.json()
+
   return data as StrapiResponse<Product>
 }
 
@@ -83,11 +105,16 @@ export async function getMaxPrice(query: string) {
   )
 
   if (!res.ok) {
-    throw new Error('Failed to fetch products')
+    throw new Error('Failed to fetch price range')
   }
 
   const data = await res.json()
-  return data
+
+  if (data.data.length === 0 || !data) {
+    throw new Error('Failed to fetch price range')
+  }
+
+  return data.data[0].basePrice
 }
 
 export async function getMinPrice(query: string) {
@@ -104,10 +131,16 @@ export async function getMinPrice(query: string) {
     }
   )
 
+
   if (!res.ok) {
     throw new Error('Failed to fetch products')
   }
 
   const data = await res.json()
-  return data
+
+  if (data.data.length === 0 || !data) {
+    throw new Error('Failed to fetch price range')
+  }
+
+  return data.data[0].basePrice
 }

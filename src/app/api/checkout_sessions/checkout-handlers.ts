@@ -94,15 +94,13 @@ export async function handleStoreCheckout(body: StoreCheckout, reqOrigin: string
     quantity: items.find(i => i.productId === item.productId && i.variantId === item.variantId)?.quantity
   }))
 
-  console.log(lineItems)
-
   const session = await stripe.checkout.sessions.create({
     line_items: lineItems,
     mode: 'payment',
     currency,
-    success_url: `${reqOrigin}/${ROUTES.SPONSORS
+    success_url: `${reqOrigin}/${ROUTES.STORE
       }/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${reqOrigin}/${ROUTES.SPONSORS
+    cancel_url: `${reqOrigin}/${ROUTES.STORE
       }?canceled=true`,
   } satisfies Stripe.Checkout.SessionCreateParams)
 

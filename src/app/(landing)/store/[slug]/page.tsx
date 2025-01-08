@@ -24,8 +24,11 @@ export default async function ProductPage({
   //   ...product,
   //   price: parseFloat(String(product?.price)),
   // }
+  //
 
 
+  console.log(product.skus[0])
+  console.log(product.variants[0])
   const options: Map<
     Option['type'],
     (Pick<Option, 'optionId' | 'title' | 'name'> & { src?: string })[]

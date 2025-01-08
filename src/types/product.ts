@@ -9,6 +9,7 @@ export type Product = StrapiData & {
   title: string
   description: string
   basePrice: number
+  skus: { skuId: string }[]
   variants: Variant[]
   images: ProductImage[]
 }

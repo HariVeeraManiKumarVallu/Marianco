@@ -41,8 +41,8 @@ export default async function PoductFilters({
   return (
     <ProductFiltering
       categories={categories.data}
-      minPrice={minPrice.data[0].basePrice / 100}
-      maxPrice={maxPrice.data[0].basePrice / 100}
+      minPrice={minPrice / 100}
+      maxPrice={maxPrice / 100}
     />
   )
 }
