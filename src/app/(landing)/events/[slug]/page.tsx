@@ -37,8 +37,8 @@ export default async function EventPage({ params }: Props) {
   if (!event) notFound()
 
   return (
-    <div className="my-section">
-      <section className="prose mx-auto prose-lg prose-img:rounded-lg">
+    <div className="my-32 lg:my-section  px-8">
+      <section className="prose mx-auto lg:prose-lg prose-img:rounded-lg mb-16 ">
         <header>
           <h1>{event?.title}</h1>
 
