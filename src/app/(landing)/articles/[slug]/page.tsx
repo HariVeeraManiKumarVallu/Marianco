@@ -55,8 +55,8 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound()
 
   return (
-    <div className="my-section">
-      <section className="prose mx-auto prose-lg prose-img:rounded-lg container mb-16">
+    <div className="my-32 lg:my-section  px-8">
+      <section className="prose mx-auto lg:prose-lg prose-img:rounded-lg mb-16 ">
         <h1 className="text-pretty">{article?.title}</h1>
         <p className="text-muted-foreground -mt-4">
           {formatDate(new Date(article.publishedDate))}
