@@ -36,13 +36,13 @@ export interface StrapiImage {
   width: number
 }
 
-export type StrapiData = {
+export type StrapiData<T> = {
   id: number
   documentId: string
   createdAt: string
   updatedAt: string
   publishedAt: string
-}
+} & T
 
 export type StrapiResponse<T> = {
   data: T

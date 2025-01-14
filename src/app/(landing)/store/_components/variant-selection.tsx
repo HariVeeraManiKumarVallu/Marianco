@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { selectedVariantAtom } from '@/store/variant-atom'
 
-import { Option, Product } from '@/types/product'
+import { OptionType, OptionValue, Product } from '@/types/product'
 import { useAtom } from 'jotai'
 import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -16,8 +16,8 @@ export default function VariantSelection({
 }: {
   variants: Product['variants']
   options: Map<
-    Option['type'],
-    (Pick<Option, 'optionId' | 'title' | 'name'> & { src?: string })[]
+    OptionType['type'],
+    (Omit<OptionValue, 'optionType'>)[]
   >
 }) {
   const searchParams = useSearchParams()
@@ -94,7 +94,7 @@ export default function VariantSelection({
                 onClick={handleVariantSelection('color', color.title)}
               >
                 <Image
-                  src={color.src ?? '/placeholder.png'}
+                  src={color.previewUrl ?? '/placeholder.png'}
                   alt=""
                   width={96}
                   height={96}

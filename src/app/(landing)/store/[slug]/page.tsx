@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
 import { getProduct } from '@/lib/queries/strapi/product'
-import { Option } from '@/types/product'
 import ProductImagesGrid from '../_components/product-images-grid'
 import VariantSelection from '../_components/variant-selection'
 import AddToCart from '../_components/add-to-cart'
@@ -26,9 +25,22 @@ export default async function ProductPage({
   // }
   //
 
+  //const groupedOptions = Object.groupBy(product.options, ({ type }) => type)
+  //console.log('grouped', groupedOptions)
+  console.log('option type', product.optionTypes)
+  console.log('option values', product.optionValues)
+  console.log('option variant', product.variants)
 
-  console.log(product.skus[0])
-  console.log(product.variants[0])
+  //console.log(product.options[0])
+  //console.log(product.skus[0])
+  //console.log(product.variants[0])
+
+
+  const formattedOptions = product.optionTypes.map(optionType => ([optionType.type, optionType.optionValues] as const))
+  const optionsMap = new Map(formattedOptions)
+
+  console.log({ optionsMap })
+
   const options: Map<
     Option['type'],
     (Pick<Option, 'optionId' | 'title' | 'name'> & { src?: string })[]
@@ -89,7 +101,7 @@ export default async function ProductPage({
             </div>
 
             <VariantSelection
-              options={options}
+              options={optionsMap}
               variants={product.variants}
             />
             <div className="mb-4 mt-8 flex-1 space-y-1">

@@ -1,20 +1,20 @@
-import { StrapiData } from './strapi'
-
 export type Category = {
   title: string
 }
 
-export type Product = StrapiData & {
+export type Product = {
   productId: string
   title: string
   description: string
   basePrice: number
+  optionTypes: OptionType[]
+  optionValues: OptionValue[]
   skus: { skuId: string }[]
   variants: Variant[]
   images: ProductImage[]
 }
 
-export type Variant = StrapiData & {
+export type Variant = {
   variantId: string
   price: number
   isEnabled: boolean
@@ -22,14 +22,20 @@ export type Variant = StrapiData & {
   isAvailable: boolean
   quantity: number
   weight: number
-  options: Option[]
+  optionValues: OptionValue[]
 }
 
-export type Option = StrapiData & {
-  optionId: string
+export type OptionType = {
   type: 'color' | 'size' | 'paper'
-  title: string
   name: string
+  optionValues: OptionValue[]
+}
+
+export type OptionValue = {
+  optionId: string
+  title: string
+  previewUrl?: string
+  optionType: OptionType[]
 }
 
 export type ProductImage = {

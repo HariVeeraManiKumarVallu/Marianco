@@ -1,6 +1,6 @@
 import { STATIC_CONFIG } from '@/config/cache'
 import { Product } from '@/types/product'
-import { StrapiResponse } from '@/types/strapi'
+import { StrapiData, StrapiResponse } from '@/types/strapi'
 import qs from 'qs'
 
 export async function getProducts(query: string) {
@@ -28,6 +28,30 @@ export async function getProducts(query: string) {
 export async function getProduct(id: string) {
   const query = qs.stringify({
     populate: {
+      optionTypes: {
+        fields: ['type', 'name'],
+        populate: {
+          optionValues: {
+            fields: ['optionId', 'title', 'previewUrl'],
+            filters: {
+              products: {
+                documentId: {
+                  $eq: id
+                },
+              },
+            },
+          },
+        }
+      },
+      optionValues: {
+        fields: ['optionId', 'title', 'previewUrl'],
+        populate: {
+          optionType: {
+            fields: 'type'
+          }
+        },
+        sort: 'optionId',
+      },
       skus: {
         fields: 'skuId',
         populate: {
@@ -39,7 +63,7 @@ export async function getProduct(id: string) {
       variants: {
         populate: {
           options: {
-            fields: ['optionId', 'name', 'type', 'title']
+            fields: 'optionId'
           }
         }
       },
@@ -65,7 +89,7 @@ export async function getProduct(id: string) {
 
   const data = await res.json()
 
-  return data as StrapiResponse<Product>
+  return data as StrapiResponse<StrapiData<Product>>
 }
 
 export async function getCategories() {
