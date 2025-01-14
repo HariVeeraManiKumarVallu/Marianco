@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { findVariantImageSrc } from '@/lib/utils'
 import { useCartStore } from '@/store/cart-store'
 import { selectedVariantAtom } from '@/store/variant-atom'
 import { Product } from '@/types/product'
@@ -16,8 +15,10 @@ import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import AddToCart from './add-to-cart'
+import { StrapiData } from '@/types/strapi'
+import { findVariantImageSrc } from '../_utils/helpers'
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product }: { product: StrapiData<Product> }) => {
   const { addItem } = useCartStore()
   const selectedVariant = useAtomValue(selectedVariantAtom)
 

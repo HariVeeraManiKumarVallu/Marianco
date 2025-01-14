@@ -3,7 +3,7 @@ import { getProduct } from '@/lib/queries/strapi/product'
 import ProductImagesGrid from '../_components/product-images-grid'
 import VariantSelection from '../_components/variant-selection'
 import AddToCart from '../_components/add-to-cart'
-import { findVariantImageSrc } from '@/lib/utils'
+import { getOptionTypesMap, getOptionValuesMap, getVariantsMap } from '../_utils/helpers'
 
 export default async function ProductPage({
   params,
@@ -23,67 +23,12 @@ export default async function ProductPage({
   //   ...product,
   //   price: parseFloat(String(product?.price)),
   // }
-  //
 
-  //const groupedOptions = Object.groupBy(product.options, ({ type }) => type)
-  //console.log('grouped', groupedOptions)
-  console.log('option type', product.optionTypes)
-  console.log('option values', product.optionValues)
-  console.log('option variant', product.variants)
+  console.log(product.variants)
 
-  //console.log(product.options[0])
-  //console.log(product.skus[0])
-  //console.log(product.variants[0])
-
-
-  const formattedOptions = product.optionTypes.map(optionType => ([optionType.type, optionType.optionValues] as const))
-  const optionsMap = new Map(formattedOptions)
-
-  console.log({ optionsMap })
-
-  const options: Map<
-    Option['type'],
-    (Pick<Option, 'optionId' | 'title' | 'name'> & { src?: string })[]
-  > = new Map()
-
-
-  for (const variant of product.variants) {
-    for (const { optionId, title, name, type } of variant.options) {
-      if (options.has(type)) {
-        const currentOptions = options.get(type)
-        if (currentOptions?.some(option => option.optionId === optionId))
-          continue
-        if (type === 'color') {
-          currentOptions?.push({
-            optionId,
-            title,
-            name,
-            src: findVariantImageSrc(product.images, Number(variant.variantId)),
-          })
-        } else {
-          currentOptions?.push({ optionId, title, name })
-        }
-        continue
-      }
-      if (type === 'color') {
-        options.set(type, [
-          {
-            optionId,
-            title,
-            name,
-            src: findVariantImageSrc(product.images, Number(variant.variantId)),
-          },
-        ])
-      } else {
-        options.set(type, [{ optionId, title, name }])
-      }
-    }
-  }
-
-  options.forEach((v, k) => {
-    if (k === 'size') { v.sort((a, b) => Number(a.optionId) - Number(b.optionId)) }
-  }
-  )
+  const optionTypesMap = getOptionTypesMap(product.optionTypes)
+  const optionValuesMap = getOptionValuesMap(product.optionValues)
+  const variantsMap = getVariantsMap(product.variants)
 
   return (
     <section className="my-section">
@@ -101,8 +46,9 @@ export default async function ProductPage({
             </div>
 
             <VariantSelection
-              options={optionsMap}
-              variants={product.variants}
+              optionTypes={optionTypesMap}
+              optionValues={optionValuesMap}
+              variantsMap={variantsMap}
             />
             <div className="mb-4 mt-8 flex-1 space-y-1">
               <h6>Description</h6>

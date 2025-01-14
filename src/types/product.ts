@@ -22,7 +22,7 @@ export type Variant = {
   isAvailable: boolean
   quantity: number
   weight: number
-  optionValues: OptionValue[]
+  options: Pick<OptionValue, 'optionId'>[]
 }
 
 export type OptionType = {

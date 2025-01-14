@@ -1,11 +1,11 @@
 'use client'
 import { Button } from "@/components/ui/button";
-import { findVariantImageSrc } from "@/lib/utils";
 import { useCartStore } from "@/store/cart-store";
 import { selectedVariantAtom } from "@/store/variant-atom";
 import { ProductImage } from "@/types/product";
 import { useAtomValue } from "jotai";
 import { ShoppingCart } from "lucide-react";
+import { findVariantImageSrc } from "../_utils/helpers";
 
 export default function AddToCart({ productDetails, images, showIcon = false }: { productDetails: { productId: string, title: string }, images: ProductImage[], showIcon?: boolean }) {
 

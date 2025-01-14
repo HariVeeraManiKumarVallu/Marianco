@@ -4,57 +4,51 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { selectedVariantAtom } from '@/store/variant-atom'
 
-import { OptionType, OptionValue, Product } from '@/types/product'
+import { OptionType, OptionValue, Product, Variant } from '@/types/product'
 import { useAtom } from 'jotai'
 import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useMemo } from 'react'
 
+type OptionTypesKey = OptionType['type']
+type OptionTypesValue = Omit<OptionValue, 'optionType'>
+type OptionValuesMap = Map<string, OptionValue>
+
 export default function VariantSelection({
-  variants,
-  options,
+  optionTypes,
+  optionValues,
+  variantsMap
 }: {
-  variants: Product['variants']
-  options: Map<
-    OptionType['type'],
-    (Omit<OptionValue, 'optionType'>)[]
-  >
+  optionTypes: Map<OptionTypesKey, OptionTypesValue[]>
+  optionValues: OptionValuesMap
+  variantsMap: Map<string, Variant>
 }) {
+  const [selectedVariant, setSelectedVariant] = useAtom(selectedVariantAtom)
+
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
-  const [selectedVariant, setSelectedVariant] = useAtom(selectedVariantAtom)
 
   const selectedOptions = useMemo(() =>
-    Object.fromEntries([...options.keys()].map(k => ([
-      [k], searchParams.get(k) || options.get(k)?.[0].title
-    ])))
-    , [options, searchParams]
+    new Map(
+      optionTypes.keys().map(k => [k, optionValues.get(searchParams.get(k) as string)
+        ?? optionTypes.get(k)?.[0]])
+    ), [optionTypes, searchParams]
   )
 
-  const findVariant = useCallback(
-    (
-      options: string[]
-    ) => {
-      return variants.find(variant =>
-        options.every(option =>
-          variant.options.some(variantOption => variantOption.title === option)
-        )
-      )
-    },
-    [variants]
-  )
-
+  console.log(selectedOptions)
   useEffect(() => {
-    const selectedVariant = findVariant(Object.values(selectedOptions))
+    const selectedOptionIds = [...selectedOptions.values()].map(v => v?.optionId).toSorted((a, b) => Number(a) - Number(b)).join('-')
+    const selectedVariant = variantsMap.get(selectedOptionIds)
+    console.log({ selectedOptionIds })
     if (!selectedVariant) return
     setSelectedVariant(selectedVariant)
-  }, [findVariant, selectedOptions, setSelectedVariant])
+  }, [selectedOptions, setSelectedVariant])
 
-  function handleVariantSelection(variant: string, value: string) {
+  function handleOptionSelection(optionType: string, value: string) {
     return () => {
       const params = new URLSearchParams(searchParams)
-      params.set(variant, value)
+      params.set(optionType, value)
       router.replace(`${pathname}?${params.toString()}`, { scroll: false })
     }
   }
@@ -65,57 +59,60 @@ export default function VariantSelection({
         {selectedVariant?.price ? selectedVariant?.price / 100 : null}
       </span>
 
-      {options.has('color') && options.get('color')!.length > 0 ? (
+      {optionTypes.has('color') && optionTypes.get('color')!.length > 0 ? (
         <div className="flex gap-4 mt-8 flex-wrap items-center">
-          {options.get('color')?.map(color => (
-            <div
-              key={color.optionId}
-              className="text-center tracking-wide space-y-2"
-            >
-              <p
-                className={
-                  selectedOptions.color === color.title ? 'visible' : 'invisible'
-                }
+          {optionTypes.get('color')!.map(color => {
+            const selectedColor = selectedOptions.get('color')
+            if (!selectedColor) return null
+            return (
+              <div
+                key={color.optionId}
+                className="text-center tracking-wide space-y-2"
               >
-                {color.title}
-              </p>
-              <Button
-                variant={'icon'}
-                size="none"
-                className={cn(
-                  {
-                    'outline-brand-blue-900 outline-2':
-                      color.title === selectedOptions.color,
-                    'outline-muted-foreground outline-1':
-                      color.title !== selectedOptions.color,
-                  },
-                  'size-24 rounded-sm overflow-clip outline'
-                )}
-                onClick={handleVariantSelection('color', color.title)}
-              >
-                <Image
-                  src={color.previewUrl ?? '/placeholder.png'}
-                  alt=""
-                  width={96}
-                  height={96}
-                  className="object-cover"
-                />
-                <span className="sr-only">{color.title}</span>
-              </Button>
-            </div>
-          ))}
+                <p
+                  className={
+                    selectedOptions.get('color')?.title === color.title ? 'visible' : 'invisible'
+                  }
+                >
+                  {color.title}
+                </p>
+                <Button
+                  variant={'icon'}
+                  size="none"
+                  className={cn(
+                    color.title === selectedColor.title ?
+                      'outline-brand-blue-900 outline-2' :
+                      'outline-muted-foreground outline-1'
+                    ,
+                    'size-24 rounded-sm overflow-clip outline'
+                  )}
+                  onClick={handleOptionSelection('color', color.title)}
+                >
+                  <Image
+                    src={color.previewUrl ?? '/placeholder.png'}
+                    alt=""
+                    width={96}
+                    height={96}
+                    className="object-cover"
+                  />
+                  <span className="sr-only">{color.title}</span>
+                </Button>
+              </div>
+            )
+          })}
         </div>
       ) : null}
 
       {
-        options.has('size') && options.get('size')!.length > 0 ?
+        optionTypes.has('size') && optionTypes.get('size')!.length > 0 ?
           <div className="mt-8">
             <h6 className="mb-4">Choose Size</h6>
             <div className="flex gap-2 flex-wrap items-center">
-              {options.get('size')!.map(size => {
-                const isAvailable = findVariant(
-                  Object.values({ ...selectedOptions, size: size.title }
-                  ))?.isAvailable
+              {optionTypes.get('size')!.map(size => {
+                const selectedSize = selectedOptions.get('size')
+                if (!selectedSize) return null
+
+                const isAvailable = selectedVariant?.isAvailable
                 return (
                   <Button
                     key={size.optionId
@@ -124,17 +121,16 @@ export default function VariantSelection({
                     size={'sm'}
                     disabled={!isAvailable}
                     className={cn(
+                      isAvailable && size.title === selectedSize.title ?
+                        'border-brand-blue-900 text-brand-blue-900' :
+                        'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900',
                       {
-                        'border-brand-blue-900 text-brand-blue-900':
-                          isAvailable && size.title === selectedOptions.size,
-                        'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900':
-                          size.title !== selectedOptions.size,
                         'line-through border-muted-foreground': !isAvailable,
                       },
                       'text-lg'
                     )}
                     aria-label="size"
-                    onClick={handleVariantSelection('size', size.title)}
+                    onClick={handleOptionSelection('size', size.title)}
                   >
                     {size.title}
                   </Button>
@@ -144,14 +140,15 @@ export default function VariantSelection({
           </div> : null
       }
 
-      {options.has('paper') && options.get('paper')!.length > 0 ?
+      {optionTypes.has('paper') && optionTypes.get('paper')!.length > 0 ?
         <div className="mt-6">
-          <h6 className="mb-4">Choose Paper Type</h6>
+          <h6 className="mb-4">Choose Page Type</h6>
           <div className="flex gap-2 flex-wrap items-center">
-            {options.get('paper')!.map(paper => {
-              const isAvailable = findVariant(
-                Object.values({ ...selectedOptions, paper: paper.title }
-                ))?.isAvailable
+            {optionTypes.get('paper')!.map(paper => {
+              const selectedPaper = selectedOptions.get('paper')
+              if (!selectedPaper) return null
+              const isAvailable = selectedVariant?.isAvailable
+              console.log(selectedVariant)
 
               return (
                 <Button
@@ -160,17 +157,16 @@ export default function VariantSelection({
                   size={'sm'}
                   disabled={!isAvailable}
                   className={cn(
+                    isAvailable && paper.title === selectedPaper.title ?
+                      'border-brand-blue-900 text-brand-blue-900' :
+                      'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900',
                     {
-                      'border-brand-blue-900 text-brand-blue-900':
-                        isAvailable && paper.name === selectedOptions.paper,
-                      'border-muted-foreground hover:border-brand-blue-900 hover:text-brand-blue-900':
-                        paper.name !== selectedOptions.paper,
                       'line-through border-muted-foreground': !isAvailable,
                     },
                     'text-lg'
                   )}
                   aria-label="size"
-                  onClick={handleVariantSelection('page', paper.title)}
+                  onClick={handleOptionSelection('paper', paper.title)}
                 >
                   {paper.title}
                 </Button>
