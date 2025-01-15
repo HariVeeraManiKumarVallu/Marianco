@@ -81,7 +81,8 @@ export default function Cart({
                       items: items.map(({ price, ...item }) => item)
                     })}
                 >
-                  Checkout                 </Button>
+                  Checkout
+                </Button>
               </div>
             </>
           )}

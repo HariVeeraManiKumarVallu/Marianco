@@ -15,13 +15,16 @@ export type Product = {
 }
 
 export type Variant = {
-  variantId: string
+  variantId: number
   price: number
   isEnabled: boolean
   isDefault: boolean
   isAvailable: boolean
   quantity: number
   weight: number
+  skus: {
+    skuId: string
+  }[]
   options: Pick<OptionValue, 'optionId'>[]
 }
 
@@ -32,7 +35,7 @@ export type OptionType = {
 }
 
 export type OptionValue = {
-  optionId: string
+  optionId: number
   title: string
   previewUrl?: string
   optionType: OptionType[]

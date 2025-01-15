@@ -6,20 +6,22 @@ import { ProductImage } from "@/types/product";
 import { useAtomValue } from "jotai";
 import { ShoppingCart } from "lucide-react";
 import { findVariantImageSrc } from "../_utils/helpers";
+import { useParams } from "next/navigation";
 
-export default function AddToCart({ productDetails, images, showIcon = false }: { productDetails: { productId: string, title: string }, images: ProductImage[], showIcon?: boolean }) {
-
-
+export default function AddToCart({ productId, images, showIcon = false }: { productId: string, images: ProductImage[], showIcon?: boolean }) {
   const { addItem } = useCartStore()
   const selectedVariant = useAtomValue(selectedVariantAtom)
+  const documentId = useParams().slug as string
 
   function handleAddToCart() {
     if (!selectedVariant) return
     addItem({
-      ...productDetails,
+      documentId,
+      productId,
       price: selectedVariant.price,
       variantId: selectedVariant.variantId,
-      imageSrc: findVariantImageSrc(images, Number(selectedVariant.variantId)) || "",
+      skuId: selectedVariant.skus[0].skuId,
+      imageSrc: findVariantImageSrc(images, selectedVariant.variantId) || "",
       quantity: 1
     })
   }

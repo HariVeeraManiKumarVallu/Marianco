@@ -34,17 +34,17 @@ export default function CartItem({
               variant="ghost"
               className='rounded-none'
               size="icon"
-              onClick={() => decreaseQuantity(item.variantId)}
+              onClick={() => decreaseQuantity(item.skuId)}
               disabled={item.quantity === 1}
             >
               <Minus />
             </Button>
-            <Input className='w-12 text-center border-none rounded-none' type="number" value={item.quantity} onChange={(e) => updateQuantity(item.variantId, Number(e.target.value))} />
+            <Input className='w-12 text-center border-none rounded-none' type="number" value={item.quantity} onChange={(e) => updateQuantity(item.skuId, Number(e.target.value))} />
             <Button
               className='rounded-none'
               variant="ghost"
               size="icon"
-              onClick={() => increaseQuantity(item.variantId)}
+              onClick={() => increaseQuantity(item.skuId)}
             >
               <Plus />
             </Button>
@@ -52,7 +52,7 @@ export default function CartItem({
           <Button
             variant="destructive"
             size="icon"
-            onClick={() => removeItem(item.variantId)}
+            onClick={() => removeItem(item.skuId)}
           >
             <Trash2Icon />
           </Button>

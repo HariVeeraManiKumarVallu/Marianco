@@ -32,15 +32,13 @@ export default function VariantSelection({
   const selectedOptions = useMemo(() =>
     new Map(
       optionTypes.keys().map(k => [k, optionValues.get(searchParams.get(k) as string)
-        ?? optionTypes.get(k)?.[0]])
+        ?? optionTypes.get(k)![0]])
     ), [optionTypes, searchParams]
   )
 
-  console.log(selectedOptions)
   useEffect(() => {
-    const selectedOptionIds = [...selectedOptions.values()].map(v => v?.optionId).toSorted((a, b) => Number(a) - Number(b)).join('-')
+    const selectedOptionIds = [...selectedOptions.values()].map(v => v.optionId).toSorted((a, b) => a - b).join('-')
     const selectedVariant = variantsMap.get(selectedOptionIds)
-    console.log({ selectedOptionIds })
     if (!selectedVariant) return
     setSelectedVariant(selectedVariant)
   }, [selectedOptions, setSelectedVariant])

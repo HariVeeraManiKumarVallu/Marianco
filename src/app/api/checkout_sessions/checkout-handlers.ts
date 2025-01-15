@@ -5,6 +5,8 @@ import { ROUTES } from "@/config/routes"
 import { NextResponse } from "next/server"
 import { donationsConfig } from "@/config/donations-options"
 import { Product } from "@/types/product"
+import { StrapiData } from "@/types/strapi"
+import { getProductSku } from "@/lib/queries/strapi/product"
 
 export async function handleSponsorshipChekcout(body: SponsorshipCheckout, reqOrigin: string) {
   const { currency, lookupKey } = body
@@ -84,14 +86,14 @@ export async function handleDonationCheckout(body: DonationCheckout, reqOrigin: 
 
 export async function handleStoreCheckout(body: StoreCheckout, reqOrigin: string) {
   const { currency, items } = body
-  const updatedItems = await Promise.all(items.map(item => getLatestProductDetails(item.productId, item.variantId)))
+  const updatedItems = await Promise.all(items.map(item => getProductSku(item.documentId, item.variantId, item.skuId)))
   const lineItems = updatedItems.map(item => ({
     price_data: {
       product_data: {
-        name: item.title, images: [item.imgUrl],
+        name: item.title, images: [item.imageSrc],
       }, currency: currency.toLowerCase(), unit_amount: item.price,
     },
-    quantity: items.find(i => i.productId === item.productId && i.variantId === item.variantId)?.quantity
+    quantity: items.find(i => i.skuId === item.skuId)?.quantity
   }))
 
   const session = await stripe.checkout.sessions.create({
@@ -107,32 +109,33 @@ export async function handleStoreCheckout(body: StoreCheckout, reqOrigin: string
   return NextResponse.json({ sessionId: session.id })
 }
 
-async function getLatestProductDetails(productId: string, variantId: string) {
-  const product = await getProduct(productId)
-  const { is_available, price } = product.variants.find(variant => variant.id.toString() === variantId)
 
-  const imgUrl = product.images.find(img => img.variant_ids.includes(Number(variantId)) && img.is_default)?.src
+//async function getLatestProductDetails(productId: string, variantId: number) {
+//  const product = await getProduct(productId)
+//  const { is_available, price } = product.variants.find(variant => variant.id === variantId)
+//
+//  const imgUrl = product.images.find(img => img.variant_ids.includes(variantId) && img.is_default)?.src
+//
+//  if (!is_available) return { error: { message: 'Out of stock' } }
+//
+//  return {
+//    productId,
+//    variantId,
+//    title: product.title,
+//    price,
+//    imgUrl
+//  }
+//}
 
-  if (!is_available) return { error: { message: 'Out of stock' } }
-
-  return {
-    productId,
-    variantId,
-    title: product.title,
-    price,
-    imgUrl
-  }
-}
-
-async function getProduct(productId: string) {
-  const res = await fetch(`${process.env.PRINTIFY_API_BASE_URL}/shops/${process.env.PRINTIFY_SHOP_ID}/products/${productId}.json`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.PRINTIFY_API_TOKEN}`
-      }
-    }
-  )
-
-  const data = await res.json()
-  return data
-}
+//async function getProduct(productId: string) {
+//  const res = await fetch(`${process.env.PRINTIFY_API_BASE_URL}/shops/${process.env.PRINTIFY_SHOP_ID}/products/${productId}.json`,
+//    {
+//      headers: {
+//        Authorization: `Bearer ${process.env.PRINTIFY_API_TOKEN}`
+//      }
+//    }
+//  )
+//
+//  const data = await res.json()
+//  return data
+//}

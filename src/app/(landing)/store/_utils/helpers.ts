@@ -10,7 +10,7 @@ export function findVariantImageSrc(images: {
 }
 
 function sortByOptionId(options: Pick<OptionValue, 'optionId'>[]) {
-	return options.toSorted((a, b) => Number(a.optionId) - Number(b.optionId))
+	return options.toSorted((a, b) => a.optionId - b.optionId)
 }
 
 export function getVariantsMap(variants: Variant[]) {

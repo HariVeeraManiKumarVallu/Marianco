@@ -3,10 +3,11 @@ import { persist } from 'zustand/middleware'
 import { calculateCartTotals, } from './utils/cart'
 
 export type CartItem = {
+  documentId: string
   productId: string
-  title: string
   price: number
-  variantId: string
+  variantId: number
+  skuId: string
   imageSrc: string
   quantity: number
 }
@@ -15,10 +16,10 @@ type CartStore = {
   totalCartPrice: number
   totalItems: number
   addItem: (item: CartItem) => void
-  increaseQuantity: (id: string, quantity?: number) => void
-  decreaseQuantity: (id: string, quantity?: number) => void
-  removeItem: (id: string) => void
-  updateQuantity: (id: string, quantity: number) => void
+  increaseQuantity: (skuId: string, quantity?: number) => void
+  decreaseQuantity: (skuId: string, quantity?: number) => void
+  removeItem: (skuId: string) => void
+  updateQuantity: (skuId: string, quantity: number) => void
   clearCart: () => void
 }
 
@@ -30,10 +31,10 @@ export const useCartStore = create<CartStore>()(
       totalItems: 0,
       addItem: item =>
         set(state => {
-          const existingItem = state.items.find(i => i.variantId === item.variantId)
+          const existingItem = state.items.find(cartItem => cartItem.skuId === item.skuId)
           if (existingItem) {
             const updatedItems = state.items.map(i =>
-              i.variantId === item.variantId ? { ...i, quantity: i.quantity + item.quantity } : i
+              i.skuId === item.skuId ? { ...i, quantity: i.quantity + item.quantity } : i
             )
             const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
             return {
@@ -50,11 +51,11 @@ export const useCartStore = create<CartStore>()(
             totalItems,
           }
         }),
-      increaseQuantity: (id, quantity = 1) => set(state => {
-        const exisitingItem = state.items.find(i => i.variantId === id)
+      increaseQuantity: (skuId, quantity = 1) => set(state => {
+        const exisitingItem = state.items.find(i => i.skuId === skuId)
         if (!exisitingItem) return {}
         const updatedItems = state.items.map(i =>
-          i.variantId === id ? { ...i, quantity: i.quantity + quantity } : i
+          i.skuId === skuId ? { ...i, quantity: i.quantity + quantity } : i
         )
         const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
 
@@ -64,11 +65,11 @@ export const useCartStore = create<CartStore>()(
           totalItems
         }
       }),
-      decreaseQuantity: (id, quantity = 1) => set(state => {
-        const exisitingItem = state.items.find(i => i.variantId === id)
+      decreaseQuantity: (skuId, quantity = 1) => set(state => {
+        const exisitingItem = state.items.find(i => i.skuId === skuId)
         if (!exisitingItem || exisitingItem.quantity === 1) return {}
 
-        const updatedItems = state.items.map(i => i.variantId === id ? { ...i, quantity: i.quantity - quantity } : i)
+        const updatedItems = state.items.map(i => i.skuId === skuId ? { ...i, quantity: i.quantity - quantity } : i)
         const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
 
         return {
@@ -77,12 +78,12 @@ export const useCartStore = create<CartStore>()(
           totalItems
         }
       }),
-      removeItem: id => {
+      removeItem: skuId => {
         set(state => {
-          const removedItem = state.items.find(i => i.variantId === id)
+          const removedItem = state.items.find(i => i.skuId === skuId)
           if (!removedItem) return {}
 
-          const updatedItems = state.items.filter(i => i.variantId !== id)
+          const updatedItems = state.items.filter(i => i.skuId !== skuId)
           const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
 
           return {
@@ -92,12 +93,12 @@ export const useCartStore = create<CartStore>()(
           }
         })
       },
-      updateQuantity: (id, quantity) =>
+      updateQuantity: (skuId, quantity) =>
         set(state => {
           if (typeof (quantity) !== 'number') return {}
           if (quantity < 1) return {}
 
-          const updatedItems = state.items.map(i => (i.variantId === id ? { ...i, quantity } : i))
+          const updatedItems = state.items.map(i => (i.skuId === skuId ? { ...i, quantity } : i))
           const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
 
           return {

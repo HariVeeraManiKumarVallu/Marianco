@@ -24,8 +24,6 @@ export default async function ProductPage({
   //   price: parseFloat(String(product?.price)),
   // }
 
-  console.log(product.variants)
-
   const optionTypesMap = getOptionTypesMap(product.optionTypes)
   const optionValuesMap = getOptionValuesMap(product.optionValues)
   const variantsMap = getVariantsMap(product.variants)
@@ -54,11 +52,7 @@ export default async function ProductPage({
               <h6>Description</h6>
               <p className="text-secondary-foreground">{product.description}</p>
             </div>
-            <AddToCart productDetails={{
-              title: product.title,
-              productId: product.productId
-            }}
-              images={product.images}
+            <AddToCart productId={product.productId} images={product.images}
             />
           </div>
         </article>
