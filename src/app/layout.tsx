@@ -4,6 +4,7 @@ import HotJar from '@/services/hotjar'
 import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
+import CurrencyInitializer from '@/components/currency-initializer'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -72,6 +73,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
+        <CurrencyInitializer />
       </body>
     </html>
   )

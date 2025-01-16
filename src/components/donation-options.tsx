@@ -18,13 +18,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { AvailableCurrency } from '@/config/currencies'
 import { donationsConfig, DonationType } from '@/config/donations-options'
 import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 import { Label } from './ui/label'
-import { CHECKOUT_TYPES } from '@/config/payment'
+import { CHECKOUT_TYPES } from '@/config/checkout'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { localCurrencyAtom, selectedCurrencyAtom } from '@/store/currency-atom'
 
 const initialErrorState = {
   oneTime: '',
@@ -39,7 +40,7 @@ export default function DonationOptionsCards() {
   const [monthlyAmount, setMonthlyAmount] = useState('')
   const [selectedSponsorship, setSelectedSponsorship] = useState('')
   const [selectedProject, setSelectedProject] = useState('')
-  const [currency, setCurrency] = useState<AvailableCurrency>('EUR')
+  const currency = useAtomValue(selectedCurrencyAtom)
   const [loadingStates, setLoadingStates] = useState<
     Record<DonationType, boolean>
   >({
@@ -98,10 +99,12 @@ export default function DonationOptionsCards() {
     }
   }
 
+  if (!currency) return null
+
   return (
     <article className="w-full">
       <div className="flex justify-end mb-6">
-        <CurrencySelector onCurrencyChange={setCurrency} />
+        <CurrencySelector />
       </div>
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {/* One-time Donation */}
@@ -116,7 +119,7 @@ export default function DonationOptionsCards() {
           </CardHeader>
           <CardContent className="mt-auto">
             <div className="grid grid-cols-2 gap-4 mb-8">
-              {donationsConfig.oneTime.amounts[currency].amounts.map(amount => (
+              {donationsConfig.oneTime.fixedOneTimeAmounts[currency].amounts.map(amount => (
                 <Button
                   key={amount}
                   variant={
@@ -138,7 +141,7 @@ export default function DonationOptionsCards() {
                 >
                   <div>
                     <span className="mr-px">
-                      {donationsConfig.oneTime.amounts[currency].symbol}
+                      {donationsConfig.oneTime.fixedOneTimeAmounts[currency].symbol}
                     </span>
                     <span>{amount}</span>
                   </div>

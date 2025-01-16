@@ -34,7 +34,7 @@ export default async function ProductPage({
         <article className="lg:flex lg:gap-20 items-start">
           <ProductImagesGrid images={product.images} altText={product.title} />
 
-          <div className="flex flex-col py-4">
+          <div className="flex flex-col">
             <div className="space-y-2 ">
               <h4 className="font-bold">{product.title}</h4>
               {/* <small className="inline-block">{product.category.title}</small> */}

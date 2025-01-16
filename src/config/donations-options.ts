@@ -1,5 +1,5 @@
+import { AvailableCurrency } from '@/types/currency'
 import { z } from 'zod'
-import { AvailableCurrency } from './currencies'
 
 type AmountConfig = {
   [key in AvailableCurrency]: {
@@ -8,7 +8,7 @@ type AmountConfig = {
   }
 }
 
-const amounts: AmountConfig = {
+const fixedOneTimeAmounts: AmountConfig = {
   USD: {
     symbol: '$',
     amounts: [5, 10, 25, 50],
@@ -31,7 +31,7 @@ export const donationsConfig = {
     title: 'One-Time Donation',
     description: 'Make a one-time contribution to support our mission.',
     buttonText: 'Donate Now',
-    amounts,
+    fixedOneTimeAmounts,
   },
   monthly: {
     schema: z.string().refine(val => !isNaN(Number(val)) && Number(val) > 0, {

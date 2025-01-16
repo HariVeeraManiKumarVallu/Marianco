@@ -163,7 +163,6 @@ export async function getProductSku(documentId: string, variantId: number, skuId
     price: number
     skuId: string
   } = { title, imageSrc: findVariantImageSrc(images, sku.variant.variantId) ?? '', price: sku.variant.price, skuId: sku.skuId }
-  console.log(product.data.skus[0].variant)
 
   return formattedData
 }

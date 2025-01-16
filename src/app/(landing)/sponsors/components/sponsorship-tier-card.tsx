@@ -2,16 +2,17 @@
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AvailableCurrency, CHECKOUT_TYPES } from '@/config/payment'
+import { CHECKOUT_TYPES } from '@/config/checkout'
 import { formatAmount } from '@/lib/formatters'
 import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
+import { CurrencyCodes } from '@/types/currency'
 import { SponsorshipTier } from '@/types/donation'
 import { motion } from 'motion/react'
 import { Dispatch, SetStateAction } from 'react'
 
 type SponsorshipTierProps = {
   sponsorshipTier: SponsorshipTier
-  currency: AvailableCurrency
+  currency: CurrencyCodes
   selectedTier: string
   setSelectedTier: Dispatch<SetStateAction<string>>
 }

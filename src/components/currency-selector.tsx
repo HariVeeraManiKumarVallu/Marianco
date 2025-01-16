@@ -1,6 +1,5 @@
 'use client'
 
-import { AVAILABLE_CURRENCIES, AvailableCurrency } from '@/config/payment'
 import {
   Select,
   SelectContent,
@@ -9,6 +8,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useEffect, useState } from 'react'
+import { useAtom, useSetAtom } from 'jotai'
+import { localCurrencyAtom, selectedCurrencyAtom } from '@/store/currency-atom'
+import { AvailableCurrency } from '@/types/currency'
+import { AVAILABLE_CURRENCIES } from '@/config/currency'
 
 const getDefaultCurrency = (countryCode: string): AvailableCurrency => {
   if (['US', 'CA'].includes(countryCode)) return 'USD'
@@ -16,48 +19,15 @@ const getDefaultCurrency = (countryCode: string): AvailableCurrency => {
   return 'EUR'
 }
 
-interface CurrencySelectorProps {
-  onCurrencyChange: (currency: AvailableCurrency) => void
+type CurrencySelectorProps = {
   className?: string
 }
 
-export default function CurrencySelector({ onCurrencyChange, className = '' }: CurrencySelectorProps) {
-  const [currency, setCurrency] = useState<AvailableCurrency>('EUR')
-
-  useEffect(() => {
-    const initCurrency = async () => {
-      try {
-        const savedCurrency = localStorage.getItem('preferredCurrency')
-        if (
-          savedCurrency &&
-          AVAILABLE_CURRENCIES.includes(savedCurrency as AvailableCurrency)
-        ) {
-          setCurrency(savedCurrency as AvailableCurrency)
-          onCurrencyChange(savedCurrency as AvailableCurrency)
-          return
-        }
-
-        const response = await fetch('https://ipapi.co/json/')
-        const data = await response.json()
-        const userCountry = data.country_code
-
-        const detectedCurrency = getDefaultCurrency(userCountry)
-        setCurrency(detectedCurrency)
-        onCurrencyChange(detectedCurrency)
-      } catch (error) {
-        console.error('Error fetching location:', error)
-        setCurrency('EUR')
-        onCurrencyChange('EUR')
-      }
-    }
-
-    initCurrency()
-  }, [onCurrencyChange])
+export default function CurrencySelector({ className = '' }: CurrencySelectorProps) {
+  const [currency, setCurrency] = useAtom(selectedCurrencyAtom)
 
   const handleCurrencyChange = (newCurrency: AvailableCurrency) => {
     setCurrency(newCurrency)
-    localStorage.setItem('preferredCurrency', newCurrency)
-    onCurrencyChange(newCurrency)
   }
 
   return (
@@ -66,9 +36,9 @@ export default function CurrencySelector({ onCurrencyChange, className = '' }: C
         <SelectValue placeholder="Currency" />
       </SelectTrigger>
       <SelectContent>
-        {AVAILABLE_CURRENCIES.map(curr => (
-          <SelectItem key={curr} value={curr}>
-            {curr}
+        {Object.values(AVAILABLE_CURRENCIES).map(currency => (
+          <SelectItem key={currency.title} value={currency.title}>
+            {currency.label}
           </SelectItem>
         ))}
       </SelectContent>
