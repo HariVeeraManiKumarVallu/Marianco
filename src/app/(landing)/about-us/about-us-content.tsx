@@ -123,7 +123,7 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
             <div className="relative rounded-lg overflow-hidden h-[300px]  self-center w-[400px] md:flex-grow md:h-[700px] md:mt-auto ">
               <Image
                 src={
-                  'https://marianco-images.s3.eu-north-1.amazonaws.com/thumbnail_mission_8681071fe5.png'
+                  'https://marianco-images.s3.eu-north-1.amazonaws.com/mission_8681071fe5.png'
                 }
                 fill
                 alt="children standing together"
