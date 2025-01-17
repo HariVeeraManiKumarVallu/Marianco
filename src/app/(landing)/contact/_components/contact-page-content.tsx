@@ -20,7 +20,7 @@ export default function Page() {
         title="Contact Us"
         description="Have Questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible."
         image={{
-          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e08366ee51.jpg',
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e7bc233513.jpg',
           altText: 'hands reaching out',
         }}
       />

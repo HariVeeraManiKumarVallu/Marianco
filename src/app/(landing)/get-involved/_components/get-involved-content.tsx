@@ -14,7 +14,7 @@ export default function GetInvolvedContent() {
         title="Join Our Fight Against Child Exploitation"
         description="Together, we can protect children and create a safer world. Every voice, every action counts."
         image={{
-          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e08366ee51.jpg',
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e7bc233513.jpg',
           altText: 'Hands reaching out',
         }}
       />

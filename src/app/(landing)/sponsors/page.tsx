@@ -56,7 +56,7 @@ export default async function SponsorsPage() {
         }
         description="Join Marianco in our mission to protect vulnerable children and create lasting change through meaningful partnerships."
         image={{
-          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e08366ee51.jpg',
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e7bc233513.jpg',
           altText: 'altText',
         }}
       />

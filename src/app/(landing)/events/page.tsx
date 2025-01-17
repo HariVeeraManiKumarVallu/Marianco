@@ -21,7 +21,7 @@ export default function EventsPage() {
         title="Our Events"
         description="Join us at our upcoming events to learn more about our mission and how you can help make a difference."
         image={{
-          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e08366ee51.jpg',
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e7bc233513.jpg',
           altText: 'Hands reaching out',
         }}
       />

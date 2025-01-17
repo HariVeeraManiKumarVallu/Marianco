@@ -20,7 +20,7 @@ export default function DonatePage() {
         title="Be a Hero for Vulnerable Children"
         description="Your generosity makes it possible for us to rescue and protect children who are at risk or have been affected by exploitation. Every donation helps us provide safe homes, education, psychological support, and the means for children to start anew."
         image={{
-          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e08366ee51.jpg',
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e7bc233513.jpg',
           altText: 'altText',
         }}
       />
