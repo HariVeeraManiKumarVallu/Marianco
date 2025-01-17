@@ -23,7 +23,7 @@ export function ArticleCard({ article, index }: ArticleCardProps) {
       <Link href={`/articles/${article.slug}`} className="group">
         <div className="relative h-48">
           <Image
-            src={article.image.formats.small?.url || ''}
+            src={article.image.formats?.small?.url || article.image.url}
             alt={article.title}
             fill
             className="object-cover transition-transform group-hover:scale-105"

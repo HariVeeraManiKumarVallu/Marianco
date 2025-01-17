@@ -65,7 +65,7 @@ export default async function ArticlePage({ params }: Props) {
         <div className="relative h-[400px] rounded-lg overflow-clip my-8">
           {article?.image && (
             <Image
-              src={article.image.formats?.large?.url || ''}
+              src={article.image.formats?.large?.url || article.image.url}
               alt={article.image.alternativeText || ''}
               fill
               className="rounded-lg"
