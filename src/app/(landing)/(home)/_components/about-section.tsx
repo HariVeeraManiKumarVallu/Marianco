@@ -46,7 +46,7 @@ export default function AboutSection() {
           </div>
           <div className="hidden lg:block ">
             <Image
-              src="https://marianco-images.s3.eu-north-1.amazonaws.com/happy_children_0346907c45.avif"
+              src="https://marianco-images.s3.eu-north-1.amazonaws.com/happy_children_842d8ede01.avif"
               alt="Happy children"
               width={400}
               height={300}

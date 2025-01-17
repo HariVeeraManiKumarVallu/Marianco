@@ -5,7 +5,7 @@ export const focusAreas = [
     title: 'Combatting Child Trafficking',
     description:
       'Dedicated to ending the horrific practice of child trafficking. Join us in the fight to protect vulnerable children and restore their freedom and dignity.',
-    img: 'https://marianco-images.s3.eu-north-1.amazonaws.com/children_arms_on_shoulders_f77a5cefbd.jpg',
+    img: 'https://marianco-images.s3.eu-north-1.amazonaws.com/thumbnail_children_arms_on_shoulders_7dc550b543.jpg',
     altText:
       'Children with their arms on each others shoulders looking at a lake ',
   },
@@ -13,14 +13,14 @@ export const focusAreas = [
     title: 'Fighting Against Child Pornography',
     description:
       'Unwavering in our commitment to eradicating child pornography. Stand with us to protect children and eliminate this  crime.',
-    img: 'https://marianco-images.s3.eu-north-1.amazonaws.com/children_in_a_circle_9d21bc9591.jpg',
+    img: 'https://marianco-images.s3.eu-north-1.amazonaws.com/thumbnail_children_in_a_circle_8b1c114f1d.jpg',
     altText: 'Children in a circle holding hands standing in a circle ',
   },
   {
     title: 'Eradicating Child Prostitution',
     description:
       'Marianco is dedicated to ending child prostitution. Stand with us to protect children and give them the future they deserve.',
-    img: 'https://marianco-images.s3.eu-north-1.amazonaws.com/children_sitting_on_wall_50ed968c0c.gif',
+    img: 'https://marianco-images.s3.eu-north-1.amazonaws.com/thumbnail_children_sitting_on_wall_8601488634.gif',
     altText: 'Children sitting on a wall',
   },
 ]
