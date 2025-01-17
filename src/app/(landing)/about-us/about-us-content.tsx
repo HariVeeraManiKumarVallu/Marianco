@@ -15,7 +15,7 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
         title="Who we are"
         description="We strive to protect the most vulnerable children, ensuring they have a safe space to grow, thrive, and reclaim their lives."
         image={{
-          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_Img_e79cd2fe95.png',
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e08366ee51.jpg',
           altText: 'hands reaching out',
         }}
       />

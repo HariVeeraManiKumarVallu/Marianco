@@ -26,7 +26,7 @@ export default async function ArticlesPage() {
         title="Latest Articles"
         description="Stay informed about our work and the latest developments in child protection."
         image={{
-          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_Img_e79cd2fe95.png',
+          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e08366ee51.jpg',
           altText: 'hands reaching out',
         }}
       />
