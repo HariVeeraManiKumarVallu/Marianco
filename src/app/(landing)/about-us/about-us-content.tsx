@@ -25,7 +25,7 @@ export default function AboutUsContent({ teamMembers }: { teamMembers: any }) {
           <div className="flex flex-col md:flex-row gap-8 mt-8 mx-auto max-w-prose md:max-w-none">
             <div className="relative rounded-lg overflow-hidden flex-1 min-h-64 min-w-64 lg:max-w-[350px]">
               <Image
-                src="https://marianco-images.s3.eu-north-1.amazonaws.com/francisco_padilla_5caf2df652.png"
+                src="https://marianco-images.s3.eu-north-1.amazonaws.com/francisco_padilla_5caf2df652_e795575058.png"
                 fill
                 className="object-contain lg:object-cover"
                 alt="Francisco Padilla"
