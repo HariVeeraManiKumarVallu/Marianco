@@ -3,7 +3,7 @@
 import CtaSection from '@/components/cta-section'
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import { BicepsFlexed, Crown, Scale } from 'lucide-react'
 import { motion } from 'motion/react'
 import Image from 'next/image'

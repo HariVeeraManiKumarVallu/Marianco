@@ -1,6 +1,6 @@
 'use client'
 
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import { formatDate, formatTime } from '@/lib/formatters'
 import { EventData } from '@/types/event'
 import { ArrowRight, Calendar, MapPin } from 'lucide-react'

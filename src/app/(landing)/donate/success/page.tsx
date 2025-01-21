@@ -1,5 +1,5 @@
 import { buttonVariants } from '@/components/ui/button'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import { formatAmount } from '@/lib/formatters'
 import stripe from '@/services/stripe'
 import { Metadata } from 'next'

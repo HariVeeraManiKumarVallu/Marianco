@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { EVENT_REGISTRATION_SUCCESS_TIMER } from '@/config/settings'
+import { EVENT_REGISTRATION_SUCCESS_TIMER } from '@/constants/settings'
 import { Check } from 'lucide-react'
 import { useEffect, useState } from 'react'
 

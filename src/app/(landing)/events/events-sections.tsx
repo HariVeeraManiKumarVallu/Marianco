@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator'
-import { SOCIAL_LINKS } from '@/config/social-links'
+import { SOCIAL_LINKS } from '@/constants/social-links'
 import { getAllActiveEvents } from '@/lib/queries/strapi/event'
 import EventCard from './event-card'
 

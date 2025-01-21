@@ -1,17 +1,17 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import CurrencySelector from '@/components/currency-selector'
-import { AvailableCurrency } from '@/config/payment'
 import { SponsorshipTier } from '@/types/donation'
 import SponsorshipTierCard from './sponsorship-tier-card'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { CurrencyCodes } from '@/types/currency'
 
 export default function SponsorshipTiersSection({
   tiers,
 }: {
   tiers: SponsorshipTier[]
 }) {
-  const [currency, setCurrency] = useState<AvailableCurrency>('EUR')
+  const [currency, setCurrency] = useState<CurrencyCodes>('EUR')
   const [selectedTier, setSelectedTier] = useState('')
 
   const router = useRouter()

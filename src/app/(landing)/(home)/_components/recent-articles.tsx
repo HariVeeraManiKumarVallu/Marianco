@@ -1,6 +1,6 @@
 'use client'
 import { buttonVariants } from '@/components/ui/button'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import { formatDate } from '@/lib/formatters'
 import { ArticleData } from '@/types/article'
 import { ArrowRight } from 'lucide-react'

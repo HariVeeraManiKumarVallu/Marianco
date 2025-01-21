@@ -6,8 +6,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { NAV_LINKS } from '@/config/navigation-links'
-import { ROUTES } from '@/config/routes'
+import { NAV_LINKS } from '@/constants/navigation-links'
+import { ROUTES } from '@/constants/routes'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import Image from 'next/image'
 import Link from 'next/link'

@@ -1,4 +1,4 @@
-import { AVAILABLE_CURRENCIES, availableCurrencyCodes } from "@/config/currency";
+import { AVAILABLE_CURRENCIES, availableCurrencyCodes } from "@/constants/currency";
 import { z } from "zod";
 
 export type Currency = {

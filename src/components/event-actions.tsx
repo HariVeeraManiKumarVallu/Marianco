@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import { useToast } from '@/hooks/use-toast'
 import { EventData } from '@/types/event'
 import Link from 'next/link'

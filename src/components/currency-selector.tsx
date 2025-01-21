@@ -7,11 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useEffect, useState } from 'react'
-import { useAtom, useSetAtom } from 'jotai'
-import { localCurrencyAtom, selectedCurrencyAtom } from '@/store/currency-atom'
-import { AvailableCurrency } from '@/types/currency'
-import { AVAILABLE_CURRENCIES } from '@/config/currency'
+import { useAtom } from 'jotai'
+import { selectedCurrencyAtom } from '@/store/currency-atom'
+import { AVAILABLE_CURRENCIES } from '@/constants/currency'
+import { CurrencyCodes } from '@/types/currency'
 
 const getDefaultCurrency = (countryCode: string): AvailableCurrency => {
   if (['US', 'CA'].includes(countryCode)) return 'USD'
@@ -26,7 +25,7 @@ type CurrencySelectorProps = {
 export default function CurrencySelector({ className = '' }: CurrencySelectorProps) {
   const [currency, setCurrency] = useAtom(selectedCurrencyAtom)
 
-  const handleCurrencyChange = (newCurrency: AvailableCurrency) => {
+  const handleCurrencyChange = (newCurrency: CurrencyCodes) => {
     setCurrency(newCurrency)
   }
 

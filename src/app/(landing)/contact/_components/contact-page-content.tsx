@@ -9,8 +9,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Card } from '@/components/ui/card'
-import { CONTACT_INFO } from '@/config/contact-info'
-import { FAQ } from '@/config/faq'
+import { CONTACT_INFO } from '@/constants/contact-info'
+import { FAQ } from '@/constants/faq'
 import { motion } from 'motion/react'
 
 export default function Page() {

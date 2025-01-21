@@ -1,5 +1,5 @@
 import { findVariantImageSrc } from '@/app/(landing)/store/_utils/helpers'
-import { STATIC_CONFIG } from '@/config/cache'
+import { STATIC_CONFIG } from '@/constants/cache'
 import { Product } from '@/types/product'
 import { StrapiData, StrapiResponse } from '@/types/strapi'
 import qs from 'qs'

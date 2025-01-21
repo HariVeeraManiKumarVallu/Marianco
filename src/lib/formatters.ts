@@ -1,4 +1,4 @@
-import { AvailableCurrency } from "@/config/payment"
+import { AvailableCurrency } from "@/constants/payment"
 
 export const formattedDate = (date: Date) => {
   return date.toLocaleDateString('en-US', {

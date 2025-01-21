@@ -1,10 +1,11 @@
-import { DonationType } from "@/config/donations-options"
-import { AvailableCurrency, CHECKOUT_TYPES } from "@/config/payment"
-import { SPONSORSHIP_TIERS } from "@/config/sponsorship-tiers"
+import { CHECKOUT_TYPES } from "@/constants/checkout"
+import { DonationType } from "@/constants/donations-options"
+import { SPONSORSHIP_TIERS } from "@/constants/sponsorship-tiers"
 import { CartItem } from "@/store/cart-store"
+import { CurrencyCodes } from "@/types/currency"
 
 type BaseCheckout = {
-  currency: AvailableCurrency
+  currency: CurrencyCodes
 }
 
 export type SponsorshipCheckout = BaseCheckout & {

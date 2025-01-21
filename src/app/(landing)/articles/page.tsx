@@ -1,6 +1,6 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import TitleSection from '@/components/title-section'
-import { SOCIAL_LINKS } from '@/config/social-links'
+import { SOCIAL_LINKS } from '@/constants/social-links'
 import { getFeaturedArticles } from '@/lib/queries/strapi/article'
 import { Metadata } from 'next'
 import FeaturedArticlesSection from './featured-articles-section'
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 
 export default async function ArticlesPage() {
   const data = await getFeaturedArticles()
+  console.log(data.data)
 
   return (
     <div className="flex-1 flex flex-col">

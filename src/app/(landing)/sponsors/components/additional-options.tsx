@@ -2,7 +2,7 @@
 
 import { Icons } from '@/components/icons'
 import { buttonVariants } from '@/components/ui/button'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import { motion } from 'motion/react'
 import Link from 'next/link'
 

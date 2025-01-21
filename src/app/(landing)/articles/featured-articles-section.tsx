@@ -1,5 +1,5 @@
 'use client'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import { formatDate } from '@/lib/formatters'
 import { cn } from '@/lib/utils'
 import { ArticleData } from '@/types/article'
@@ -36,7 +36,7 @@ export default function FeaturedArticlesSection({
             >
               <div className="relative h-[400px] lg:h-[600px] rounded-lg overflow-hidden">
                 <Image
-                  src={featuredArticles[0].image.formats?.small?.url || featuredArticles[0].image.url}
+                  src={featuredArticles[0].image.formats?.large?.url || featuredArticles[0].image.url}
                   alt={featuredArticles[0].image.alternativeText || ''}
                   fill
                   className="object-cover transition-transform group-hover:scale-105"
@@ -74,7 +74,7 @@ export default function FeaturedArticlesSection({
                 >
                   <div className="relative h-[280px] rounded-lg overflow-hidden">
                     <Image
-                      src={article.image.formats?.small?.url || article.image.url}
+                      src={article.image.formats?.medium?.url || article.image.url}
                       alt={article.image.alternativeText || ''}
                       fill
                       className="object-cover transition-transform group-hover:scale-105"

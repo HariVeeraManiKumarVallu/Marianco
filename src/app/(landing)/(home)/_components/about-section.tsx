@@ -3,7 +3,7 @@
 import { Icons } from '@/components/icons'
 import { buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import { focusAreaCards, focusAreas } from '@/data/about'
 import { motion } from 'motion/react'
 import Image from 'next/image'

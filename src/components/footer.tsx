@@ -1,5 +1,5 @@
-import { ROUTES } from '@/config/routes'
-import { SOCIAL_LINKS } from '@/config/social-links'
+import { ROUTES } from '@/constants/routes'
+import { SOCIAL_LINKS } from '@/constants/social-links'
 import Image from 'next/image'
 import Link from 'next/link'
 

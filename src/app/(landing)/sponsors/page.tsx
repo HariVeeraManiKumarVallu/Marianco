@@ -1,5 +1,5 @@
 import TitleSection from '@/components/title-section'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import stripe from '@/services/stripe'
 import { Metadata } from 'next'
 import CtaSection from '../../../components/cta-section'
@@ -7,7 +7,7 @@ import AdditionalOptions from './components/additional-options'
 import Heading from './components/heading'
 import SponsorshipTiersSection from './components/sponsorship-tiers-section'
 import SponsorsList from '@/components/sponsors-list'
-import { SPONSORSHIP_TIERS } from '@/config/sponsorship-tiers'
+import { SPONSORSHIP_TIERS } from '@/constants/sponsorship-tiers'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {

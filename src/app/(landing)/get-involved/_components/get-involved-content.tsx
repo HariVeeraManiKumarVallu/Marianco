@@ -4,7 +4,7 @@ import { GetInvolvedForm } from '@/components/forms/get-involved-form'
 import { Icons } from '@/components/icons'
 import TitleSection from '@/components/title-section'
 import { buttonVariants } from '@/components/ui/button'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import Link from 'next/link'
 
 export default function GetInvolvedContent() {

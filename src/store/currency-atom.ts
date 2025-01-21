@@ -1,5 +1,4 @@
-
-import { AVAILABLE_CURRENCIES } from '@/config/currency'
+import { AVAILABLE_CURRENCIES } from '@/constants/currency'
 import { AvailableCurrency, currencySchema } from '@/types/currency'
 import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'

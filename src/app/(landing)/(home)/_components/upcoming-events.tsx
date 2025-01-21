@@ -1,7 +1,7 @@
 'use client'
 import { buttonVariants } from '@/components/ui/button'
 import UpcomingEventCard from '@/components/ui/upcoming-event-card'
-import { ROUTES } from '@/config/routes'
+import { ROUTES } from '@/constants/routes'
 import { EventData } from '@/types/event'
 import { motion } from 'motion/react'
 import Link from 'next/link'

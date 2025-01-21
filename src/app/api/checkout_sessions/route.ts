@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 import { CheckoutRequestBody } from './types'
 import { handleDonationCheckout, handleSponsorshipChekcout, handleStoreCheckout } from './checkout-handlers'
-import { CHECKOUT_TYPES } from '@/config/checkout'
+import { CHECKOUT_TYPES } from '@/constants/checkout'
 
 
 export async function POST(req: Request) {

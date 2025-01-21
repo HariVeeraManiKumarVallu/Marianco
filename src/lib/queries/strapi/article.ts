@@ -1,5 +1,7 @@
-import { STATIC_CONFIG } from '@/config/cache'
+import { FEATURED_GRID_POSITIONS, GRID_POSITION_VALUES } from '@/constants/articles'
+import { STATIC_CONFIG } from '@/constants/cache'
 import { ArticleResponse } from '@/types/article'
+import qs from 'qs'
 
 export async function getArticle(slug: string) {
   const res = await fetch(
@@ -25,7 +27,7 @@ export async function getArticle(slug: string) {
 
 export async function getFeaturedArticles() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[isFeatured][$eq]=true&populate=*&pagination[limit]=3`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[isFeatured][$eq]=true&populate=*`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,

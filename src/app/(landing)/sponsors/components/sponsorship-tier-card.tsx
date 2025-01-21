@@ -2,7 +2,7 @@
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { CHECKOUT_TYPES } from '@/config/checkout'
+import { CHECKOUT_TYPES } from '@/constants/checkout'
 import { formatAmount } from '@/lib/formatters'
 import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { CurrencyCodes } from '@/types/currency'

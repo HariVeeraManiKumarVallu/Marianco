@@ -1,4 +1,4 @@
-import { SPONSORSHIP_TIERS } from "@/config/sponsorship-tiers"
+import { SPONSORSHIP_TIERS } from "@/constants/sponsorship-tiers"
 import Stripe from "stripe"
 
 export type SponsorshipTier = {

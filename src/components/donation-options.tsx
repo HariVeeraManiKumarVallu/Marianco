@@ -18,12 +18,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { donationsConfig, DonationType } from '@/config/donations-options'
+import { donationsConfig, DonationType } from '@/constants/donations-options'
 import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 import { Label } from './ui/label'
-import { CHECKOUT_TYPES } from '@/config/checkout'
+import { CHECKOUT_TYPES } from '@/constants/checkout'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { localCurrencyAtom, selectedCurrencyAtom } from '@/store/currency-atom'
 
