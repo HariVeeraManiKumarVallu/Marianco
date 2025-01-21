@@ -114,4 +114,17 @@ body {
     margin: 0;
     -moz-appearance: textfield !important;
   }
+
+  .articles-grid {
+    grid-template-areas:
+      "left"
+      "top_right"
+      "bottom_right";
+
+    @media (min-width: 1024px) {
+      grid-template-areas:
+        "left top_right"
+        "left bottom_right";
+    }
+  }
 }

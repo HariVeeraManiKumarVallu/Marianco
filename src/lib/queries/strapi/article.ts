@@ -26,8 +26,17 @@ export async function getArticle(slug: string) {
 }
 
 export async function getFeaturedArticles() {
+  const query = qs.stringify({
+    filters: {
+      isFeatured: {
+        $eq: true
+      }
+    },
+    fields: ['title', 'summary', 'slug', 'isFeatured', 'featuredGridPosition', 'publishedDate'],
+    populate: '*'
+  })
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[isFeatured][$eq]=true&populate=*`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?${query}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -49,8 +58,17 @@ export async function getFeaturedArticles() {
 }
 
 export async function getNotFeaturedArticles() {
+  const query = qs.stringify({
+    filters: {
+      isFeatured: {
+        $eq: false
+      }
+    },
+    fields: ['title', 'summary', 'slug', 'isFeatured', 'featuredGridPosition', 'publishedDate'],
+    populate: '*'
+  })
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[isFeatured][$eq]=false&populate=*`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?${query}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,

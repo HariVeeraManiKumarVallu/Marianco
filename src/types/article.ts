@@ -1,5 +1,6 @@
 import { type BlocksContent } from '@strapi/blocks-react-renderer'
 import { StrapiData, StrapiImage, StrapiResponse } from './strapi'
+import { GRID_POSITION_VALUES } from '@/constants/articles'
 
 export type Article = {
   publishedDate: string
@@ -10,6 +11,7 @@ export type Article = {
   isFeatured: boolean
   image: StrapiImage
   isArchived: boolean
+  featuredGridPosition: typeof GRID_POSITION_VALUES[number]
 }
 
 export type ArticleData = StrapiData<Article>
