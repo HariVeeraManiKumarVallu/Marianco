@@ -13,6 +13,7 @@ export default function CartItem({
   item,
 }: CartItemProps) {
   const { updateQuantity, increaseQuantity, decreaseQuantity, removeItem } = useCartStore()
+
   return (
     <div className="flex items-center gap-4">
       <div className="relative size-24">

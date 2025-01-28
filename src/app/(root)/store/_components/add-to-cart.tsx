@@ -8,7 +8,7 @@ import { ShoppingCart } from "lucide-react";
 import { findVariantImageSrc } from "../_utils/helpers";
 import { useParams } from "next/navigation";
 
-export default function AddToCart({ productId, images, showIcon = false }: { productId: string, images: ProductImage[], showIcon?: boolean }) {
+export default function AddToCart({ productId, title, images, showIcon = false }: { productId: string, title: string, images: ProductImage[], showIcon?: boolean }) {
   const { addItem } = useCartStore()
   const selectedVariant = useAtomValue(selectedVariantAtom)
   const documentId = useParams().slug as string
@@ -18,6 +18,7 @@ export default function AddToCart({ productId, images, showIcon = false }: { pro
     addItem({
       documentId,
       productId,
+      title,
       price: selectedVariant.price,
       variantId: selectedVariant.variantId,
       skuId: selectedVariant.skus[0].skuId,
@@ -26,7 +27,7 @@ export default function AddToCart({ productId, images, showIcon = false }: { pro
     })
   }
   return (
-    <Button size={'sm'} onClick={handleAddToCart}>
+    <Button size={'sm'} onClick={handleAddToCart} disabled={!selectedVariant}>
       {showIcon && <ShoppingCart className="size-3" />}
       Add to Cart
     </Button>

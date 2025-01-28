@@ -1,3 +1,5 @@
+import { CartItem } from "@/store/cart-store"
+
 export type Category = {
   title: string
 }
@@ -45,4 +47,13 @@ export type ProductImage = {
   src: string
   variantIds: number[]
   isDefault: boolean
+}
+
+export type OrderSummaryItem = {
+  id: string
+  title: string
+  price: number
+  quantity: number
+  totalPrice: number
+  imageSrc: string
 }

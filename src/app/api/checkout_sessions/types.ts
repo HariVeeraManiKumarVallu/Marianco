@@ -20,8 +20,9 @@ export type DonationCheckout = BaseCheckout & {
 }
 
 export type StoreCheckout = BaseCheckout & {
-  checkoutType: typeof CHECKOUT_TYPES.PURCHASE
+  // checkoutType: typeof CHECKOUT_TYPES.PURCHASE
   items: Omit<CartItem, 'price'>[]
 }
+
 
 export type CheckoutRequestBody = SponsorshipCheckout | DonationCheckout | StoreCheckout

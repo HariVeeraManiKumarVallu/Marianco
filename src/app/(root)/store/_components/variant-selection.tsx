@@ -88,7 +88,7 @@ export default function VariantSelection({
                 >
                   <Image
                     src={color.previewUrl ?? '/placeholder.png'}
-                    alt=""
+                    alt={`Product in ${color.title}`}
                     width={96}
                     height={96}
                     className="object-cover"

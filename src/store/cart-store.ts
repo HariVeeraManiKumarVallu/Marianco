@@ -5,6 +5,7 @@ import { calculateCartTotals, } from './utils/cart'
 export type CartItem = {
   documentId: string
   productId: string
+  title: string
   price: number
   variantId: number
   skuId: string
@@ -12,7 +13,7 @@ export type CartItem = {
   quantity: number
 }
 type CartStore = {
-  items: CartItem[]
+  cartItems: CartItem[]
   totalCartPrice: number
   totalItems: number
   addItem: (item: CartItem) => void
@@ -26,68 +27,68 @@ type CartStore = {
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
-      items: [],
+      cartItems: [],
       totalCartPrice: 0,
       totalItems: 0,
       addItem: item =>
         set(state => {
-          const existingItem = state.items.find(cartItem => cartItem.skuId === item.skuId)
+          const existingItem = state.cartItems.find(cartItem => cartItem.skuId === item.skuId)
           if (existingItem) {
-            const updatedItems = state.items.map(i =>
+            const updatedItems = state.cartItems.map(i =>
               i.skuId === item.skuId ? { ...i, quantity: i.quantity + item.quantity } : i
             )
             const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
             return {
-              items: updatedItems,
+              cartItems: updatedItems,
               totalCartPrice,
               totalItems,
             }
           }
-          const updatedItems = [...state.items, item]
+          const updatedItems = [...state.cartItems, item]
           const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
           return {
-            items: updatedItems,
+            cartItems: updatedItems,
             totalCartPrice,
             totalItems,
           }
         }),
       increaseQuantity: (skuId, quantity = 1) => set(state => {
-        const exisitingItem = state.items.find(i => i.skuId === skuId)
+        const exisitingItem = state.cartItems.find(i => i.skuId === skuId)
         if (!exisitingItem) return {}
-        const updatedItems = state.items.map(i =>
+        const updatedItems = state.cartItems.map(i =>
           i.skuId === skuId ? { ...i, quantity: i.quantity + quantity } : i
         )
         const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
 
         return {
-          items: updatedItems,
+          cartItems: updatedItems,
           totalCartPrice,
           totalItems
         }
       }),
       decreaseQuantity: (skuId, quantity = 1) => set(state => {
-        const exisitingItem = state.items.find(i => i.skuId === skuId)
+        const exisitingItem = state.cartItems.find(i => i.skuId === skuId)
         if (!exisitingItem || exisitingItem.quantity === 1) return {}
 
-        const updatedItems = state.items.map(i => i.skuId === skuId ? { ...i, quantity: i.quantity - quantity } : i)
+        const updatedItems = state.cartItems.map(i => i.skuId === skuId ? { ...i, quantity: i.quantity - quantity } : i)
         const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
 
         return {
-          items: updatedItems,
+          cartItems: updatedItems,
           totalCartPrice,
           totalItems
         }
       }),
       removeItem: skuId => {
         set(state => {
-          const removedItem = state.items.find(i => i.skuId === skuId)
+          const removedItem = state.cartItems.find(i => i.skuId === skuId)
           if (!removedItem) return {}
 
-          const updatedItems = state.items.filter(i => i.skuId !== skuId)
+          const updatedItems = state.cartItems.filter(i => i.skuId !== skuId)
           const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
 
           return {
-            items: updatedItems,
+            cartItems: updatedItems,
             totalCartPrice,
             totalItems
           }
@@ -98,16 +99,16 @@ export const useCartStore = create<CartStore>()(
           if (typeof (quantity) !== 'number') return {}
           if (quantity < 1) return {}
 
-          const updatedItems = state.items.map(i => (i.skuId === skuId ? { ...i, quantity } : i))
+          const updatedItems = state.cartItems.map(i => (i.skuId === skuId ? { ...i, quantity } : i))
           const { totalCartPrice, totalItems } = calculateCartTotals(updatedItems)
 
           return {
-            items: updatedItems,
+            cartItems: updatedItems,
             totalCartPrice,
             totalItems
           }
         }),
-      clearCart: () => set({ items: [], totalCartPrice: 0, totalItems: 0 }),
+      clearCart: () => set({ cartItems: [], totalCartPrice: 0, totalItems: 0 }),
     }),
     {
       name: 'cart-storage',

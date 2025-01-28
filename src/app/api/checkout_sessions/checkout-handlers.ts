@@ -7,6 +7,8 @@ import { donationsConfig } from "@/constants/donations-options"
 import { Product } from "@/types/product"
 import { StrapiData } from "@/types/strapi"
 import { getProductSku } from "@/lib/queries/strapi/product"
+import { createOrder, createOrderItem } from "@/lib/queries/strapi/order"
+import { ALLOWED_COUNTRIES } from "@/constants/allowed-countries"
 
 export async function handleSponsorshipChekcout(body: SponsorshipCheckout, reqOrigin: string) {
   const { currency, lookupKey } = body
@@ -86,24 +88,41 @@ export async function handleDonationCheckout(body: DonationCheckout, reqOrigin: 
 
 export async function handleStoreCheckout(body: StoreCheckout, reqOrigin: string) {
   const { currency, items } = body
-  const updatedItems = await Promise.all(items.map(item => getProductSku(item.documentId, item.variantId, item.skuId)))
+  const updatedItems = await Promise.all(items.map(item => getProductSku(item)))
   const lineItems = updatedItems.map(item => ({
     price_data: {
       product_data: {
         name: item.title, images: [item.imageSrc],
       }, currency: currency.toLowerCase(), unit_amount: item.price,
     },
-    quantity: items.find(i => i.skuId === item.skuId)?.quantity
+    quantity: item.quantity
   }))
 
+  const totalPrice = lineItems.reduce((acc, item) => {
+    return acc + (item.price_data.unit_amount * item.quantity)
+  }, 0)
+
+  const orderItems = await Promise.all(updatedItems.map(item => createOrderItem(currency, { quantity: item.quantity, price: item.price, skuDocumentId: item.sku.documentId })))
+  const order = await createOrder(totalPrice, currency, orderItems.map(item => item.documentId))
+
   const session = await stripe.checkout.sessions.create({
+    ui_mode: 'embedded',
     line_items: lineItems,
     mode: 'payment',
     currency,
-    success_url: `${reqOrigin}/${ROUTES.STORE
+    billing_address_collection: "required",
+    shipping_address_collection: {
+      allowed_countries: ALLOWED_COUNTRIES
+    },
+    phone_number_collection: {
+      enabled: true
+    },
+    automatic_tax: { enabled: true },
+    return_url: `${reqOrigin}/${ROUTES.STORE
       }/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${reqOrigin}/${ROUTES.STORE
-      }?canceled=true`,
+    //cancel_url: `${reqOrigin}/${ROUTES.STORE
+    //  }?canceled=true`,
+    metadata: { orderId: order.documentId }
   } satisfies Stripe.Checkout.SessionCreateParams)
 
   return NextResponse.json({ sessionId: session.id })

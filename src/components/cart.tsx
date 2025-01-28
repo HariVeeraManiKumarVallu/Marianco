@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -14,15 +15,16 @@ import CartItem from './cart-item'
 import { useCartStore } from '@/store/cart-store'
 import { useEffect } from 'react'
 import { StoreCheckout } from '@/app/api/checkout_sessions/types'
+import Link from 'next/link'
+import { ROUTES } from '@/constants/routes'
 
 export default function Cart({
   variant = 'icon',
 }: {
   variant?: 'icon' | 'full'
 }) {
-  const { items, totalCartPrice, totalItems } = useCartStore()
+  const { cartItems, totalCartPrice, totalItems } = useCartStore()
   //const { handleCheckout } = useCheckout()
-
 
   useEffect(() => {
     useCartStore.persist.rehydrate()
@@ -55,13 +57,13 @@ export default function Cart({
           <SheetTitle>Shopping Cart</SheetTitle>
         </SheetHeader>
         <div className="mt-8 space-y-4">
-          {items.length === 0 ? (
+          {cartItems.length === 0 ? (
             <p className="text-center text-muted-foreground">
               Your cart is empty
             </p>
           ) : (
             <>
-              {items.map(item => (
+              {cartItems.map(item => (
                 <CartItem
                   key={item.variantId}
                   item={item}
@@ -72,17 +74,24 @@ export default function Cart({
                   <span className="font-medium">Total</span>
                   <span className="font-medium">${totalCartPrice.toFixed(2)}</span>
                 </div>
-                <Button
-                  className="w-full mt-4"
-                  onClick={async () =>
-                    await handleStripeCheckoutSession<StoreCheckout>({
-                      currency: 'USD',
-                      checkoutType: 'purchase',
-                      items: items.map(({ price, ...item }) => item)
-                    })}
-                >
-                  Checkout
-                </Button>
+                <SheetClose asChild>
+                  <Button className="w-full mt-4" asChild>
+                    <Link href={ROUTES.CHECKOUT}>
+                      Proceed to checkout
+                    </Link>
+                  </Button>
+                </SheetClose>
+                {/* <Button */}
+                {/*   className="w-full mt-4" */}
+                {/*   onClick={async () => */}
+                {/*     await handleStripeCheckoutSession<StoreCheckout>({ */}
+                {/*       currency: 'USD', */}
+                {/*       checkoutType: 'purchase', */}
+                {/*       items: cartItems.map(({ price, ...item }) => item) */}
+                {/*     })} */}
+                {/* > */}
+                {/*   Proceed To Checkout */}
+                {/* </Button> */}
               </div>
             </>
           )}

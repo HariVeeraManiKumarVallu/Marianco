@@ -52,7 +52,7 @@ export default async function ProductPage({
               <h6>Description</h6>
               <p className="text-secondary-foreground">{product.description}</p>
             </div>
-            <AddToCart productId={product.productId} images={product.images}
+            <AddToCart productId={product.productId} images={product.images} title={product.title}
             />
           </div>
         </article>

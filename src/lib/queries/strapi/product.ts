@@ -1,5 +1,6 @@
-import { findVariantImageSrc } from '@/app/(landing)/store/_utils/helpers'
+import { findVariantImageSrc } from '@/app/(root)/store/_utils/helpers'
 import { STATIC_CONFIG } from '@/constants/cache'
+import { CartItem } from '@/store/cart-store'
 import { Product } from '@/types/product'
 import { StrapiData, StrapiResponse } from '@/types/strapi'
 import qs from 'qs'
@@ -104,7 +105,7 @@ export async function getProduct(id: string) {
   return data as StrapiResponse<StrapiData<Product>>
 }
 
-export async function getProductSku(documentId: string, variantId: number, skuId: string) {
+export async function getProductSku(item: Omit<CartItem, 'price'>) {
   const query = qs.stringify({
     fields: ['title', 'images'],
     filters: {
@@ -119,7 +120,7 @@ export async function getProductSku(documentId: string, variantId: number, skuId
         fields: 'skuId',
         filters: {
           skuId: {
-            $eq: skuId
+            $eq: item.skuId
           },
         },
         populate: {
@@ -127,7 +128,7 @@ export async function getProductSku(documentId: string, variantId: number, skuId
             fields: ['variantId', 'price'],
             filters: {
               variantId: {
-                $eq: variantId
+                $eq: item.variantId
               },
             },
           }
@@ -138,7 +139,7 @@ export async function getProductSku(documentId: string, variantId: number, skuId
     encodeValuesOnly: true
   })
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products/${documentId}?${query}`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products/${item.documentId}?${query}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -161,8 +162,20 @@ export async function getProductSku(documentId: string, variantId: number, skuId
     title: string
     imageSrc: string
     price: number
-    skuId: string
-  } = { title, imageSrc: findVariantImageSrc(images, sku.variant.variantId) ?? '', price: sku.variant.price, skuId: sku.skuId }
+    sku: {
+      documentId: string
+      skuId: string
+    }
+    quantity: number
+    documentId: string
+  } = {
+    documentId: item.documentId,
+    title,
+    imageSrc: findVariantImageSrc(images, sku.variant.variantId) ?? '',
+    price: sku.variant.price,
+    sku: { documentId: sku.documentId, skuId: sku.skuId, },
+    quantity: item.quantity
+  }
 
   return formattedData
 }
