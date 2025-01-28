@@ -56,6 +56,9 @@ importers:
       '@strapi/blocks-react-renderer':
         specifier: ^1.0.1
         version: 1.0.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@stripe/react-stripe-js':
+        specifier: ^3.1.1
+        version: 3.1.1(@stripe/stripe-js@4.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@stripe/stripe-js':
         specifier: ^4.10.0
         version: 4.10.0
@@ -1211,6 +1214,13 @@ packages:
   '@strapi/utils@5.4.2':
     resolution: {integrity: sha512-K36/J4B9RzwP3ExutKFaUGbi4pyvXOQ/YNgr0Hv7QMH7vxFu9Z2tLlM725Ao77FbQhFlsRh5v1KVAbXF3TYA9w==}
     engines: {node: '>=18.0.0 <=22.x.x', npm: '>=6.0.0'}
+
+  '@stripe/react-stripe-js@3.1.1':
+    resolution: {integrity: sha512-+JzYFgUivVD7koqYV7LmLlt9edDMAwKH7XhZAHFQMo7NeRC+6D2JmQGzp9tygWerzwttwFLlExGp4rAOvD6l9g==}
+    peerDependencies:
+      '@stripe/stripe-js': ^1.44.1 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
+      react: '>=16.8.0 <20.0.0'
+      react-dom: '>=16.8.0 <20.0.0'
 
   '@stripe/stripe-js@4.10.0':
     resolution: {integrity: sha512-KrMOL+sH69htCIXCaZ4JluJ35bchuCCznyPyrbN8JXSGQfwBI1SuIEMZNwvy8L8ykj29t6sa5BAAiL7fNoLZ8A==}
@@ -5101,6 +5111,13 @@ snapshots:
       preferred-pm: 3.1.2
       yup: 0.32.9
       zod: 3.23.8
+
+  '@stripe/react-stripe-js@3.1.1(@stripe/stripe-js@4.10.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@stripe/stripe-js': 4.10.0
+      prop-types: 15.8.1
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
 
   '@stripe/stripe-js@4.10.0': {}
 
