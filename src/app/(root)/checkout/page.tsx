@@ -3,11 +3,10 @@ import { Elements } from '@stripe/react-stripe-js';
 import getStripe from '@/services/load-stripe';
 import { useEffect, useState } from 'react';
 import CheckoutForm from '@/components/forms/checkout-form';
-import { CartItem, useCartStore } from '@/store/cart-store';
+import { useCartStore } from '@/store/cart-store';
 import { useAtomValue } from 'jotai';
 import { selectedCurrencyAtom } from '@/store/currency-atom';
 import OrderSummary from './order-summary';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { OrderSummaryItem } from '@/types/product';
 
 const stripePromise = getStripe()
@@ -17,7 +16,10 @@ export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState("");
   const [orderItems, setOrderItems] = useState<OrderSummaryItem[] | null>(null)
   const [subtotal, setSubtotal] = useState(0)
+  const [shippingCost, setShippingCost] = useState<number | null>(null)
   const [confirmed, setConfirmed] = useState(false);
+
+  console.log(shippingCost)
 
   const { cartItems } = useCartStore()
   const currency = useAtomValue(selectedCurrencyAtom)
@@ -38,17 +40,16 @@ export default function CheckoutPage() {
       })
       const data: {
         clientSecret: string
-        items: CartItem[]
+        items: OrderSummaryItem[]
         totalAmount: number
       } = await res.json()
-      console.log(data)
       setClientSecret(data.clientSecret)
-      setOrderItems(data.items)
-      setSubtotal(data.totalAmount)
+      setOrderItems(data.items.map(item => ({ ...item, price: item.price / 100 })))
+      setSubtotal(data.totalAmount / 100)
     }
 
     fetchClientSecret()
-  }, [cartItems]);
+  }, [cartItems])
 
   const appearance = {
     theme: 'stripe',
@@ -64,10 +65,10 @@ export default function CheckoutPage() {
     <section className="py-32 lg:py-section">
       <div className="container ">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">Checkout</h1>
-        <div className='flex gap-8 py-12 px-4 sm:px-6 lg:px-8'>
-          <OrderSummary items={orderItems} subtotal={subtotal} shippingCost={0} />
-          <Elements stripe={stripePromise} options={options}>
-            <CheckoutForm />
+        <div className='flex items-start gap-8 py-12 px-4 sm:px-6 lg:px-8'>
+          <OrderSummary items={orderItems} subtotal={subtotal} shippingCost={shippingCost} />
+          <Elements stripe={stripePromise} options={options} >
+            <CheckoutForm lineItems={orderItems.map(item => ({ sku: item.sku, quantity: item.quantity }))} setShippingCost={setShippingCost} />
           </Elements>
         </div>
       </div>

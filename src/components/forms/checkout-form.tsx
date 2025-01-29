@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import {
   PaymentElement,
   useStripe,
@@ -8,29 +8,31 @@ import {
   AddressElement
 } from "@stripe/react-stripe-js";
 import { Button } from "@/components/ui/button";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { Separator } from "../ui/separator";
-import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Stripe, StripePaymentElementOptions } from "@stripe/stripe-js";
+import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import { getShippingCost } from "@/actions/shipping";
+import { useToast } from "@/hooks/use-toast";
 
-export default function CheckoutForm() {
+type CheckoutFormProps = {
+  lineItems: {
+    sku: string
+    quantity: number
+  }[]
+  setShippingCost: Dispatch<SetStateAction<number | null>>
+}
+
+export default function CheckoutForm({ lineItems, setShippingCost }: CheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
 
+  const { toast } = useToast()
 
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState<string | null | undefined>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isShippingAddressComplete, setIsShippingAddressComplete] = useState(false)
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -71,15 +73,31 @@ export default function CheckoutForm() {
   } satisfies StripePaymentElementOptions
 
   async function handleShippingAddress() {
-    const addressElement = elements.getElement('address', { mode: 'shipping' });
+    const addressElement = elements?.getElement('address', { mode: 'shipping' });
+    if (!addressElement) return
 
     const { complete, value } = await addressElement.getValue();
-    console.log({ complete, value })
 
     if (complete) {
+      const response = await getShippingCost(lineItems, {
+        country: value.address.country,
+        city: value.address.city,
+        adress1: value.address.line1,
+        adress2: value.address.line2,
+        region: value.address.state,
+        zip: value.address.postal_code,
+      })
+
+      if (response.error) {
+        return toast({
+          title: 'Error',
+          description: 'Unable to fetch shipping cost, please try again!',
+          variant: 'destructive'
+        })
+      }
+
+      setShippingCost(response.data / 100)
       setIsShippingAddressComplete(complete)
-      // Allow user to proceed to the next step
-      // Optionally, use value to store the address details
     }
   }
 
@@ -90,9 +108,8 @@ export default function CheckoutForm() {
       })}>
         {isShippingAddressComplete ? <div className='absolute inset-0 opacity-0 z-[1000] rounded-lg' /> : null}
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <h3 className="">Shipping Address</h3>
-            <Check strokeWidth="2.5" className={cn('text-green-500', { hidden: !isShippingAddressComplete })} />
+          <CardTitle >
+            <h3 >Shipping Address</h3>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -110,7 +127,7 @@ export default function CheckoutForm() {
         <form id="payment-form" onSubmit={handleSubmit}>
           <CardHeader>
             <CardTitle>
-              <h3 className="">Payment Details</h3>
+              <h3 >Payment Details</h3>
             </CardTitle>
           </CardHeader>
           <CardContent>

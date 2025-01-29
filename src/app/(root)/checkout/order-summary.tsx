@@ -5,10 +5,9 @@ import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
 import { OrderSummaryItem } from "@/types/product"
 
-export default function OrderSummary({ items, subtotal, shippingCost }: { items: OrderSummaryItem[], subtotal: number, shippingCost: number }) {
+export default function OrderSummary({ items, subtotal, shippingCost }: { items: OrderSummaryItem[], subtotal: number, shippingCost: number | null }) {
 
-  const totalAmount = subtotal + shippingCost
-  console.log(items)
+  const totalAmount = subtotal + (shippingCost ?? 0)
 
   return (
     <Card className="flex-1 border-slate-200 min-w-0">
@@ -44,7 +43,7 @@ export default function OrderSummary({ items, subtotal, shippingCost }: { items:
         </div>
         <div className="flex justify-between text-sm">
           <span>Shipping</span>
-          <span>{!shippingCost ? 'Calculated at next step' : `$${totalAmount.toFixed(2)}`}</span>
+          <span>{!shippingCost ? 'Calculated at next step' : `$${shippingCost.toFixed(2)}`}</span>
         </div>
         <Separator className='bg-slate-300' />
         <div className="flex justify-between text-lg font-bold">

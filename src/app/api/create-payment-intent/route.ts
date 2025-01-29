@@ -36,11 +36,11 @@ export async function POST(req: Request) {
 		payment_method_types: ['card'],
 	});
 
-	console.log(paymentIntent.client_secret)
 	return NextResponse.json({
 		clientSecret: paymentIntent.client_secret,
 		items: updatedItems.map(item => ({
 			id: item.documentId,
+			sku: item.sku.skuId,
 			title: item.title,
 			imageSrc: item.imageSrc,
 			price: item.price,

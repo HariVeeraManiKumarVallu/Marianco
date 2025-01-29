@@ -1,5 +1,3 @@
-import { CartItem } from "@/store/cart-store"
-
 export type Category = {
   title: string
 }
@@ -51,6 +49,7 @@ export type ProductImage = {
 
 export type OrderSummaryItem = {
   id: string
+  sku: string
   title: string
   price: number
   quantity: number

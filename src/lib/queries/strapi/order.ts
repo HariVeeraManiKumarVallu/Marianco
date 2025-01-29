@@ -61,27 +61,41 @@ export async function getShippingCost(lineItems: { sku: string, quantity: number
   country: string
   region: string
   adress1: string
-  adress2: string
+  adress2: string | null
   city: string
   zip: string
 }) {
-  const response = await fetch(`https://api.printify.com/v1/shops/19604657/orders/shipping.json`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-    },
-    body: JSON.stringify({
-      line_items: lineItems,
-      address_to: address
+  'use server'
+  try {
+
+    console.log(`${process.env.PRINTIFY_BASE_URL}/shops/${process.env.PRINTIFY_SHOP_ID}/orders/shipping.json`)
+    console.log(lineItems, address)
+    const response = await fetch(`${process.env.PRINTIFY_BASE_URL}/shops/${process.env.PRINTIFY_SHOP_ID}/orders/shipping.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.PRINTIFY_API_TOKEN}`
+      },
+      body: JSON.stringify({
+        line_items: lineItems,
+        address_to: address
+      })
     })
-  })
 
-  if (!response.ok) {
-    throw new Error(`Error while creating order! Status: ${response.status}`);
+    console.log(response)
+
+    if (!response.ok) {
+      throw new Error(`Error while getting shipping cost! Status: ${response.status}`);
+    }
+
+    const data = await response.json()
+    return { success: true, data: data.data }
+  } catch (error) {
+    console.error('Shipping calculation error:', error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to calculate shipping'
+    }
   }
-
-  const data = await response.json()
-  return data.data
 
 }
