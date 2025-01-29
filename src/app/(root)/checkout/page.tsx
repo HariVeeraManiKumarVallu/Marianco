@@ -63,7 +63,6 @@ export default function CheckoutPage() {
   return (
     <section className="py-32 lg:py-section">
       <div className="container ">
-
         <h1 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">Checkout</h1>
         <div className='flex gap-8 py-12 px-4 sm:px-6 lg:px-8'>
           <OrderSummary items={orderItems} subtotal={subtotal} shippingCost={0} />

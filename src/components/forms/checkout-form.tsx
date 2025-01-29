@@ -19,6 +19,7 @@ import { Separator } from "../ui/separator";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Stripe, StripePaymentElementOptions } from "@stripe/stripe-js";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -83,36 +84,52 @@ export default function CheckoutForm() {
   }
 
   return (
-    <div className='w-96'>
-      <div >
-        <div className="flex items-center gap-2">
-          <h3 className="">Shipping Address</h3>
-          <Check strokeWidth="2.5" className={cn('text-green-500', { hidden: !isShippingAddressComplete })} />
-        </div>
-        <div className={`transition-all duration-500 ${!isShippingAddressComplete ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}`}>
+    <Card className='w-96 border-slate-200'>
+      <Card className='border-none shadow-none'>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <h3 className="">Shipping Address</h3>
+            <Check strokeWidth="2.5" className={cn('text-green-500', { hidden: !isShippingAddressComplete })} />
+          </CardTitle>
+        </CardHeader>
+        <CardContent className={`transition-all duration-500 ${!isShippingAddressComplete ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}`}>
           <AddressElement options={{ mode: 'shipping' }} />
-          <Button type='button' className="my-6 w-full " onClick={handleShippingAddress}>Procceed to Payment</Button>
-        </div>
+        </CardContent>
+        <CardFooter>
+          <Button type='button' className="w-full " onClick={handleShippingAddress}>Procceed to Payment</Button>
+        </CardFooter>
+      </Card>
+
+      <div className="px-6 mt-4">
+        <Separator className='bg-stone-200' />
       </div>
 
-      <Separator className='bg-stone-200 my-4' />
-
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <h3 className="">Payment Details</h3>
-        <div className={`transition-all duration-700  ${isShippingAddressComplete ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-          }`}>
-          <PaymentElement options={paymentElementOptions} />
-          <AddressElement options={{ mode: 'billing' }} />
-          <Button disabled={isLoading || !stripe || !elements} className="my-6 w-full " id="submit">
-            <span id="button-text">
-              {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-            </span>
-          </Button>
-        </div>
-        {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
-      </form>
-    </ div >
+      <Card className='border-none shadow-none'>
+        <form id="payment-form" onSubmit={handleSubmit}>
+          <CardHeader>
+            <CardTitle>
+              <h3 className="">Payment Details</h3>
+            </CardTitle>
+          </CardHeader>
+          <div className={`transition-all duration-700  ${isShippingAddressComplete ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+            }`}>
+            <CardContent>
+              <PaymentElement options={paymentElementOptions} />
+              <AddressElement options={{ mode: 'billing' }} />
+            </CardContent>
+            <CardFooter>
+              <Button disabled={isLoading || !stripe || !elements || !isShippingAddressComplete} className="w-full " id="submit">
+                <span id="button-text">
+                  {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+                </span>
+              </Button>
+            </CardFooter>
+          </div>
+          {/* Show any error or success messages */}
+          {message && <div id="payment-message">{message}</div>}
+        </form>
+      </Card>
+    </ Card >
   );
 
 

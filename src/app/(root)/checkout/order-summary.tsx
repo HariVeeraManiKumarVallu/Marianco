@@ -11,7 +11,7 @@ export default function OrderSummary({ items, subtotal, shippingCost }: { items:
   console.log(items)
 
   return (
-    <Card className="flex-1 border-slate-100 min-w-0">
+    <Card className="flex-1 border-slate-200 min-w-0">
       <CardHeader>
         <CardTitle>Order Summary</CardTitle>
       </CardHeader>
