@@ -67,7 +67,7 @@ export default function CheckoutForm() {
     layout: {
       type: 'tabs'
     },
-    business: { name: 'test' },
+    readOnly: !!isShippingAddressComplete,
   } satisfies StripePaymentElementOptions
 
   async function handleShippingAddress() {
@@ -84,52 +84,51 @@ export default function CheckoutForm() {
   }
 
   return (
-    <Card className='w-96 border-slate-200'>
-      <Card className='border-none shadow-none'>
+    <div className='w-96 space-y-12'>
+      <Card className={cn('relative', {
+        'opacity-60  border-slate-200': isShippingAddressComplete
+      })}>
+        {isShippingAddressComplete ? <div className='absolute inset-0 opacity-0 z-[1000] rounded-lg' /> : null}
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <h3 className="">Shipping Address</h3>
             <Check strokeWidth="2.5" className={cn('text-green-500', { hidden: !isShippingAddressComplete })} />
           </CardTitle>
         </CardHeader>
-        <CardContent className={`transition-all duration-500 ${!isShippingAddressComplete ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"}`}>
+        <CardContent>
           <AddressElement options={{ mode: 'shipping' }} />
         </CardContent>
         <CardFooter>
-          <Button type='button' className="w-full " onClick={handleShippingAddress}>Procceed to Payment</Button>
+          <Button type='button' disabled={isShippingAddressComplete || !stripe || !elements} className="w-full " onClick={handleShippingAddress}>Procceed to Payment</Button>
         </CardFooter>
       </Card>
 
-      <div className="px-6 mt-4">
-        <Separator className='bg-stone-200' />
-      </div>
-
-      <Card className='border-none shadow-none'>
+      <Card className={cn('relative', {
+        'opacity-60 border-slate-200': !isShippingAddressComplete
+      })}>
+        {!isShippingAddressComplete ? <div className='absolute inset-0 opacity-0 z-[1000] rounded-lg' /> : null}
         <form id="payment-form" onSubmit={handleSubmit}>
           <CardHeader>
             <CardTitle>
               <h3 className="">Payment Details</h3>
             </CardTitle>
           </CardHeader>
-          <div className={`transition-all duration-700  ${isShippingAddressComplete ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-            }`}>
-            <CardContent>
-              <PaymentElement options={paymentElementOptions} />
-              <AddressElement options={{ mode: 'billing' }} />
-            </CardContent>
-            <CardFooter>
-              <Button disabled={isLoading || !stripe || !elements || !isShippingAddressComplete} className="w-full " id="submit">
-                <span id="button-text">
-                  {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-                </span>
-              </Button>
-            </CardFooter>
-          </div>
+          <CardContent>
+            <PaymentElement options={paymentElementOptions} />
+            <AddressElement options={{ mode: 'billing' }} />
+          </CardContent>
+          <CardFooter>
+            <Button disabled={isLoading || !stripe || !elements || !isShippingAddressComplete} className="w-full " id="submit">
+              <span id="button-text">
+                {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+              </span>
+            </Button>
+          </CardFooter>
           {/* Show any error or success messages */}
           {message && <div id="payment-message">{message}</div>}
         </form>
       </Card>
-    </ Card >
+    </ div >
   );
 
 
