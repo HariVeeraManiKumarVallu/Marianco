@@ -1,40 +1,37 @@
 'use server'
 
-type LineItem = {
-	sku: string
-	quantity: number
-}
+import stripe from "@/services/stripe"
+import { createOrder, getShippingCost } from "@/lib/queries/strapi/order";
+import { Address, LineItem } from "@/types/checkout";
+import { CurrencyCodes } from "@/types/currency";
 
-type Address = {
-	country: string
-	region: string
-	adress1: string
-	adress2: string | null
-	city: string
-	zip: string
-}
 
-export async function getShippingCost(lineItems: LineItem[], address: Address) {
+export async function updateShippingCostAction(intentId: string, address: Address,) {
 	try {
-		const response = await fetch(`${process.env.PRINTIFY_BASE_URL}/shops/${process.env.PRINTIFY_SHOP_ID}/orders/shipping.json`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${process.env.PRINTIFY_API_TOKEN}`
-			},
-			body: JSON.stringify({
-				line_items: lineItems,
-				address_to: address
-			})
+		const paymentIntent = await stripe.paymentIntents.retrieve(intentId)
+
+		const lineItems = JSON.parse(paymentIntent.metadata.lineItems) as LineItem[]
+
+		const shippingCost: number = await getShippingCost(lineItems.map(item => ({ sku: item.skuId, quantity: item.quantity })), address)
+
+		const totalAmount = paymentIntent.amount + shippingCost
+
+		const order = await createOrder(totalAmount, paymentIntent.currency.toUpperCase() as CurrencyCodes, lineItems.map(item => ({
+			skuDocumentId: item.skuDocumentId,
+			price: item.price,
+			quantity: item.quantity
+		})))
+
+		await stripe.paymentIntents.update(intentId, {
+			amount: totalAmount,
+			metadata: {
+				orderId: order.orderId
+			}
 		})
 
-		if (!response.ok) {
-			throw new Error(`Error while getting shipping cost! Status: ${response.status}`);
+		return {
+			success: true, data: shippingCost
 		}
-
-		const shippingInfo = await response.json()
-
-		return { success: true, data: shippingInfo.standard }
 	} catch (error) {
 		console.error('Shipping calculation error:', error)
 		return {
@@ -42,5 +39,5 @@ export async function getShippingCost(lineItems: LineItem[], address: Address) {
 			error: error instanceof Error ? error.message : 'Failed to calculate shipping'
 		}
 	}
-
 }
+

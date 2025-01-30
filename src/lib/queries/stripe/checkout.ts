@@ -1,4 +1,6 @@
 import getStripe from '@/services/load-stripe'
+import { Address, LineItem } from '@/types/checkout'
+
 
 const stripePromise = getStripe()
 
@@ -28,4 +30,28 @@ export async function handleStripeCheckoutSession<T>(data: T) {
   } catch (error) {
     console.error(error)
   }
+}
+
+
+export async function getShippingCost(lineItems: LineItem[], address: Address) {
+  const response = await fetch(`${process.env.PRINTIFY_BASE_URL}/shops/${process.env.PRINTIFY_SHOP_ID}/orders/shipping.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.PRINTIFY_API_TOKEN}`
+    },
+    body: JSON.stringify({
+      line_items: lineItems,
+      address_to: address
+    })
+  })
+
+  if (!response.ok) {
+    throw new Error(`Error while getting shipping cost! Status: ${response.status}`);
+  }
+
+  const shippingInfo = await response.json()
+
+  return shippingInfo.standard
+
 }

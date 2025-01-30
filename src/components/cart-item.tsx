@@ -4,6 +4,8 @@ import { useCartStore, type CartItem, } from '@/store/cart-store'
 import { Minus, Plus, Trash2Icon } from 'lucide-react'
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
+import { formatAmount } from '@/lib/formatters'
+import { AVAILABLE_CURRENCIES } from '@/constants/currency'
 
 type CartItemProps = {
   item: CartItem
@@ -27,7 +29,7 @@ export default function CartItem({
       <div className="flex-1">
         <h3>{item.title}</h3>
         <p className="text-sm text-muted-foreground">
-          ${item.price.toFixed(2)}
+          {formatAmount(item.price / 100, AVAILABLE_CURRENCIES.USD)}
         </p>
         <div className="flex items-center gap-2 mt-2">
           <div className="border-2 border-stone-200 flex items-center rounded-md gap-2">

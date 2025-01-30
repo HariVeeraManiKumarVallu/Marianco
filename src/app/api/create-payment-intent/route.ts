@@ -2,21 +2,6 @@ import stripe from "@/services/stripe";
 import { NextResponse } from "next/server";
 import { StoreCheckout } from "../checkout_sessions/types";
 import { getProductSku } from "@/lib/queries/strapi/product";
-import { createOrder, createOrderItem } from "@/lib/queries/strapi/order";
-
-const calculateOrderAmount = (items: {
-	title: string;
-	imageSrc: string;
-	price: number;
-	sku: {
-		documentId: string;
-		skuId: string;
-	};
-	quantity: number;
-	documentId: string;
-}[]) => {
-	return
-};
 
 export async function POST(req: Request) {
 	const body: StoreCheckout = await req.json();
@@ -28,16 +13,19 @@ export async function POST(req: Request) {
 		return acc + (item.price * item.quantity)
 	}, 0)
 
-	// const order = await createOrder(totalPrice, currency, updatedItems.map(item => ({ quantity: item.quantity, price: item.price, skuDocumentId: item.sku.documentId })))
 
 	const paymentIntent = await stripe.paymentIntents.create({
 		amount: totalAmount,
 		currency,
 		payment_method_types: ['card'],
+		metadata: {
+			lineItems: JSON.stringify(updatedItems.map(item => ({ quantity: item.quantity, price: item.price, skuId: item.sku.skuId, skuDocumentId: item.sku.documentId })))
+		}
 	});
 
 	return NextResponse.json({
 		clientSecret: paymentIntent.client_secret,
+		intentId: paymentIntent.id,
 		items: updatedItems.map(item => ({
 			id: item.documentId,
 			sku: item.sku.skuId,

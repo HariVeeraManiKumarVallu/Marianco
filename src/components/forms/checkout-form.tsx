@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useRef, useState } from "react";
 import {
   PaymentElement,
   useStripe,
@@ -11,10 +11,12 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
-import { getShippingCost } from "@/actions/shipping";
 import { useToast } from "@/hooks/use-toast";
+import { updateShippingCost, updateShippingCostAction } from "@/actions/shipping";
+import { LoaderCircle } from "lucide-react";
 
 type CheckoutFormProps = {
+  intentId: string
   lineItems: {
     sku: string
     quantity: number
@@ -22,18 +24,18 @@ type CheckoutFormProps = {
   setShippingCost: Dispatch<SetStateAction<number | null>>
 }
 
-export default function CheckoutForm({ lineItems, setShippingCost }: CheckoutFormProps) {
+export default function CheckoutForm({ lineItems, setShippingCost, intentId }: CheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
 
-  const { toast } = useToast()
-
-  const [message, setMessage] = useState<string | null | undefined>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isShippingAddressComplete, setIsShippingAddressComplete] = useState(false)
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const paymentContainerRef = useRef<null | HTMLDivElement>(null)
+
+  const { toast } = useToast()
+
+  const handlePayment = async () => {
 
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
@@ -46,10 +48,11 @@ export default function CheckoutForm({ lineItems, setShippingCost }: CheckoutFor
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:3000/checkout",
       },
     });
+
+    console.log(error)
 
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
@@ -57,29 +60,33 @@ export default function CheckoutForm({ lineItems, setShippingCost }: CheckoutFor
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
     if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive'
+      });
     } else {
-      setMessage("An unexpected error occurred.");
+      toast({
+        title: 'Error',
+        description: 'An unexpected error occured.',
+        variant: 'destructive'
+      });
     }
 
     setIsLoading(false);
   };
 
-  const paymentElementOptions = {
-    layout: {
-      type: 'tabs'
-    },
-    readOnly: !!isShippingAddressComplete,
-  } satisfies StripePaymentElementOptions
-
   async function handleShippingAddress() {
     const addressElement = elements?.getElement('address', { mode: 'shipping' });
-    if (!addressElement) return
+    const paymentElement = elements?.getElement('payment')
+    if (!addressElement || !paymentElement) return
+
+    setIsLoading(true);
 
     const { complete, value } = await addressElement.getValue();
 
     if (complete) {
-      const response = await getShippingCost(lineItems, {
+      const response = await updateShippingCostAction(intentId, {
         country: value.address.country,
         city: value.address.city,
         adress1: value.address.line1,
@@ -89,20 +96,37 @@ export default function CheckoutForm({ lineItems, setShippingCost }: CheckoutFor
       })
 
       if (response.error) {
-        return toast({
+        toast({
           title: 'Error',
           description: 'Unable to fetch shipping cost, please try again!',
           variant: 'destructive'
         })
       }
 
-      setShippingCost(response.data / 100)
-      setIsShippingAddressComplete(complete)
+      if (response.data) {
+        setShippingCost(response.data / 100)
+        setIsShippingAddressComplete(complete)
+      }
     }
+    setIsLoading(false)
+
+    addressElement.blur()
+    paymentElement.focus()
+    paymentContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    return
   }
 
+  const paymentElementOptions = {
+    layout: {
+      type: 'tabs'
+    },
+    readOnly: !isShippingAddressComplete,
+  } satisfies StripePaymentElementOptions
+
+  if (!stripe || !elements) return null
+
   return (
-    <div className='w-96 space-y-12'>
+    <div className='w-96 space-y-12 '>
       <Card className={cn('relative', {
         'opacity-60  border-slate-200': isShippingAddressComplete
       })}>
@@ -116,34 +140,33 @@ export default function CheckoutForm({ lineItems, setShippingCost }: CheckoutFor
           <AddressElement options={{ mode: 'shipping' }} />
         </CardContent>
         <CardFooter>
-          <Button type='button' disabled={isShippingAddressComplete || !stripe || !elements} className="w-full " onClick={handleShippingAddress}>Procceed to Payment</Button>
+          <Button type='button' disabled={isShippingAddressComplete || !stripe || !elements} className="w-full " onClick={handleShippingAddress}> <span >
+            {isLoading ? <LoaderCircle className="animate-spin" /> : "Proceed to payment"}
+          </span>
+          </Button>
         </CardFooter>
       </Card>
 
-      <Card className={cn('relative', {
+      <Card ref={paymentContainerRef} className={cn('relative', {
         'opacity-60 border-slate-200': !isShippingAddressComplete
       })}>
         {!isShippingAddressComplete ? <div className='absolute inset-0 opacity-0 z-[1000] rounded-lg' /> : null}
-        <form id="payment-form" onSubmit={handleSubmit}>
-          <CardHeader>
-            <CardTitle>
-              <h3 >Payment Details</h3>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <PaymentElement options={paymentElementOptions} />
-            <AddressElement options={{ mode: 'billing' }} />
-          </CardContent>
-          <CardFooter>
-            <Button disabled={isLoading || !stripe || !elements || !isShippingAddressComplete} className="w-full " id="submit">
-              <span id="button-text">
-                {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-              </span>
-            </Button>
-          </CardFooter>
-          {/* Show any error or success messages */}
-          {message && <div id="payment-message">{message}</div>}
-        </form>
+        <CardHeader>
+          <CardTitle>
+            <h3 >Payment Details</h3>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <PaymentElement options={paymentElementOptions} />
+          <AddressElement options={{ mode: 'billing' }} />
+        </CardContent>
+        <CardFooter>
+          <Button type='button' onClick={handlePayment} disabled={isLoading || !stripe || !elements || !isShippingAddressComplete} className="w-full " id="submit">
+            <span >
+              {isLoading ? <LoaderCircle className="animate-spin" /> : "Pay now"}
+            </span>
+          </Button>
+        </CardFooter>
       </Card>
     </ div >
   );

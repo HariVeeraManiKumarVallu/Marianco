@@ -9,14 +9,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { handleStripeCheckoutSession } from '@/lib/queries/stripe/checkout'
 import { ShoppingCart } from 'lucide-react'
 import CartItem from './cart-item'
 import { useCartStore } from '@/store/cart-store'
 import { useEffect } from 'react'
-import { StoreCheckout } from '@/app/api/checkout_sessions/types'
 import Link from 'next/link'
 import { ROUTES } from '@/constants/routes'
+import { formatAmount } from '@/lib/formatters'
+import { AVAILABLE_CURRENCIES } from '@/constants/currency'
 
 export default function Cart({
   variant = 'icon',
@@ -24,7 +24,6 @@ export default function Cart({
   variant?: 'icon' | 'full'
 }) {
   const { cartItems, totalCartPrice, totalItems } = useCartStore()
-  //const { handleCheckout } = useCheckout()
 
   useEffect(() => {
     useCartStore.persist.rehydrate()
@@ -72,7 +71,7 @@ export default function Cart({
               <div className="border-t pt-4">
                 <div className="flex justify-between">
                   <span className="font-medium">Total</span>
-                  <span className="font-medium">${totalCartPrice.toFixed(2)}</span>
+                  <span className="font-medium">{formatAmount(totalCartPrice / 100, AVAILABLE_CURRENCIES.USD.title)}</span>
                 </div>
                 <SheetClose asChild>
                   <Button className="w-full mt-4" asChild>
