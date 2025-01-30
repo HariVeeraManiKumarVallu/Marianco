@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import Image from "next/image"
 import { OrderSummaryItem } from "@/types/product"
+import { formatAmount } from "@/lib/formatters"
+import { AVAILABLE_CURRENCIES } from "@/constants/currency"
 
 export default function OrderSummary({ items, subtotal, shippingCost }: { items: OrderSummaryItem[], subtotal: number, shippingCost: number | null }) {
 
@@ -30,7 +32,7 @@ export default function OrderSummary({ items, subtotal, shippingCost }: { items:
               <h5 className="font-medium mt-auto truncate">{item.title}</h5>
               <div className="flex gap-1 mt-auto justify-between  ">
                 <p className="text-sm text-gray-500">{`Quantity: ${item.quantity}`}</p>
-                <p className="text-base">${item.price.toFixed(2)}</p>
+                <p className="text-base">{formatAmount(item.price, AVAILABLE_CURRENCIES.USD.title)}</p>
               </div>
             </div>
 
@@ -39,16 +41,16 @@ export default function OrderSummary({ items, subtotal, shippingCost }: { items:
         <Separator className='bg-slate-300' />
         <div className="flex justify-between font-medium">
           <span>Subtotal</span>
-          <span>${subtotal.toFixed(2)}</span>
+          <span>{formatAmount(subtotal, AVAILABLE_CURRENCIES.USD.title)}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span>Shipping</span>
-          <span>{!shippingCost ? 'Calculated at next step' : `$${shippingCost.toFixed(2)}`}</span>
+          <span>{!shippingCost ? 'Calculated at next step' : `${formatAmount(shippingCost, AVAILABLE_CURRENCIES.USD.title)}`}</span>
         </div>
         <Separator className='bg-slate-300' />
         <div className="flex justify-between text-lg font-bold">
           <span>Total</span>
-          <span>${totalAmount.toFixed(2)}</span>
+          <span>{formatAmount(totalAmount, AVAILABLE_CURRENCIES.USD.title)}</span>
         </div>
       </CardContent>
     </Card>

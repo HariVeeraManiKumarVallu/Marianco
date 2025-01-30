@@ -46,6 +46,14 @@ function getCurrencyFormatter(currency: AvailableCurrency, options?: { hideDecim
         minimumFractionDigits: options?.hideDecimals ? 0 : 2,
         maximumFractionDigits: options?.hideDecimals ? 0 : 2,
       })
+    default:
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: options?.hideDecimals ? 0 : 2,
+        maximumFractionDigits: options?.hideDecimals ? 0 : 2,
+      })
+
   }
 
 }
