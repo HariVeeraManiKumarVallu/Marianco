@@ -1,39 +1,26 @@
+import { getSponsors } from '@/lib/queries/strapi/sponsor'
 import Image from 'next/image'
-const sponsors = [
-  {
-    name: 'Gaddr',
-    href: 'https://gaddr.com',
-    image:
-      'https://marianco-images.s3.eu-north-1.amazonaws.com/Gaddr_Logo_Angle_Purple_ac40b1e9ba.png',
-  },
-  {
-    name: 'Flower Work',
-    href: 'https://flowerwork.com',
-    image:
-      'https://marianco-images.s3.eu-north-1.amazonaws.com/flower_work_logo_dark_da018fff3c.png',
-  },
-  {
-    name: 'Daylited',
-    href: 'https://daylited.com',
-    image:
-      'https://marianco-images.s3.eu-north-1.amazonaws.com/Daylited_logo_3dcf16f6be.png',
-  },
-]
 
-export default function SponsorsList() {
+export default async function SponsorsList() {
+
+  const sponsors = await getSponsors()
+
+  if (!sponsors || sponsors.length === 0) return null
+
   return (
-    <div className="bg-stone-100 py-section ">
+    <div className="bg-slate-100 py-section ">
       <div className="container">
         <h2 className="mb-12 lg:mb-16 text-center">Our Sponsors</h2>
-        <ul className="flex gap-20  items-center justify-center">
+        <ul className="flex gap-12  items-center justify-center ">
           {sponsors.map(sponsor => (
             <li key={sponsor.name}>
-              <a href={sponsor.href} target="_blank" rel="noopener noreferrer">
+              <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
                 <Image
-                  src={sponsor.image}
+                  src={sponsor.logo[0].url}
                   alt={sponsor.name}
-                  height={200}
-                  width={200}
+                  height={sponsor.logo[0].height}
+                  width={sponsor.logo[0].width}
+                  className='object-contain h-16 w-fit'
                 />
               </a>
             </li>

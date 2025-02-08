@@ -30,7 +30,6 @@ export default async function SponsorsPage() {
   })
 
   const sponsors = await getSponsors()
-  console.log(sponsors.data[0].logo)
 
   if (!prices.data) {
     return null
@@ -65,7 +64,7 @@ export default async function SponsorsPage() {
         }}
       />
       <Heading />
-      <SponsorsList />
+      <SponsorsList sponsors={sponsors} />
       {/* TODO: Add loading skeleton */}
       <Suspense>
         <SponsorshipTiersSection tiers={tiers} />

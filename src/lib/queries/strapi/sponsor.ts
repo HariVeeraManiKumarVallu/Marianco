@@ -1,6 +1,12 @@
 import { STATIC_CONFIG } from "@/constants/cache"
-import { Sponsor } from "@/types/donation"
-import { StrapiResponse } from "@/types/strapi"
+import { StrapiImage, StrapiResponse } from "@/types/strapi"
+
+
+type Sponsor = {
+  name: string,
+  url: string,
+  logo: StrapiImage[]
+}
 
 export async function getSponsors() {
   const res = await fetch(
@@ -20,6 +26,6 @@ export async function getSponsors() {
     throw new Error('Failed to fetch sponsors')
   }
 
-  const data = await res.json()
-  return data as StrapiResponse<Sponsor[]>
+  const data: StrapiResponse<Sponsor[]> = await res.json()
+  return data.data
 }
