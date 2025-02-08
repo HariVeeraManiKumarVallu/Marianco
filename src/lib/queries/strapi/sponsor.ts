@@ -1,7 +1,6 @@
 import { STATIC_CONFIG } from "@/constants/cache"
 import { StrapiImage, StrapiResponse } from "@/types/strapi"
 
-
 type Sponsor = {
   name: string,
   url: string,
@@ -21,6 +20,8 @@ export async function getSponsors() {
       },
     }
   )
+
+  console.log(res)
 
   if (!res.ok) {
     throw new Error('Failed to fetch sponsors')
