@@ -29,8 +29,6 @@ export default async function SponsorsPage() {
     expand: ['data.currency_options'],
   })
 
-  const sponsors = await getSponsors()
-
   if (!prices.data) {
     return null
   }
@@ -64,7 +62,7 @@ export default async function SponsorsPage() {
         }}
       />
       <Heading />
-      <SponsorsList sponsors={sponsors} />
+      <SponsorsList />
       {/* TODO: Add loading skeleton */}
       <Suspense>
         <SponsorshipTiersSection tiers={tiers} />
