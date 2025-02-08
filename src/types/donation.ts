@@ -7,3 +7,10 @@ export type SponsorshipTier = {
   currencyOptions: Record<string, Stripe.Price.CurrencyOptions>
   benefits: string[]
 }
+
+export type Sponsor = {
+  name: string,
+  url: string,
+  imageUrl: string
+
+}

@@ -9,6 +9,7 @@ import SponsorshipTiersSection from './components/sponsorship-tiers-section'
 import SponsorsList from '@/components/sponsors-list'
 import { SPONSORSHIP_TIERS } from '@/constants/sponsorship-tiers'
 import { Suspense } from 'react'
+import { getSponsors } from '@/lib/queries/strapi/sponsor'
 
 export const metadata: Metadata = {
   title: 'Sponsors & Partners',
@@ -27,6 +28,9 @@ export default async function SponsorsPage() {
     lookup_keys: Object.keys(SPONSORSHIP_TIERS),
     expand: ['data.currency_options'],
   })
+
+  const sponsors = await getSponsors()
+  console.log(sponsors.data[0].logo)
 
   if (!prices.data) {
     return null

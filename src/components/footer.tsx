@@ -1,7 +1,7 @@
 import { ROUTES } from '@/constants/routes'
 import { SOCIAL_LINKS } from '@/constants/social-links'
-import Image from 'next/image'
 import Link from 'next/link'
+import Logo from './logo'
 
 export default function Footer() {
   return (
@@ -9,16 +9,11 @@ export default function Footer() {
       <div className="container py-12">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           <div className="space-y-4 text-pretty col-span-full xl:col-span-1">
-            <div className="relative">
-              <Image
-                src="/logo.png"
-                width={178}
-                height={100}
-                alt="Marianco logo"
-              />
+            <div className='h-[102px]'>
+              <Logo />
             </div>
 
-            <div className="flex gap-4 px-4">
+            <div className="flex gap-4 ">
               {SOCIAL_LINKS.map(social => (
                 <a
                   key={social.label}

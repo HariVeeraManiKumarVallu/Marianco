@@ -12,21 +12,16 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Icons } from './icons'
-import { Button, buttonVariants } from './ui/button'
+import { Button } from './ui/button'
+import Logo from './logo'
 
 export default function Navbar() {
   return (
     <header>
       <nav className="fixed lg:relative w-full top-0 z-50 bg-background border-b border-gray-200">
         <div className="h-20 container flex items-center justify-between">
-          <Link href={ROUTES.HOME}>
-            <Image
-              src="/logo.png"
-              width={178}
-              height={100}
-              alt="logo"
-              className="py-2"
-            />
+          <Link href={ROUTES.HOME} className='h-full p-2'>
+            <Logo />
           </Link>
           <ul className="hidden lg:flex items-center gap-4 xl:gap-8">
             {NAV_LINKS.map(link => (
@@ -42,10 +37,12 @@ export default function Navbar() {
           </ul>
           <div className="items-center gap-4 hidden lg:flex">
             <Cart />
-            <Link className={buttonVariants()} href={ROUTES.DONATE}>
-              <Icons.handHeart />
-              Donate
-            </Link>
+            <Button asChild >
+              <Link href={ROUTES.DONATE}>
+                <Icons.handHeart />
+                Donate
+              </Link>
+            </Button>
           </div>
           <div className="flex items-center lg:hidden gap-4">
             <Cart />
@@ -55,17 +52,11 @@ export default function Navbar() {
               </SheetTrigger>
               <SheetContent>
                 <VisuallyHidden.Root>
-                  <SheetTitle>Mobile Navigation</SheetTitle>
+                  <SheetTitle>Navigation</SheetTitle>
                 </VisuallyHidden.Root>
                 <SheetClose asChild>
                   <Link href={ROUTES.HOME}>
-                    <Image
-                      src="/logo.png"
-                      width={178}
-                      height={100}
-                      alt="logo"
-                      className="py-2"
-                    />
+                    <Logo />
                   </Link>
                 </SheetClose>
                 <ul className="space-y-8 my-8">
@@ -79,13 +70,14 @@ export default function Navbar() {
                 </ul>
                 <Cart variant="full" />
                 <SheetClose asChild>
-                  <Link
-                    className={buttonVariants({ className: 'w-full' })}
-                    href={ROUTES.DONATE}
-                  >
-                    <Icons.handHeart />
-                    Donate
-                  </Link>
+                  <Button asChild className='w-full'>
+                    <Link
+                      href={ROUTES.DONATE}
+                    >
+                      <Icons.handHeart />
+                      Donate
+                    </Link>
+                  </Button>
                 </SheetClose>
               </SheetContent>
             </Sheet>
