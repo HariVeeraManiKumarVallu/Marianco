@@ -26,7 +26,7 @@ export async function generateStaticParams() {
   const data: EventResponse = await res.json()
 
   return data.data.map(event => ({
-    slug: event.slug,
+   slug: event.slug,
   }))
 }
 
@@ -80,7 +80,7 @@ export default async function EventPage({ params }: Props) {
         <EventActions event={event} variant="detail" className="mt-16" />
       </section>
       <section className="my-section bg-beige py-section">
-        <OtherEventsSection id={event.id.toString()} />
+        <OtherEventsSection id={event.documentId.toString()} />  // strapi v5 uses documentId instead of id
       </section>
     </div>
   )
