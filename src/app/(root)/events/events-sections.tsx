@@ -18,9 +18,9 @@ export default async function EventsSection() {
         </p>
         <Separator className="mt-4 mb-16 bg-muted h-[2px]" />
 
-        {data.data.length > 0 ? (
+        {data.length > 0 ? (
           <ul className="space-y-16 lg:space-y-20">
-            {data.data.map((event, index) => (
+            {data.map((event, index) => (
               <EventCard key={event.id} event={event} index={index} />
             ))}
           </ul>
