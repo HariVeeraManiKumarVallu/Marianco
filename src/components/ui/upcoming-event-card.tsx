@@ -27,7 +27,7 @@ export default function UpcomingEventCard({
       <Link href={`${ROUTES.EVENTS}/${event.slug}`} className="block">
         <div className="relative h-48 overflow-hidden">
           <Image
-            src={event.image.url}
+            src={event.image?.url}
             alt={event.title}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
