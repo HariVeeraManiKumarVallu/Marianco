@@ -1,5 +1,6 @@
 import { STATIC_CONFIG } from '@/constants/cache'
 import { EventData, EventResponse } from '@/types/event'
+import qs from 'qs'
 
 export async function getEvent(slug: string): Promise<EventData | undefined> {
 
@@ -37,8 +38,22 @@ type EventResponse = {
 }
 
 export async function getUpcomingEvents(id?: string) {
+
+
+  const query = qs.stringify({
+    filters: {
+      isPastEvent: { $eq: false },
+      ...(id && { id: { $ne: id } })
+    },
+    sort: 'date:asc',
+    pagination: { limit: 3 },
+    populate: '*'
+  })
+
+
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[isPastEvent][$eq]=false&sort=date:asc&pagination[limit]=3&populate=*${id ? `&filters[id][$ne]=${id}` : ' '}`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?${query}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -50,7 +65,6 @@ export async function getUpcomingEvents(id?: string) {
     }
   )
 
-  console.log('Raw response:', res);
 
   if (!res.ok) {
     throw new Error('Failed to fetch events')
