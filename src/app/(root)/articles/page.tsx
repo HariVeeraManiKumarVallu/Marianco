@@ -1,7 +1,7 @@
 import NewsletterSignup from '@/components/forms/newsletter-signup'
 import TitleSection from '@/components/title-section'
 import { SOCIAL_LINKS } from '@/constants/social-links'
-import { getFeaturedArticles } from '@/lib/queries/strapi/article'
+import { getFeaturedArticles, getNotFeaturedArticles } from '@/lib/queries/strapi/article'
 import { Metadata } from 'next'
 import FeaturedArticlesSection from './featured-articles-section'
 import RecentArticlesSection from './recent-articles-section'
@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 
 export default async function ArticlesPage() {
   const data = await getFeaturedArticles()
+  const data_nonFeatured = await getNotFeaturedArticles()
+
 
   return (
     <div className="flex-1 flex flex-col">
@@ -30,7 +32,7 @@ export default async function ArticlesPage() {
           altText: 'hands reaching out',
         }}
       />
-      {data.data.length === 0 ? (
+      {(data.data.length === 0 && data_nonFeatured.data.length === 0) ? (
         <div className="container flex-1 flex flex-col items-center justify-center gap-4 ">
           <p className="text-center mt-48">
             No articles yet. Subscribe to our newsletter or follow us on social
