@@ -36,9 +36,9 @@ type EventResponse = {
   return data.data[0]; // Return unwrapped event list for direct component usage
 }
 
-export async function getUpcomingEvents(id?: string) {
+export async function getUpcomingEvents() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[isPastEvent][$eq]=false&sort=date:asc&pagination[limit]=3&populate=*${id ? `&filters[id][$ne]=${id}` : ' '}`,
+    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[isPastEvent][$eq]=false&populate=*`,
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -50,16 +50,11 @@ export async function getUpcomingEvents(id?: string) {
     }
   )
 
-  console.log('Raw response:', res);
-
   if (!res.ok) {
     throw new Error('Failed to fetch events')
   }
-// Local override of EventResponse to ensure correct array shape from Strapi
-type EventResponse = {
-  data: EventData[]
-}
-  const data: EventResponse = await res.json()
+
+  const data = await res.json()
   return data.data
 }
 

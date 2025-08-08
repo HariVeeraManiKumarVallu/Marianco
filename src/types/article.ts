@@ -16,3 +16,5 @@ export type Article = {
 
 export type ArticleData = StrapiData<Article>
 export type ArticleResponse = StrapiResponse<ArticleData>
+export type ArticleListResponse = StrapiResponse<ArticleData[]>
+
