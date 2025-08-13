@@ -56,7 +56,7 @@ export default async function ArticlesPage() {
         </div>
       ) : (
         <>
-          <FeaturedArticlesSection featuredArticles={data.data} />
+          <FeaturedArticlesSection featuredArticles={data} />
 
           <RecentArticlesSection
           // recentArticles={data.data.filter(article => !article.isFeatured)}
