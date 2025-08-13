@@ -81,6 +81,7 @@ export default function NewsletterSignup() {
                       <Input
                         placeholder="Enter your email"
                         {...field}
+                        id='your-email'
                         className="flex-1 focus-visible:ring-brand-blue-900"
                       />
                     </FormControl>

@@ -43,7 +43,7 @@ export function EventRegistrationDialog({ eventTitle, documentId, className }: P
       <DialogTrigger asChild>
         <Button className={className}>Register Now</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent aria-describedby="dialog-description">
         {isSuccess ? (
           <div className="p-6 flex flex-col items-center justify-center text-center space-y-4">
             <div className="rounded-full bg-green-100 p-3">
@@ -52,6 +52,8 @@ export function EventRegistrationDialog({ eventTitle, documentId, className }: P
             <DialogTitle className="font-semibold text-lg">
               Registration successful!
             </DialogTitle>
+
+            
             <p className="text-muted-foreground">
               Thank you for signing up.
               <br />

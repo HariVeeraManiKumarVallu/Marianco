@@ -80,7 +80,7 @@ export function EventSignupForm({
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your name" {...field} />
+                  <Input id='name' placeholder="Your name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,7 +94,7 @@ export function EventSignupForm({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="your@email.com" type="email" {...field} />
+                  <Input id='your-email' placeholder="your@email.com" type="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -107,7 +107,7 @@ export function EventSignupForm({
               <FormItem>
                 <FormLabel>City</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your city" {...field} />
+                  <Input id='city' placeholder="Your city" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -122,6 +122,7 @@ export function EventSignupForm({
                 <FormLabel>Number of Attendees</FormLabel>
                 <FormControl>
                   <Input
+                    id='number'
                     type="number"
                     min={1}
                     max={100}
@@ -141,7 +142,7 @@ export function EventSignupForm({
               <FormItem>
                 <FormLabel>Organization (Optional)</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your organization" {...field} />
+                  <Input id='organization' placeholder="Your organization" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
