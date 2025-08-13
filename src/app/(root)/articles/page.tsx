@@ -32,7 +32,7 @@ export default async function ArticlesPage() {
           altText: 'hands reaching out',
         }}
       />
-      {(data.data.length === 0 && data_nonFeatured.data.length === 0) ? (
+      {(data.length === 0 && data_nonFeatured.length === 0) ? (
         <div className="container flex-1 flex flex-col items-center justify-center gap-4 ">
           <p className="text-center mt-48">
             No articles yet. Subscribe to our newsletter or follow us on social
