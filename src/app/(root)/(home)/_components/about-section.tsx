@@ -72,11 +72,12 @@ export default function AboutSection() {
               key={item.title}
               className="bg-brand-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group overflow-clip "
             >
-              <div className="relative h-56 w-full rounded-t-lg overflow-hidden ">
+              <div className="relative h-56 w-full rounded-t-lg overflow-hidden">
                 <Image
                   src={item.img}
                   alt={item.altText}
                   fill
+                  sizes="100vw"
                   className="object-cover transition-transform group-hover:scale-105"
                 />
               </div>
