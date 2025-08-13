@@ -1,5 +1,6 @@
 import { STATIC_CONFIG } from '@/constants/cache'
 import { EventData, EventResponse } from '@/types/event'
+import { notFound } from 'next/navigation'
 
 export async function getEvent(slug: string): Promise<EventData | undefined> {
 
@@ -29,14 +30,14 @@ type EventResponse = {
 // Guard against missing events (e.g., invalid slug)
   const data: EventResponse = await res.json()
   if (!data.data || data.data.length === 0) {
-  throw new Error('Event not found');
+    notFound();
 }
   console.log('Fetched event:', data.data.length)
   
   return data.data[0]; // Return unwrapped event list for direct component usage
 }
 
-export async function getUpcomingEvents() {
+export async function getUpcomingEvents(id?: string){
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[isPastEvent][$eq]=false&populate=*`,
     {

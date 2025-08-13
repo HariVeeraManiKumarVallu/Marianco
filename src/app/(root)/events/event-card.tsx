@@ -33,12 +33,14 @@ export default function EventCard({
         )}
       >
         <CardHeader className="relative rounded-lg overflow-hidden h-64 w-full lg:h-auto lg:flex-1 max-w-[704px] ">
-          <Link href={`/events/${event.slug}`}>
+          <Link href={`/events/${event.slug}`} className="relative block h-full w-full">
             <Image
               src={event.image.formats?.large?.url ?? event.image.url ?? ''}
               alt={event.image.alternativeText || ''}
               className="object-cover group-hover:scale-105 transition-transform duration-300"
               fill
+              
+              priority={true}
             />
           </Link>
         </CardHeader>

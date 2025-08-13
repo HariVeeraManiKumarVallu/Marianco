@@ -22,7 +22,8 @@ export async function getArticle(slug: string) {
   }
 
   const data: ArticleListResponse = await res.json()
-  return data.data[0]
+  return data.data[0] // Returns ArticleData[]
+
 }
 
 export async function getFeaturedArticles() {
@@ -54,7 +55,8 @@ export async function getFeaturedArticles() {
 
   const data: ArticleListResponse = await res.json()
 
-  return data
+  return data.data // Returns ArticleData[]
+
 }
 
 export async function getNotFeaturedArticles() {
@@ -86,7 +88,8 @@ export async function getNotFeaturedArticles() {
 
   const data: ArticleListResponse = await res.json()
 
-  return data
+  return data.data // Returns ArticleData[]
+
 }
 
 export async function getRelatedArticles(id: string) {
@@ -109,6 +112,7 @@ export async function getRelatedArticles(id: string) {
   }
 
   const data: ArticleListResponse = await res.json()
+ 
+  return data.data // Returns ArticleData[]
 
-  return data
 }

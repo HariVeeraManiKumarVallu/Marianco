@@ -50,8 +50,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ArticlePage({ params }: {params: {slug:string}}) { //()params: Promise<{ slug: string }>
-  const slug = params.slug
+
+export default async function ArticlePage({ params }: Props){
+  const slug = (await params).slug
   const article = await getArticle(slug)
 
   if (!article) notFound()

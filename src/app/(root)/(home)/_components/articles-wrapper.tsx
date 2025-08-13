@@ -5,5 +5,5 @@ export default async function ArticlesWrapper() {
   await new Promise(resolve => setTimeout(resolve, 4000))
   const data = await getFeaturedArticles()
 
-  return <RecentArticles articles={data.data} />
+  return <RecentArticles articles={data} />
 }

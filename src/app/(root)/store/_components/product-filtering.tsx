@@ -52,6 +52,7 @@ export default function ProductFiltering({
       <div className="space-y-2">
         <Label className="text-base">Search</Label>
         <Input
+          id='search-product'
           placeholder="Search products..."
           defaultValue={productSearch}
           className="max-w-lg"

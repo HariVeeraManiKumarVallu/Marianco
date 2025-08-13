@@ -33,6 +33,7 @@ export async function generateStaticParams() {
 export default async function EventPage({ params }: Props) {
   const slug = (await params).slug
   const event = await getEvent(slug)
+  
 
   if (!event) notFound()
 
@@ -71,6 +72,7 @@ export default async function EventPage({ params }: Props) {
               src={event.image.formats?.large?.url || event.image.url}
               alt={event.image.alternativeText || event.title}
               fill
+              
               className="rounded-lg object-cover"
             />
           </div>
@@ -80,7 +82,7 @@ export default async function EventPage({ params }: Props) {
         <EventActions event={event} variant="detail" className="mt-16" />
       </section>
       <section className="my-section bg-beige py-section">
-        <OtherEventsSection id={event.documentId.toString()} />  // strapi v5 uses documentId instead of id
+        <OtherEventsSection id={event.documentId} /> 
       </section>
     </div>
   )

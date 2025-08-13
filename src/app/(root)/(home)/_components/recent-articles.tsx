@@ -48,6 +48,7 @@ export default function RecentArticles({
                     src={article.image.url}
                     alt={article.title}
                     fill
+                    sizes="100vw"
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
