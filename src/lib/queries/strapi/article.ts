@@ -1,6 +1,6 @@
 import { FEATURED_GRID_POSITIONS, GRID_POSITION_VALUES } from '@/constants/articles'
 import { STATIC_CONFIG } from '@/constants/cache'
-import { ArticleResponse } from '@/types/article'
+import { ArticleResponse, ArticleListResponse } from '@/types/article'
 import qs from 'qs'
 
 export async function getArticle(slug: string) {
@@ -21,8 +21,9 @@ export async function getArticle(slug: string) {
     throw new Error('Failed to fetch article')
   }
 
-  const data: ArticleResponse = await res.json()
-  return data.data[0]
+  const data: ArticleListResponse = await res.json()
+  return data.data[0] // Returns ArticleData[]
+
 }
 
 export async function getFeaturedArticles() {
@@ -52,9 +53,10 @@ export async function getFeaturedArticles() {
     throw new Error('Failed to fetch articles')
   }
 
-  const data: ArticleResponse = await res.json()
+  const data: ArticleListResponse = await res.json()
 
-  return data
+  return data.data // Returns ArticleData[]
+
 }
 
 export async function getNotFeaturedArticles() {
@@ -84,12 +86,14 @@ export async function getNotFeaturedArticles() {
     throw new Error('Failed to fetch articles')
   }
 
-  const data: ArticleResponse = await res.json()
+  const data: ArticleListResponse = await res.json()
 
-  return data
+  return data.data // Returns ArticleData[]
+
 }
 
 export async function getRelatedArticles(id: string) {
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles?filters[id][$ne]=${id}&limit=3&populate=*`,
     {
@@ -107,7 +111,8 @@ export async function getRelatedArticles(id: string) {
     throw new Error('Failed to fetch articles')
   }
 
-  const data: ArticleResponse = await res.json()
+  const data: ArticleListResponse = await res.json()
+ 
+  return data.data // Returns ArticleData[]
 
-  return data
 }

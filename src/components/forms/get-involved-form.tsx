@@ -90,7 +90,7 @@ export function GetInvolvedForm() {
               <FormItem>
                 <FormLabel>Full Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your full name" {...field} />
+                  <Input id='full-name' placeholder="Enter your full name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -105,6 +105,7 @@ export function GetInvolvedForm() {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
+                    id='your-email'
                     type="email"
                     placeholder="Enter your email"
                     {...field}
@@ -124,6 +125,7 @@ export function GetInvolvedForm() {
                 <FormControl>
                   <Input
                     type="tel"
+                    id='phoneNumber'
                     placeholder="Enter your phone number"
                     {...field}
                   />

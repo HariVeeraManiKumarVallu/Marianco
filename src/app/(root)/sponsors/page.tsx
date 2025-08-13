@@ -23,25 +23,36 @@ export const metadata: Metadata = {
 }
 
 export default async function SponsorsPage() {
-  const prices = await stripe.prices.list({
-    active: true,
-    lookup_keys: Object.keys(SPONSORSHIP_TIERS),
-    expand: ['data.currency_options'],
-  })
+  let tiers: Array<{
+    title: string
+    lookupKey: keyof typeof SPONSORSHIP_TIERS
+    currencyOptions: any
+    benefits: string[]
+  }> = []
+  
+  try {
+    const prices = await stripe.prices.list({
+      active: true,
+      lookup_keys: Object.keys(SPONSORSHIP_TIERS),
+      expand: ['data.currency_options'],
+    })
 
-  if (!prices.data) {
-    return null
-  }
-
-  const tiers = prices.data.filter(item => item.unit_amount).sort((a, b) => a.unit_amount! - b.unit_amount!).map(item => {
-    const lookupKey = item.lookup_key as keyof typeof SPONSORSHIP_TIERS
-    return {
-      title: SPONSORSHIP_TIERS[lookupKey].title,
-      lookupKey,
-      currencyOptions: item.currency_options!,
-      benefits: SPONSORSHIP_TIERS[lookupKey].benefits,
+    if (prices.data) {
+      tiers = prices.data.filter(item => item.unit_amount).sort((a, b) => a.unit_amount! - b.unit_amount!).map(item => {
+        const lookupKey = item.lookup_key as keyof typeof SPONSORSHIP_TIERS
+        return {
+          title: SPONSORSHIP_TIERS[lookupKey].title,
+          lookupKey,
+          currencyOptions: item.currency_options!,
+          benefits: SPONSORSHIP_TIERS[lookupKey].benefits,
+        }
+      })
     }
-  })
+  } catch (error) {
+    console.warn('Failed to fetch Stripe prices:', error)
+    // empty array as fallback
+    tiers = []
+  }
 
   return (
     <div>

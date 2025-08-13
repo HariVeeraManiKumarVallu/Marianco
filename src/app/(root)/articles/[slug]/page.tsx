@@ -4,7 +4,7 @@ import { ShareButtons } from '@/components/share-buttons'
 import { STATIC_CONFIG } from '@/constants/cache'
 import { formatDate } from '@/lib/formatters'
 import { getArticle, getRelatedArticles } from '@/lib/queries/strapi/article'
-import { ArticleResponse } from '@/types/article'
+import { ArticleResponse, ArticleListResponse } from '@/types/article'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -29,7 +29,9 @@ export async function generateStaticParams() {
     }
   )
 
-  const data: ArticleResponse = await res.json()
+const data: ArticleListResponse = await res.json()
+
+if (!data?.data) return []
 
   return data.data.map(article => ({
     slug: article.slug,
@@ -43,12 +45,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: article.title,
     openGraph: {
-      images: [article.image.formats?.large?.url || article.image.url],
+      images: [article.image?.formats?.large?.url || article?.image?.url],
     },
   }
 }
 
-export default async function ArticlePage({ params }: Props) {
+
+export default async function ArticlePage({ params }: Props){
   const slug = (await params).slug
   const article = await getArticle(slug)
 
@@ -58,9 +61,9 @@ export default async function ArticlePage({ params }: Props) {
     <div className="my-32 lg:my-section  px-8">
       <section className="prose mx-auto lg:prose-lg prose-img:rounded-lg mb-16 ">
         <h1 className="text-pretty">{article?.title}</h1>
-        <p className="text-muted-foreground -mt-4">
-          {formatDate(new Date(article.publishedDate))}
-        </p>
+            <p className="text-muted-foreground -mt-4">
+            {formatDate(new Date(article.publishedDate))}
+          </p>
         <ShareButtons title={article.title} summary={article.summary} />
         <div className="relative h-[400px] rounded-lg overflow-clip my-8">
           {article?.image && (
@@ -69,6 +72,7 @@ export default async function ArticlePage({ params }: Props) {
               alt={article.image.alternativeText || ''}
               fill
               className="rounded-lg"
+              priority={true}
             />
           )}
         </div>

@@ -3,6 +3,7 @@ import { STATIC_CONFIG } from '@/constants/cache'
 import { CartItem } from '@/store/cart-store'
 import { Product } from '@/types/product'
 import { StrapiData, StrapiResponse } from '@/types/strapi'
+import { notFound } from 'next/navigation'
 import qs from 'qs'
 
 export async function getProducts(query: string) {
@@ -217,13 +218,13 @@ export async function getMaxPrice(query: string) {
   )
 
   if (!res.ok) {
-    throw new Error('Failed to fetch price range')
+    notFound()
   }
 
   const data = await res.json()
 
   if (data.data.length === 0 || !data) {
-    throw new Error('Failed to fetch price range')
+    return 0
   }
 
   return data.data[0].basePrice
@@ -245,13 +246,13 @@ export async function getMinPrice(query: string) {
 
 
   if (!res.ok) {
-    throw new Error('Failed to fetch products')
+    notFound()
   }
 
   const data = await res.json()
 
   if (data.data.length === 0 || !data) {
-    throw new Error('Failed to fetch price range')
+    return 0
   }
 
   return data.data[0].basePrice

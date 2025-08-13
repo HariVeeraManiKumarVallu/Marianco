@@ -23,6 +23,7 @@ export default function CartItem({
           src={item.imageSrc}
           alt={item.title}
           fill
+          
           className="object-cover rounded-md"
         />
       </div>
@@ -42,7 +43,7 @@ export default function CartItem({
             >
               <Minus />
             </Button>
-            <Input className='w-12 text-center border-none rounded-none' type="number" value={item.quantity} onChange={(e) => updateQuantity(item.skuId, Number(e.target.value))} />
+            <Input id='number' className='w-12 text-center border-none rounded-none' type="number" value={item.quantity} onChange={(e) => updateQuantity(item.skuId, Number(e.target.value))} />
             <Button
               className='rounded-none'
               variant="ghost"
