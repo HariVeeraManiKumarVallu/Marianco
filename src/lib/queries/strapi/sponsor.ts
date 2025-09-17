@@ -1,33 +1,19 @@
-import { STATIC_CONFIG } from "@/constants/cache"
-import { StrapiImage, StrapiResponse } from "@/types/strapi"
-
-type Sponsor = {
-  name: string,
-  url: string,
-  logo: StrapiImage[]
-}
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL && process.env.NEXT_PUBLIC_APP_URL !== ''
+    ? process.env.NEXT_PUBLIC_API_URL
+    : 'http://localhost:1337';
 
 export async function getSponsors() {
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/sponsors?populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
+  try {
+    const url = new URL("/sponsors?populate=*", API_BASE);
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
     }
-  )
-
-console.log("Get Sponsors response:",res);
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch sponsors')
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching sponsors:", error);
+    throw error;
   }
-
-  const data: StrapiResponse<Sponsor[]> = await res.json()
-  return data.data
 }

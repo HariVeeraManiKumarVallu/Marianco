@@ -70,7 +70,7 @@ export function GetInvolvedForm() {
       })
 
       form.reset()
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to send request. Please try again later.',

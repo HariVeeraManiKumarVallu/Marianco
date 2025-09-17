@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, FormEvent, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import {
   PaymentElement,
   useStripe,
@@ -10,38 +10,28 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
+import { updateShippingCostAction } from "@/actions/shipping";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { updateShippingCost, updateShippingCostAction } from "@/actions/shipping";
 import { LoaderCircle } from "lucide-react";
 
 type CheckoutFormProps = {
-  intentId: string
-  lineItems: {
-    sku: string
-    quantity: number
-  }[]
-  setShippingCost: Dispatch<SetStateAction<number | null>>
+  intentId: string;
+  setShippingCost: Dispatch<SetStateAction<number | null>>;
 }
 
-export default function CheckoutForm({ lineItems, setShippingCost, intentId }: CheckoutFormProps) {
+export default function CheckoutForm({ setShippingCost, intentId }: CheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isShippingAddressComplete, setIsShippingAddressComplete] = useState(false)
+  const [isShippingAddressComplete, setIsShippingAddressComplete] = useState(false);
 
-  const paymentContainerRef = useRef<null | HTMLDivElement>(null)
-
-  const { toast } = useToast()
+  const paymentContainerRef = useRef<HTMLDivElement | null>(null);
+  const { toast } = useToast();
 
   const handlePayment = async () => {
-
-    if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return null
-    }
+    if (!stripe || !elements) return null;
 
     setIsLoading(true);
 
@@ -52,24 +42,19 @@ export default function CheckoutForm({ lineItems, setShippingCost, intentId }: C
       },
     });
 
-    console.log(error)
+    console.log(error);
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
+    if (error?.type === "card_error" || error?.type === "validation_error") {
       toast({
-        title: 'Error',
+        title: "Error",
         description: error.message,
-        variant: 'destructive'
+        variant: "destructive",
       });
     } else {
       toast({
-        title: 'Error',
-        description: 'An unexpected error occured.',
-        variant: 'destructive'
+        title: "Error",
+        description: "An unexpected error occurred.",
+        variant: "destructive",
       });
     }
 
@@ -77,9 +62,9 @@ export default function CheckoutForm({ lineItems, setShippingCost, intentId }: C
   };
 
   async function handleShippingAddress() {
-    const addressElement = elements?.getElement('address', { mode: 'shipping' });
-    const paymentElement = elements?.getElement('payment')
-    if (!addressElement || !paymentElement) return
+    const addressElement = elements?.getElement("address", { mode: "shipping" });
+    const paymentElement = elements?.getElement("payment");
+    if (!addressElement || !paymentElement) return;
 
     setIsLoading(true);
 
@@ -93,83 +78,107 @@ export default function CheckoutForm({ lineItems, setShippingCost, intentId }: C
         adress2: value.address.line2,
         region: value.address.state,
         zip: value.address.postal_code,
-      })
+      });
 
       if (response.error) {
         toast({
-          title: 'Error',
-          description: 'Unable to fetch shipping cost, please try again!',
-          variant: 'destructive'
-        })
+          title: "Error",
+          description: "Unable to fetch shipping cost, please try again!",
+          variant: "destructive",
+        });
       }
 
       if (response.data) {
-        setShippingCost(response.data / 100)
-        setIsShippingAddressComplete(complete)
+        setShippingCost(response.data / 100);
+        setIsShippingAddressComplete(complete);
       }
     }
-    setIsLoading(false)
+    setIsLoading(false);
 
-    addressElement.blur()
-    paymentElement.focus()
-    paymentContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    return
+    addressElement.blur();
+    paymentElement.focus();
+    paymentContainerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   const paymentElementOptions = {
-    layout: {
-      type: 'tabs'
-    },
+    layout: { type: "tabs" },
     readOnly: !isShippingAddressComplete,
-  } satisfies StripePaymentElementOptions
+  } satisfies StripePaymentElementOptions;
 
-  if (!stripe || !elements) return null
+  if (!stripe || !elements) return null;
 
   return (
-    <div className='w-96 space-y-12 '>
-      <Card className={cn('relative', {
-        'opacity-60  border-slate-200': isShippingAddressComplete
-      })}>
-        {isShippingAddressComplete ? <div className='absolute inset-0 opacity-0 z-[1000] rounded-lg' /> : null}
-        <CardHeader>
-          <CardTitle >
-            <h3 >Shipping Address</h3>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <AddressElement options={{ mode: 'shipping' }} />
-        </CardContent>
-        <CardFooter>
-          <Button type='button' disabled={isShippingAddressComplete || !stripe || !elements} className="w-full " onClick={handleShippingAddress}> <span >
-            {isLoading ? <LoaderCircle className="animate-spin" /> : "Proceed to payment"}
-          </span>
-          </Button>
-        </CardFooter>
-      </Card>
-
-      <Card ref={paymentContainerRef} className={cn('relative', {
-        'opacity-60 border-slate-200': !isShippingAddressComplete
-      })}>
-        {!isShippingAddressComplete ? <div className='absolute inset-0 opacity-0 z-[1000] rounded-lg' /> : null}
+    <div className="w-96 space-y-12">
+      <Card
+        className={cn("relative", {
+          "opacity-60 border-slate-200": isShippingAddressComplete,
+        })}
+      >
+        {isShippingAddressComplete ? (
+          <div className="absolute inset-0 opacity-0 z-[1000] rounded-lg" />
+        ) : null}
         <CardHeader>
           <CardTitle>
-            <h3 >Payment Details</h3>
+            <h3>Shipping Address</h3>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <PaymentElement options={paymentElementOptions} />
-          <AddressElement options={{ mode: 'billing' }} />
+          <AddressElement options={{ mode: "shipping" }} />
         </CardContent>
         <CardFooter>
-          <Button type='button' onClick={handlePayment} disabled={isLoading || !stripe || !elements || !isShippingAddressComplete} className="w-full " id="submit">
-            <span >
-              {isLoading ? <LoaderCircle className="animate-spin" /> : "Pay now"}
+          <Button
+            type="button"
+            disabled={isShippingAddressComplete || !stripe || !elements}
+            className="w-full"
+            onClick={handleShippingAddress}
+          >
+            <span>
+              {isLoading ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                "Proceed to payment"
+              )}
             </span>
           </Button>
         </CardFooter>
       </Card>
-    </ div >
+
+      <Card
+        ref={paymentContainerRef}
+        className={cn("relative", {
+          "opacity-60 border-slate-200": !isShippingAddressComplete,
+        })}
+      >
+        {!isShippingAddressComplete ? (
+          <div className="absolute inset-0 opacity-0 z-[1000] rounded-lg" />
+        ) : null}
+        <CardHeader>
+          <CardTitle>
+            <h3>Payment Details</h3>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <PaymentElement options={paymentElementOptions} />
+          <AddressElement options={{ mode: "billing" }} />
+        </CardContent>
+        <CardFooter>
+          <Button
+            type="button"
+            onClick={handlePayment}
+            disabled={isLoading || !stripe || !elements || !isShippingAddressComplete}
+            className="w-full"
+            id="submit"
+          >
+            <span>
+              {isLoading ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                "Pay now"
+              )}
+            </span>
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
-
-
 }

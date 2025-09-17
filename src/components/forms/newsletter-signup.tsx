@@ -29,12 +29,12 @@ export default function NewsletterSignup() {
     },
   })
 
-  const handleSubmit = async ({ email }: NewsletterSignupData) => {
+  const handleSubmit = async ({ email, gdprConsent }: NewsletterSignupData) => {
     try {
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, gdprConsent }),
       })
 
       const data = await response.json()
@@ -45,11 +45,13 @@ export default function NewsletterSignup() {
           description: 'Thank you for subscribing to our newsletter.',
         })
 
-        return form.resetField('email')
+        form.resetField('email')
+        form.resetField('gdprConsent')
       } else {
         throw new Error(data.message || 'Something went wrong')
       }
-    } catch (error) {
+    } catch (_error) {
+      console.error(_error)
       toast({
         title: 'Error',
         description: 'Failed to subscribe. Please try again later.',
@@ -60,8 +62,8 @@ export default function NewsletterSignup() {
 
   return (
     <article className="scroll-m-16 bg-background py-section" id="newsletter">
-      <div className="container  ">
-        <div className="relative rounded-lg shadow-lg p-8 text-center ">
+      <div className="container">
+        <div className="relative rounded-lg shadow-lg p-8 text-center">
           <h2 className="text-3xl font-bold mb-4">Stay Informed</h2>
           <p className="text-muted-foreground mb-8 max-w-prose mx-auto">
             Join our newsletter to receive updates about our mission, impact
@@ -81,7 +83,7 @@ export default function NewsletterSignup() {
                       <Input
                         placeholder="Enter your email"
                         {...field}
-                        id='your-email'
+                        id="your-email"
                         className="flex-1 focus-visible:ring-brand-blue-900"
                       />
                     </FormControl>

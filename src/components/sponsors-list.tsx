@@ -1,9 +1,15 @@
 import { getSponsors } from '@/lib/queries/strapi/sponsor'
 import Image from 'next/image'
 
+type Sponsor = {
+  name: string;
+  url: string;
+  logo: { url: string; height: number; width: number }[];
+};
+
 export default async function SponsorsList() {
 
-  const sponsors = await getSponsors()
+  const sponsors: Sponsor[] = await getSponsors()
 
   if (!sponsors || sponsors.length === 0) return null
 
@@ -12,9 +18,14 @@ export default async function SponsorsList() {
       <div className="container">
         <h2 className="mb-12 lg:mb-16 text-center">Our Sponsors</h2>
         <ul className="flex gap-12  items-center justify-center ">
-          {sponsors.map(sponsor => (
+          {sponsors.map((sponsor) => (
             <li key={sponsor.name}>
-              <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+              <a
+                href={sponsor.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`Visit ${sponsor.name} website`}
+              >
                 <Image
                   src={sponsor.logo[0].url}
                   alt={sponsor.name}

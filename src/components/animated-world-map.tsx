@@ -11,7 +11,8 @@ import {
 import { feature } from 'topojson-client'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { GeometryCollection, Topology } from 'topojson-specification'
+import type { FeatureCollection, Geometry } from 'geojson'
+import type { Topology, GeometryCollection } from 'topojson-specification'
 
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
@@ -77,7 +78,7 @@ const locations: Location[] = [
 export default function AnimatedWorldMap() {
   const [currentLocationIndex, setCurrentLocationIndex] = useState<number>(0)
   const [isMounted, setIsMounted] = useState(false)
-  const [geoData, setGeoData] = useState<GeometryCollection | null>(null)
+  const [geoData, setGeoData] = useState<FeatureCollection<Geometry, object> | null>(null)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -90,11 +91,10 @@ export default function AnimatedWorldMap() {
     fetch(geoUrl)
       .then(response => response.json())
       .then((topoData: Topology) => {
+        const firstObjectKey = Object.keys(topoData.objects)[0]
         const geoData = feature(
           topoData,
-          topoData.objects[
-            Object.keys(topoData.objects)[0]
-          ] as GeometryCollection
+          topoData.objects[firstObjectKey] as GeometryCollection
         )
         setGeoData(geoData)
       })
@@ -103,6 +103,7 @@ export default function AnimatedWorldMap() {
       clearInterval(interval)
     }
   }, [])
+
   const currentLocation = locations[currentLocationIndex]
 
   if (!isMounted || !geoData) {
@@ -110,13 +111,10 @@ export default function AnimatedWorldMap() {
   }
 
   return (
-    <div className="relative w-full overflow-hidden ">
+    <div className="relative w-full overflow-hidden">
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{ scale: 120, center: [0, 45] }}
-
-        // width={dimensions.width}
-        // height={dimensions.height}
       >
         <Geographies geography={geoData}>
           {({ geographies }) =>
@@ -126,8 +124,6 @@ export default function AnimatedWorldMap() {
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  // fill="#EAEAEC"
-                  // stroke="#2C3E50"
                   fill="#2C3E50"
                   stroke="#EAEAEC"
                   strokeWidth={0.5}
@@ -136,16 +132,6 @@ export default function AnimatedWorldMap() {
               ))
           }
         </Geographies>
-        {/* <Line
-          from={currentLocation.coordinates}
-          to={[
-            currentLocation.coordinates[0],
-            currentLocation.coordinates[1] + 10,
-          ]}
-          stroke="#F00"
-          strokeWidth={2}
-          strokeLinecap="round"
-        /> */}
         <Marker coordinates={currentLocation.coordinates}>
           <motion.circle
             r={4}
@@ -171,19 +157,10 @@ export default function AnimatedWorldMap() {
               y="-128"
               width="128"
               height="140"
-              style={{
-                scale: 0,
-              }}
+              style={{ scale: 0 }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, scale: 1 }}
-              // exit={{ opacity: 0, scale: 0 }}
               transition={{ duration: 0.7 }}
-              // transition={{
-              //   type: 'spring',
-              //   stiffness: 300,
-              //   damping: 30,
-              //   duration: 0.7,
-              // }}
             >
               <Card className="text-center bg-slate-900/90 text-white">
                 <CardHeader className="p-0">
@@ -192,15 +169,7 @@ export default function AnimatedWorldMap() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-2">
-                  {/* <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  > */}
-                  {/* <p className="text-xs">Child Abuse Cases </p>
-                  <p className="text-[8px]">(per 100,000)</p> */}
-                  <p className="text-sm">{currentLocation.issue}</p>{' '}
-                  {/* </motion.div> */}
+                  <p className="text-sm">{currentLocation.issue}</p>
                 </CardContent>
               </Card>
             </motion.foreignObject>

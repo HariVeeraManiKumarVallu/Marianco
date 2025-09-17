@@ -60,7 +60,7 @@ export function EventSignupForm({
 
       form.reset()
       onSuccess()
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to submit registration. Please try again later.',
@@ -152,7 +152,7 @@ export function EventSignupForm({
           <FormField
             control={form.control}
             name="gdprConsent"
-            render={({ field }) => (
+            render={() => (
               <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                 <FormControl>
                   <GDPRCheckbox control={form.control} />

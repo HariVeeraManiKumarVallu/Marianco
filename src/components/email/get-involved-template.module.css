@@ -1,0 +1,64 @@
+.wrapper {
+  background-color: #f6f9fc;
+  font-family: Arial, sans-serif;
+  padding: 40px 20px;
+}
+
+.container {
+  background-color: #ffffff;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  color: #1a1a1a;
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 10px;
+}
+
+.contactInfo {
+  margin-bottom: 20px;
+}
+
+.contactHeader {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.contactDetails {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+.interestDetails {
+  margin-bottom: 20px;
+}
+
+.interestHeader {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.area {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+.message {
+  color: #666;
+  font-size: 14px;
+  margin-top: 10px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}

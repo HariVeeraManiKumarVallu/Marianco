@@ -53,7 +53,7 @@ export function ContactForm() {
       })
 
       form.reset()
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to send message. Please try again later.',

@@ -28,13 +28,18 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
+const appUrl =
+  process.env.NEXT_PUBLIC_APP_URL && process.env.NEXT_PUBLIC_APP_URL !== ''
+    ? process.env.NEXT_PUBLIC_APP_URL
+    : 'http://localhost:3000'
+
 export const metadata: Metadata = {
   title: {
     default: 'Marianco',
     template: '%s | Marianco',
   },
   description: 'Your description here',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || ''),
+  metadataBase: new URL(appUrl),
   openGraph: {
     type: 'website',
     locale: 'en_US',
