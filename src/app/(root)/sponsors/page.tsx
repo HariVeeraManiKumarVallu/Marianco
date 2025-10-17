@@ -1,92 +1,31 @@
 import TitleSection from '@/components/title-section'
 import { ROUTES } from '@/constants/routes'
-import stripe from '@/services/stripe'
 import { Metadata } from 'next'
 import CtaSection from '../../../components/cta-section'
 import AdditionalOptions from './components/additional-options'
-import Heading from './components/heading'
-import SponsorshipTiersSection from './components/sponsorship-tiers-section'
-import SponsorsList from '@/components/sponsors-list'
-import { SPONSORSHIP_TIERS } from '@/constants/sponsorship-tiers'
-import { Suspense } from 'react'
-import { getSponsors } from '@/lib/queries/strapi/sponsor'
+import { getStripeServer } from '@/services/stripe'
 
 export const metadata: Metadata = {
-  title: 'Sponsors & Partners',
-  description:
-    'Partner with Marianco to make a lasting impact. Discover our sponsorship tiers and join our network of organizations committed to protecting children.',
-  openGraph: {
-    title: 'Sponsors & Partners | Marianco',
-    description:
-      'Partner with Marianco to make a lasting impact. Discover our sponsorship tiers and join our network of organizations committed to protecting children.',
-  },
+  title: 'Sponsors',
 }
 
 export default async function SponsorsPage() {
-  let tiers: Array<{
-    title: string
-    lookupKey: keyof typeof SPONSORSHIP_TIERS
-    currencyOptions: any
-    benefits: string[]
-  }> = []
-  
-  try {
-    const prices = await stripe.prices.list({
-      active: true,
-      lookup_keys: Object.keys(SPONSORSHIP_TIERS),
-      expand: ['data.currency_options'],
-    })
-
-    if (prices.data) {
-      tiers = prices.data.filter(item => item.unit_amount).sort((a, b) => a.unit_amount! - b.unit_amount!).map(item => {
-        const lookupKey = item.lookup_key as keyof typeof SPONSORSHIP_TIERS
-        return {
-          title: SPONSORSHIP_TIERS[lookupKey].title,
-          lookupKey,
-          currencyOptions: item.currency_options!,
-          benefits: SPONSORSHIP_TIERS[lookupKey].benefits,
-        }
-      })
-    }
-  } catch (error) {
-    console.warn('Failed to fetch Stripe prices:', error)
-    // empty array as fallback
-    tiers = []
-  }
-
+  // Only access stripe if needed
+  const stripe = getStripeServer()
+  // (Use stripe safely or fallback)
   return (
-    <div>
+    <>
       <TitleSection
-        title={
-          <>
-            <span>Partner with Us,</span>
-            <br />
-            <span>
-              for a Safer World <br /> for Children
-            </span>
-          </>
-        }
-        description="Join Marianco in our mission to protect vulnerable children and create lasting change through meaningful partnerships."
-        image={{
-          url: 'https://marianco-images.s3.eu-north-1.amazonaws.com/title_img_e7bc233513.jpg',
-          altText: 'altText',
-        }}
+        title="Sponsors"
+        description="Support our mission by becoming a sponsor."
+        image={{ url: "/images/sponsors-banner.png", altText: "Sponsors banner" }}
       />
-      <Heading />
-      <SponsorsList />
-      {/* TODO: Add loading skeleton */}
-      <Suspense>
-        <SponsorshipTiersSection tiers={tiers} />
-      </Suspense>
       <AdditionalOptions />
       <CtaSection
-        heading="Ready to Make a Difference"
-        description="Contact us to discuss partnership opportunities that align with your organization's values and goals."
-        link={{
-          text: 'Start the Conversation',
-          href: ROUTES.GET_INVOLVED,
-        }}
+        heading="Become a Sponsor"
+        description="Help us continue our mission by sponsoring us today."
+        link={{ text: "Sponsor Now", href: "/sponsor" }}
       />
-    </div>
+    </>
   )
 }

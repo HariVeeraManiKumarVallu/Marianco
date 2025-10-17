@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   },
 }
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
-    <>
+    <main suppressHydrationWarning>
       <HeroSection />
       <AboutSection />
       <SponsorsList />
@@ -30,6 +30,6 @@ export default function HomePage() {
       <ArticlesWrapper />
       <DonationsSection />
       <NewsletterSignup />
-    </>
+    </main>
   )
 }

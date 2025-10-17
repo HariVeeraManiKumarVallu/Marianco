@@ -17,6 +17,12 @@ export default async function SponsorsList() {
     <div className="bg-slate-100 py-section ">
       <div className="container">
         <h2 className="mb-12 lg:mb-16 text-center">Our Sponsors</h2>
+        <img
+          src="/images/sponsors-banner.png"
+          alt="Sponsors"
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+          className="w-full h-auto mb-6"
+        />
         <ul className="flex gap-12  items-center justify-center ">
           {sponsors.map((sponsor) => (
             <li key={sponsor.name}>

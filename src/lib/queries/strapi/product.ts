@@ -6,26 +6,49 @@ import { StrapiData, StrapiResponse } from '@/types/strapi'
 import { notFound } from 'next/navigation'
 import qs from 'qs'
 
-export async function getProducts(query: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
+const API_BASE = (process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api').replace(/\/$/, '');
+
+async function safeJson(url: string) {
+  try {
+    const res = await fetch(url, {
       cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch products')
+      next: { revalidate: 300 }
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
   }
+}
 
-  const data = await res.json()
-  return data as StrapiResponse<Product[]>
+// Categories
+export async function getCategories() {
+  const data = await safeJson(`${API_BASE}/product-categories?fields=title`);
+  return data?.data || []; // return [] if 404/err
+}
+
+// Lowest price (optional)
+export async function getLowestPrice() {
+  const data = await safeJson(`${API_BASE}/products?pagination[limit]=1&fields[0]=basePrice&sort=basePrice:asc`);
+  const first = data?.data?.[0];
+  return first?.attributes?.basePrice ?? null;
+}
+
+// Highest price
+export async function getHighestPrice() {
+  const data = await safeJson(`${API_BASE}/products?pagination[limit]=1&fields[0]=basePrice&sort=basePrice:desc`);
+  const first = data?.data?.[0];
+  return first?.attributes?.basePrice ?? null;
+}
+
+// Product list
+export async function getProducts(page = 1, pageSize = 10) {
+  const url = `${API_BASE}/products?pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate=*`;
+  const data = await safeJson(url);
+  return {
+    items: data?.data || [],
+    meta: data?.meta || { pagination: { page, pageSize, total: 0, pageCount: 0 } }
+  };
 }
 
 export async function getProduct(id: string) {
@@ -179,81 +202,4 @@ export async function getProductSku(item: Omit<CartItem, 'price'>) {
   }
 
   return formattedData
-}
-
-export async function getCategories() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/product-categories?fields=title`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch products')
-  }
-
-  const data = await res.json()
-  return data
-}
-
-export async function getMaxPrice(query: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}&sort=basePrice:desc`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-
-  if (!res.ok) {
-    notFound()
-  }
-
-  const data = await res.json()
-
-  if (data.data.length === 0 || !data) {
-    return 0
-  }
-
-  return data.data[0].basePrice
-}
-
-export async function getMinPrice(query: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?${query}&sort=basePrice:asc`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-
-
-  if (!res.ok) {
-    notFound()
-  }
-
-  const data = await res.json()
-
-  if (data.data.length === 0 || !data) {
-    return 0
-  }
-
-  return data.data[0].basePrice
 }

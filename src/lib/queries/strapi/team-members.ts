@@ -1,23 +1,17 @@
 import { STATIC_CONFIG } from '@/constants/cache'
 
-export async function getTeamMembers() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/team-members?sort=hierarchy&populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
+const API = (process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api').replace(/\/$/, '');
+const fallback = [
+  { id: 1, attributes: { name: 'Placeholder Member', role: 'Role', bio: 'Replace with real data', hierarchy: 999 } }
+];
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch team members')
-  } else {
-    const data = await res.json()
-    return data
+export async function getTeamMembers() {
+  try {
+    const res = await fetch(`${API}/team-members?sort=hierarchy&populate=image`, { cache: 'no-store' });
+    if (!res.ok) return fallback;
+    const json = await res.json();
+    return Array.isArray(json?.data) && json.data.length ? json.data : fallback;
+  } catch {
+    return fallback;
   }
 }

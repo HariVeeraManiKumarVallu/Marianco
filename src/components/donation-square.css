@@ -1,0 +1,6 @@
+.donation-card-root { display:flex; flex-direction:column; gap:.75rem; max-width:380px; }
+.donation-label { font-size:.7rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; }
+.donation-message { font-size:.75rem; margin-top:.25rem; }
+.donation-button { border:1px solid #000; padding:.55rem .9rem; font-size:.8rem; border-radius:4px; background:#111; color:#fff; cursor:pointer; }
+.donation-button:disabled { opacity:.5; cursor:not-allowed; }
+.donation-card-container { min-height:60px; border:1px dashed #ccc; border-radius:4px; padding:.5rem; }

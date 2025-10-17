@@ -1,19 +1,15 @@
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL && process.env.NEXT_PUBLIC_APP_URL !== ''
-    ? process.env.NEXT_PUBLIC_API_URL
-    : 'http://localhost:1337';
+const rawBase = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
+const apiBase = rawBase.replace(/\/$/, ''); // strip trailing slash if any
+const build = (path: string) => `${apiBase}/${path.replace(/^\/+/, '')}`;
 
 export async function getSponsors() {
   try {
-    const url = new URL("/sponsors?populate=*", API_BASE);
-    const response = await fetch(url.toString());
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching sponsors:", error);
-    throw error;
+    const res = await fetch(build('sponsors'), { cache: 'no-store' });
+    if (res.status === 401 || res.status === 403) return [];
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch {
+    return [];
   }
 }

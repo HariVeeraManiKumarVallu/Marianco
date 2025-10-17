@@ -1,11 +1,15 @@
 import { STATIC_CONFIG } from '@/constants/cache'
-import { EventData, EventResponse } from '@/types/event'
+import { EventData } from '@/types/event'
 import { notFound } from 'next/navigation'
 
-export async function getEvent(slug: string): Promise<EventData | undefined> {
+const rawBase = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
+const apiBase = rawBase.replace(/\/$/, '');
+const build = (p: string) => `${apiBase}/${p.replace(/^\/+/, '')}`;
+
+export async function getEvent(): Promise<EventData | undefined> {
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[slug][$eq]=${slug}&populate=*`,
+    build('events'),
     {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -37,51 +41,29 @@ type EventResponse = {
   return data.data[0]; // Return unwrapped event list for direct component usage
 }
 
-export async function getUpcomingEvents(id?: string){
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[isPastEvent][$eq]=false&populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch events')
+export async function getUpcomingEvents() {
+  const base = (process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api').replace(/\/$/, '');
+  const url = new URL(`${base}/events`);
+  // Temporarily remove isPastEvent filter until data seeded; re-add later
+  // url.searchParams.set('filters[isPastEvent][$eq]', 'false');
+  url.searchParams.set('populate', '*');
+  try {
+    const res = await fetch(url.toString(), { cache: 'no-store' });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch {
+    return [];
   }
-
-  const data = await res.json()
-  return data.data
 }
-
 
 export async function getAllActiveEvents() {
-  
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events?filters[isPastEvent][$eq]=false&sort=date:asc&populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch events')
-  }
-
-  type EventResponse = {
-  data: EventData[]
-}
-  const data: EventResponse = await res.json()
-  return data.data
+  const base = (process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api').replace(/\/$/, '');
+  const res = await fetch(`${base}/events?populate=*`, {
+    cache: 'force-cache',
+    next: { revalidate: 300 }
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.data || [];
 }

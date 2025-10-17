@@ -8,33 +8,10 @@ type ProductsListProp = {
 }
 
 export default async function ProductsGrid({ searchParams }: ProductsListProp) {
-  const query = qs.stringify(
-    {
-      filters: {
-        product_category: {
-          title: {
-            $eq: searchParams?.category?.split(','),
-          },
-        },
-        basePrice: {
-          $gte: searchParams?.price?.split('-')?.[0],
-          $lte: searchParams?.price?.split('-')?.[1],
-        },
-        search: searchParams?.search,
-      },
-      pagination: {
-        page: searchParams?.page || 1,
-        pageSize: 10,
-      },
-      sort: searchParams?.sort,
-      populate: '*',
-    },
-    {
-      encodeValuesOnly: true,
-    }
-  )
+  const page = Number(searchParams?.page) || 1;
+  const pageSize = 10;
 
-  const { data: products, meta } = await getProducts(query)
+  const { items: products, meta } = await getProducts(page, pageSize);
 
   return (
     <div className="flex flex-1 flex-col space-y-16">
@@ -45,7 +22,7 @@ export default async function ProductsGrid({ searchParams }: ProductsListProp) {
       ) : (
         <>
           <div className="grid flex-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {products?.map(product => (
+            {products?.map((product: any) => (
               <ProductCard product={product} key={product.id} />
             ))}
           </div>
