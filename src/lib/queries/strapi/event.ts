@@ -1,44 +1,23 @@
 import { STATIC_CONFIG } from '@/constants/cache'
-import { EventData } from '@/types/event'
-import { notFound } from 'next/navigation'
+import { EventData, EventResponse } from '@/types/event'
 
 const rawBase = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337/api';
 const apiBase = rawBase.replace(/\/$/, '');
 const build = (p: string) => `${apiBase}/${p.replace(/^\/+/, '')}`;
 
-export async function getEvent(): Promise<EventData | undefined> {
+export async function getEvent(slug?: string): Promise<EventData | undefined> {
+  const base = `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events`;
+  const url = slug
+    ? `${base}?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=*`
+    : `${base}?populate=*`;
 
-  const res = await fetch(
-    build('events'),
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      cache: 'force-cache',
-      next: {
-        revalidate: STATIC_CONFIG.revalidate,
-      },
-    }
-    
-  )
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}` },
+  });
+  if (!res.ok) return undefined;
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch event')
-  }
-
-  // Local override of EventResponse to ensure correct array shape from Strapi
-type EventResponse = {
-  data: EventData[]
-}
-
-// Guard against missing events (e.g., invalid slug)
-  const data: EventResponse = await res.json()
-  if (!data.data || data.data.length === 0) {
-    notFound();
-}
-  console.log('Fetched event:', data.data.length)
-  
-  return data.data[0]; // Return unwrapped event list for direct component usage
+  const data: EventResponse = await res.json();
+  return data.data?.[0];
 }
 
 export async function getUpcomingEvents() {
@@ -62,7 +41,7 @@ export async function getAllActiveEvents() {
   const res = await fetch(`${base}/events?populate=*`, {
     cache: 'force-cache',
     next: { revalidate: 300 }
-  });
+  } as any);
   if (!res.ok) return [];
   const data = await res.json();
   return data.data || [];

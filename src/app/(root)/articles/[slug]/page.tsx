@@ -5,29 +5,24 @@ import { STATIC_CONFIG } from '@/constants/cache'
 import { formatDate } from '@/lib/formatters'
 import { getArticle } from '@/lib/queries/strapi/article'
 import type { ArticleListResponse } from '@/types/article'
-import type { Metadata } from 'next'
-import Image from 'next/image'
-import { notFound } from 'next/navigation'
 import RecentArticlesSection from '../recent-articles-section'
+import React from 'react';
+import { notFound } from 'next/navigation';
 
-export const revalidate = STATIC_CONFIG?.revalidate ?? 60
-export const dynamic = 'force-dynamic' as const
+/* using notFound from 'next/navigation' */
 
-interface Props { params: { slug: string } }
+export const revalidate = 60
+export const dynamic = 'force-static'
 
+// Avoid failing builds if CMS is offline
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/articles`, {
-    headers: { Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}` },
-    next: { revalidate },
-  })
-  const data: ArticleListResponse = await res.json()
-  if (!data?.data) return []
-  return data.data.map((article: ArticleListResponse['data'][number]) => ({
-    slug: article.slug,
-  }))
+  try {
+    return []
+  } catch {
+    return []
+  }
 }
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Record<string, any>> {
   const slug = params.slug
   const article = await getArticle(slug)
   if (!article) return {}
@@ -39,8 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   }
 }
-
-export default async function ArticlePage({ params }: Props) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const slug = params.slug
   const article = await getArticle(slug)
   if (!article) notFound()
@@ -56,16 +50,14 @@ export default async function ArticlePage({ params }: Props) {
         <ShareButtons title={a.title} summary={a.summary} />
         <div className="relative h-[400px] rounded-lg overflow-clip my-8">
           {a.image && (
-            <Image
+            <img
               src={a.image.formats?.large?.url || a.image.url}
               alt={a.image.alternativeText || ''}
-              fill
-              className="rounded-lg"
-              priority
+              className="absolute inset-0 w-full h-full object-cover rounded-lg"
+              loading="eager"
             />
           )}
         </div>
-        {a.content && <ContentRenderer content={a.content} />}
         <div className="mt-16">
           <ShareButtons title={a.title} summary={a.summary} className="w-full" />
         </div>

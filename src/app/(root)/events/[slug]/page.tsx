@@ -1,89 +1,16 @@
-import ContentRenderer from '@/components/content-renderer'
-import { EventActions } from '@/components/event-actions'
-import { Icons } from '@/components/icons'
-import { STATIC_CONFIG } from '@/constants/cache'
-import { formatTime } from '@/lib/formatters'
-import { getEvent } from '@/lib/queries/strapi/event'
-import { EventResponse } from '@/types/event'
-import Image from 'next/image'
-import { notFound } from 'next/navigation'
-import OtherEventsSection from './other-events-section'
+import React from 'react';
+import { notFound } from 'next/navigation';
+import { getEvent } from '@/lib/queries/strapi/event';
 
-interface Props {
-  params: Promise<{ slug: string }>
-}
+export const revalidate = 60;
+export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/events`, {
-    headers: {
-      Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-    },
-    next: {
-      revalidate: STATIC_CONFIG.revalidate,
-    },
-  })
-
-  const data: EventResponse = await res.json()
-
-  return data.data.map(event => ({
-   slug: event.slug,
-  }))
+  return []; // avoid CMS fetch during build
 }
 
-export default async function EventPage({ params }: Props) {
-  const slug = (await params).slug
-  const event = await getEvent(slug)
-  
-
-  if (!event) notFound()
-
-  return (
-    <div className="my-32 lg:my-section  px-8">
-      <section className="prose mx-auto lg:prose-lg prose-img:rounded-lg mb-16 ">
-        <header>
-          <h1>{event?.title}</h1>
-
-          <div className="flex items-center gap-4 text-muted-foreground -mt-4">
-            <div className="flex items-center gap-2">
-              <Icons.calender className="size-4" />
-              {new Date(event.date).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </div>
-            <div className="flex items-center gap-2">
-              <Icons.clock className="size-4" />
-              {formatTime(event.time)}
-            </div>
-            <div className="flex items-center gap-2">
-              <Icons.mapPin className="size-4" />
-              {event.location}
-            </div>
-          </div>
-        </header>
-
-        <EventActions event={event} variant="detail" className="my-8" />
-
-        {event?.image && (
-          <div className="relative h-[400px] rounded-lg overflow-clip mb-8">
-            <Image
-              src={event.image.formats?.large?.url || event.image.url}
-              alt={event.image.alternativeText || event.title}
-              fill
-              
-              className="rounded-lg object-cover"
-            />
-          </div>
-        )}
-
-        {event.content && <ContentRenderer content={event.content} />}
-        <EventActions event={event} variant="detail" className="mt-16" />
-      </section>
-      <section className="my-section bg-beige py-section">
-        <OtherEventsSection id={event.documentId} /> 
-      </section>
-    </div>
-  )
+export default async function EventPage({ params }: { params: { slug: string } }) {
+  const event = await getEvent(params.slug).catch(() => undefined);
+  if (!event) notFound();
+  return <div />; // TODO: render details
 }
