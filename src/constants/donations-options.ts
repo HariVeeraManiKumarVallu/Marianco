@@ -1,4 +1,5 @@
-import { AvailableCurrency } from '@/types/currency'
+// Define AvailableCurrency here if not exported from '@/types/currency'
+export type AvailableCurrency = 'USD' | 'EUR' | 'SEK'
 import { z } from 'zod'
 
 type AmountConfig = {

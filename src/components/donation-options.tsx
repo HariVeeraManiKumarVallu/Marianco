@@ -26,6 +26,9 @@ import { Label } from './ui/label'
 import { CHECKOUT_TYPES } from '@/constants/checkout'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { localCurrencyAtom, selectedCurrencyAtom } from '@/store/currency-atom'
+import { createRecurringDonation } from '@/lib/donations'
+import DonationSquare from './donation-square'
+import './donation-square.css'
 
 const initialErrorState = {
   oneTime: '',
@@ -34,13 +37,13 @@ const initialErrorState = {
   project: '',
 }
 
-export default function DonationOptionsCards() {
+export function DonationOptionsCards() {
   const [oneTimeAmount, setOneTimeAmount] = useState('')
   const [customAmountInput, setCustomAmountInput] = useState('')
   const [monthlyAmount, setMonthlyAmount] = useState('')
   const [selectedSponsorship, setSelectedSponsorship] = useState('')
   const [selectedProject, setSelectedProject] = useState('')
-  const currency = useAtomValue(selectedCurrencyAtom)
+  const currency = useAtomValue(selectedCurrencyAtom) as keyof typeof donationsConfig.oneTime.fixedOneTimeAmounts
   const [loadingStates, setLoadingStates] = useState<
     Record<DonationType, boolean>
   >({
@@ -51,6 +54,10 @@ export default function DonationOptionsCards() {
   })
 
   const [errors, setErrors] = useState(initialErrorState)
+  const [squareNonce, setSquareNonce] = useState<string | null>(null)
+  const [recurringLoading, setRecurringLoading] = useState(false)
+  const [email, setEmail] = useState('')
+  const planId = process.env.NEXT_PUBLIC_SQUARE_PLAN_ID
 
   function clearError(type: DonationType) {
     setErrors(prev => ({
@@ -99,6 +106,21 @@ export default function DonationOptionsCards() {
     }
   }
 
+  async function startRecurring() {
+    if (!squareNonce) { /* Optionally trigger tokenize via a ref */ return; }
+    if (!email) { setErrors(e => ({ ...e, monthly: 'Email required' })); return; }
+    setRecurringLoading(true);
+    try {
+      const resp = await createRecurringDonation({ email, nonce: squareNonce, planId });
+      console.log('Recurring result', resp);
+      // TODO: surface success UI
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setRecurringLoading(false);
+    }
+  }
+
   if (!currency) return null
 
   return (
@@ -119,7 +141,7 @@ export default function DonationOptionsCards() {
           </CardHeader>
           <CardContent className="mt-auto">
             <div className="grid grid-cols-2 gap-4 mb-8">
-              {donationsConfig.oneTime.fixedOneTimeAmounts[currency].amounts.map(amount => (
+              {donationsConfig.oneTime.fixedOneTimeAmounts[currency as keyof typeof donationsConfig.oneTime.fixedOneTimeAmounts].amounts.map(amount => (
                 <Button
                   key={amount}
                   variant={
@@ -311,6 +333,32 @@ export default function DonationOptionsCards() {
             </Button>
           </CardFooter>
         </Card>
+      </div> {/* <-- Add this closing tag for the grid div */}
+      <div className="mt-4">
+        <DonationSquare onNonce={n => setSquareNonce(n)} />
+        <div className="mb-2">
+          <Label htmlFor="recurring-email">Email for Monthly Donation</Label>
+          <Input
+            id="recurring-email"
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+        </div>
+        <button
+          type="button"
+          disabled={recurringLoading || !planId || !squareNonce}
+          onClick={startRecurring}
+          className="btn btn-primary mt-4"
+        >
+          {recurringLoading ? 'Starting...' : 'Start Monthly Donation'}
+        </button>
+        {!planId && (
+          <p className="text-xs text-red-500 mt-2">
+            Missing NEXT_PUBLIC_SQUARE_PLAN_ID
+          </p>
+        )}
       </div>
     </article>
   )

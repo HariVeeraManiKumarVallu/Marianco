@@ -19,6 +19,7 @@
 
 # production
 /build
+dist/
 
 # misc
 .DS_Store
@@ -31,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env
+.env.local
 
 # vercel
 .vercel
@@ -38,3 +40,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# --- added ---
+.next/
+dist/
+.env
+.env.local
+.cache/

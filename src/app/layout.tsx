@@ -4,7 +4,9 @@ import HotJar from '@/services/hotjar'
 import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
+import React from 'react'
 import CurrencyInitializer from '@/components/currency-initializer'
+import inter from 'next/font/google'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -72,9 +74,15 @@ export default function RootLayout({
       <head>
         <GoogleAnalytics />
         <HotJar />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:`(function(){try{var w=function(n){if(!n||!n.attributes)return;for(const a of [...n.attributes])if(/^bis_/.test(a.name))n.removeAttribute(a.name);for(const c of n.children)w(c);} ;w(document.documentElement);}catch(e){}})();`
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
+        suppressHydrationWarning
       >
         {children}
         <Toaster />

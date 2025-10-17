@@ -1,7 +1,7 @@
 import {
   getCategories,
-  getMaxPrice,
-  getMinPrice,
+  getLowestPrice,
+  getHighestPrice,
 } from '@/lib/queries/strapi/product'
 import qs from 'qs'
 import ProductFiltering from './product-filtering'
@@ -32,17 +32,29 @@ export default async function PoductFilters({
       encodeValuesOnly: true,
     }
   )
-  const [categories, minPrice, maxPrice] = await Promise.all([
+  const [categories, low, high] = await Promise.all([
     getCategories(),
-    getMinPrice(query),
-    getMaxPrice(query),
+    getLowestPrice(),
+    getHighestPrice(),
   ])
+
+  const hasData = categories.length > 0 && low !== null && high !== null
+
+  if (!hasData) {
+    return (
+      <aside className="p-4 border rounded">
+        <p className="text-sm text-muted-foreground">
+          Store catalog not available yet.
+        </p>
+      </aside>
+    )
+  }
 
   return (
     <ProductFiltering
       categories={categories.data}
-      minPrice={minPrice / 100}
-      maxPrice={maxPrice / 100}
+      minPrice={low / 100}
+      maxPrice={high / 100}
     />
   )
 }

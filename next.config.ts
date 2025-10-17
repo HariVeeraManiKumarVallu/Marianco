@@ -1,30 +1,13 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
+import path from 'path';
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'marianco-images.s3.eu-north-1.amazonaws.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'images-api.printify.com',
-        pathname: '/mockup/**',
-      },
-    ],
-  },
-}
+  outputFileTracingRoot: path.join(__dirname),
+  allowedDevOrigins: [
+    'http://localhost:3000',
+    'http://192.168.0.110:3000',
+    'http://192.168.107.215:3000',
+  ],
+};
 
-export default nextConfig
+export default nextConfig;

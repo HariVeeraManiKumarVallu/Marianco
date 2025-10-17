@@ -3,6 +3,15 @@
 import { useState } from 'react';
 import { toast } from '@/hooks/use-toast';
 
+async function submit(email: string) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/newsletter/subscribe`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  return res.json();
+}
+
 export default function NewsletterForm() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -12,15 +21,9 @@ export default function NewsletterForm() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/newsletter/subscribe`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      const data = await submit(email);
 
-      const data = await response.json();
-
-      if (!response.ok) {
+      if (!data.ok) {
         throw new Error(data.message || 'Failed to subscribe');
       }
 

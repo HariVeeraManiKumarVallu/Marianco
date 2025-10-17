@@ -19,7 +19,7 @@ export function EventActions({
   variant = 'default',
   className = '',
 }: Props) {
-  const { toast } = useToast()
+  useToast()
 
   return (
     <div className={`flex flex-col sm:flex-row gap-4 ${className}`}>

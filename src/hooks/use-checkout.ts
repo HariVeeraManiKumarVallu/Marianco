@@ -1,7 +1,7 @@
 'use client'
 
 import { loadStripe } from '@stripe/stripe-js'
-import { useCart } from './use-cart'
+import { useCart } from './useCart';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
